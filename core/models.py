@@ -30,7 +30,7 @@ class Team(models.Model):
     branch=models.CharField(max_length=2,choices=RAMA_OPTIONS, default=VARONIL)
     sport=models.CharField(max_length=25)
     schedule=models.CharField(max_length=50)
-    totalAssists=models.PositiveSmallIntegerField(blank=True, null=True)
+    totalAttendances=models.PositiveSmallIntegerField(blank=True, null=True)
     
 class Workshop(models.Model):
     VARONIL='VA'
@@ -43,7 +43,7 @@ class Workshop(models.Model):
     branch=models.CharField(max_length=2,choices=RAMA_OPTIONS, default=VARONIL)
     sport=models.CharField(max_length=25)
     schedule=models.CharField(max_length=50)
-    totalAssists=models.PositiveSmallIntegerField(blank=True, null=True)
+    totalAttendances=models.PositiveSmallIntegerField(blank=True, null=True)
 
 class TeamMember(models.Model):
     idTeam=models.ForeignKey(Team, on_delete=models.CASCADE)
