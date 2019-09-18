@@ -1,0 +1,19 @@
+{
+  "name": "deportiuaq",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JuanPabloOS/deportiuaq.git"
+  },
+  "author": "Juan Pablo Olvera Sánchez, Roberto Arteaga Solís, Pablo Samano Elton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JuanPabloOS/deportiuaq/issues"
+  },
+  "homepage": "https://github.com/JuanPabloOS/deportiuaq#readme"
+}
