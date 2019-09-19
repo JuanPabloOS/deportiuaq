@@ -120,4 +120,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+LOGIN_URL = '/pdeportiuaq/login'
+LOGIN_REDIRECT_URL = '/deportiuaq/login'
+LOGOUT_REDIRECT_URL = '/deporiuaq/login'
 AUTH_USER_MODEL = 'core.User'
