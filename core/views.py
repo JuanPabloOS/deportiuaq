@@ -1,11 +1,36 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
+from django.http import HttpResponse
+from .forms import LoginForm
+from django.contrib.auth import authenticate
+from django.contrib import messages
 
 # Create your views here.
+def principalPage(request):
+    return render(request, 'principalPage.html',{})
+    
 def login(request):
     """
     Iniciar sesión
     """
-    pass
+    if request.user.is_authenticated:
+        return HttpResponse('Ya estás loggeado')
+    else:
+        if request.method == 'POST':
+            form = LoginForm(request.POST)
+            if form.is_valid():            
+                expediente = request.POST['username']
+                password = request.POST['password']
+                user = authenticate(username=expediente, password=password)  #hacer el loggeo del usuario
+                request.session.set_expiry(36000)
+                if user is not None:
+                    login(request, user)
+                    return redirect('home')
+                messages.error(request, 'Error de datos')
+                return render(request,'',{'form':form,'data':'Error en los datos'})
+            return redirect('login')
+        form = LoginForm()
+        return render(request,'login.html',{'form':form})
 
 def logout(request):
     """
