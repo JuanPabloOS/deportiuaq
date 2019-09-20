@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+Home
+<br>
+<a href="{% url 'logout' %}">Cerrar sesión</a>
+<br>
+<a href="{% url 'principal' %}">Principal</a>
+
+{% endblock %}

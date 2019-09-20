@@ -9,7 +9,7 @@
 <body>
     Iniciar Sesión
 
-    <form action="{% url 'login' %}" method="POST">
+    <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Entrar">
