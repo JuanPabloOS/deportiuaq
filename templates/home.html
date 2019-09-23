@@ -1,12 +1,22 @@
 {% extends 'base.html' %}
 
-{% block title %} Home {% endblock %}
+{% block title %} Panel de control {% endblock %}
 
 {% block content %}
-Home
-<br>
-<a href="{% url 'logout' %}">Cerrar sesión</a>
-<br>
-<a href="{% url 'principal' %}">Principal</a>
 
+
+<h1>este es el panel de control</h1>
+<ul>
+    <a href="{% url 'logout' %}">Cerrar sesión</a>
+    <br>
+    <a href="{% url 'changePassword' %}">Contraseña</a>
+</ul>
+
+<ul>
+    {% if user.userType == 'AD' %}
+      <a href="{% url 'resetPassword' %}">Restablecer una contraseña</a>
+      <br>
+      <a href="{% url 'registrarDocente' %}">Registrar Docente</a>
+    {% endif %}
+</ul>
 {% endblock %}

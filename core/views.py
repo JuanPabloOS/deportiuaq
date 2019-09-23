@@ -9,8 +9,14 @@ from django.contrib.auth import logout
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
-# Create your views here.
+from django.contrib.auth.decorators import login_required
+
+
+
 def principalPage(request):
+    """
+    Muestra la página informativa del portal
+    """
     return render(request, 'principalPage.html',{})
     
 def login_view(request):
@@ -29,14 +35,18 @@ def login_view(request):
                 request.session.set_expiry(36000)
                 if user is not None:
                     login(request, user)
-                    return render(request, 'home.html')
+                    return redirect('home')
                 messages.error(request, 'Error de datos')
                 return render(request,'',{'form':form,'data':'Error en los datos'})
             return redirect('login')
         form = LoginForm()
         return render(request,'login.html',{'form':form})
 
+@login_required
 def home(request):
+    """
+    Muestra el Panel de Control
+    """
     return render(request, 'home.html')
 
 
@@ -47,7 +57,7 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
-
+@login_required
 def changePassword(request):
     """
     Cambiar contraseña
@@ -58,10 +68,10 @@ def changePassword(request):
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, 'Tu contraseña se actualizó correctamente')
-            return redirect('cambiar-password')
+            return redirect('changePassword')
         else:
             messages.error(request, 'Contraseña no actualizada')
-            return render(request, 'salud/cambiar-password.html', {'form': form })    
+            return render(request, 'changePassword.html', {'form': form })    
     else:
         form = PasswordChangeForm(request.user)
-        return render(request, 'salud/cambiar-password.html', {'form': form })
+        return render(request, 'changePassword.html', {'form': form })

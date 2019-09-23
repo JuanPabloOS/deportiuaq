@@ -27,14 +27,11 @@ def resetPassword(request):
                 passwordAdmnistrador=form.cleaned_data.get('passwordAdministrador') 
                 matchcheck=check_password(passwordAdmnistrador, currentpassword)    
                 # si la contraseña del staff es correcta
-                if matchcheck:
-                    print("=== matchcheck")
-                    # nueva contraseña a:
-                    # username + .  (El nombre de usuario más un punto)
+                if matchcheck:                   
                     new_password=make_password(form.cleaned_data.get('username')+'.')          
                     usuario.password=new_password # reestablecer la contraseña
                     usuario.save()
-                    messages.success(request, 'Contraseña reestablecida')
+                    messages.success(request, 'Contraseña restablecida')
                     return render(request,'',{'form':form})
                 else:
                     messages.error(request, 'La contraseña no coincide')
