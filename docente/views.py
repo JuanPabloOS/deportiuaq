@@ -1,11 +1,29 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
+from django.contrib import messages
+from django.http import HttpResponse
+from django.http import JsonResponse
+
+# import forms
+from .forms import addMemberToTeamForm
 
 # Create your views here.
 def addMemberToTeam(request):
     """
     Agregar miembro al equipo
     """
-    pass
+    if request.method == 'POST':
+        form = addMemberToTeamForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'Registro completado')
+            return redirect('addMemberToTeam')
+        else:
+            messages.error(request,'Error: revisa que los datos sean correctos')
+            return render(request,'exclusiveTeacher/addMemberToTeam.html',{'form':form})
+    else:
+        form = addMemberToTeamForm()
+        return render(request,'exclusiveTeacher/addMemberToTeam.html',{'form':form})
 
 def deleteTeamMember(request):
     """

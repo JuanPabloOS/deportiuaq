@@ -23,5 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('deportiuaq/', include('core.urls')),
     path('deportiuaq/admin/',include('administrador.urls')),
-    #path('deportiuaq/docente/',include('docente.urls')),
+    path('deportiuaq/docente/',include('docente.urls')),
 ] 

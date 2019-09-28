@@ -1,18 +1,24 @@
 {% extends 'base.html' %}
 
-{% block title %}Registro|Docente{% endblock%}
+{% block title %}
+Registrar taller
+{% endblock %}
 
 {% block content %}
-<h1>Registro de Docente</h1>
-<form method="POST">
 
+<form method='POST'>
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Registrar">
+    <input type="submit" value="Enviar">
     {% if messages %}
         {% for message in messages %}
             {{ message }}
         {% endfor %}
+    {% endif %}
+    {% if form.errors %}
+     {% for error in form.errors %}
+     {{ error }}
+     {% endfor %}
     {% endif %}
 </form>
 {% endblock %}

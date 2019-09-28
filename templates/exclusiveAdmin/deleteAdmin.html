@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Eliminar Admin
+{% endblock %}
+
+{% block content %}
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button>Aceptar</button>
+</form>
+{% endblock %}
