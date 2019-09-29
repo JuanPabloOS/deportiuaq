@@ -23,23 +23,22 @@ class createUserForm(ModelForm):
     Registrar becario, teacher, administrador
     """
     class Meta:
-        model: User
-        fields=['username','first_name','last_name','password','email',]
+        model= User
+        fields=['username','first_name','last_name','email']
 
-class deleteUserForm(forms.Form):
-    """
-    """
-    pass
+class deleteSomethingForm(forms.Form):
+    username=forms.CharField()
 
-class updateUserForm(ModelForm):
-    """
-    """
-    pass
 
 class createWorkshopForm(ModelForm):
     """
+    Formulario para crear un equipo representativo
     """
-    pass
+    schedule=forms.CharField(label='Horario', widget=forms.TextInput(attrs={'type':'datetime-local'}))
+    class Meta:
+        model= Workshop
+        exclude=['schedule','totalAttendances']
+    
 
 class updateWorkshopForm(ModelForm):
     """
@@ -53,8 +52,12 @@ class deleteWorkshopForm(forms.Form):
 
 class createTeamForm(ModelForm):
     """
+    Crear un equipo representativo
     """
-    pass
+    schedule=forms.CharField(label='Horario', widget=forms.TextInput(attrs={'type':'datetime-local'}))
+    class Meta:
+        model=Team
+        exclude=('schedule','totalAttendances')
 
 class updateTeamForm(ModelForm):
     """
