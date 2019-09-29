@@ -5,15 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
     <title>Document</title>
 </head>
 <body>
-    Iniciar Sesión
-
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Entrar">
-    </form>
+    <div class="absolute-container light-grey column-container">
+        <div class="top-container flex-container text-right">
+            <p class="link-text">Página principal</p>
+        </div>
+        <div class="body-container flex-container center-content">
+            <div class="form-container flex-container column-container center-content">
+                <h1>Inicio de Sesión</h1>
+                    <form method="POST" class="form-group">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <input type="submit" id="button-login" value="Entrar">
+                    </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

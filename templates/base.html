@@ -6,8 +6,162 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.8.1/js/all.js"
+      integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ"
+      crossorigin="anonymous"></script>
 </head>
 <body>
-    {% block content %}{% endblock %}
+    <style>
+        .left-container{
+            height: 100%;
+            width: 18%;
+            background-color: var(--white);
+        }
+        .right-container{
+            height: 100%;
+            width: 82%;
+            box-sizing: border-box;
+        }
+        .top-container{
+            height: 8%;
+            width: 100%;
+            background-color: var(--white);
+        }
+        .info-title{
+            height: 7%;
+            width: 100%;
+        }
+        .option-container{
+            height: calc(100%/12);
+            width: 100%;
+            align-items: center;
+            padding-right: 20px;
+            box-sizing: border-box;
+        }
+        .light-option{
+            height: 60%;
+            width: 2.2%;
+            border-radius: 6px;
+            margin-right: 10px;
+        }
+        .option-content{
+            height: 60%;
+            width: 97.8%;
+            border-radius: 6px;
+            align-items: center;
+            padding-left: 20px;
+            box-sizing: border-box;
+            font-size: .8rem;
+            color: var(--gray);
+            cursor: pointer;
+        }
+        .option-content li{
+            margin-right: 10px;
+        }
+        .option-content span{
+            margin-left: 10px;
+        }
+        .option-active{
+            background-color: var(--light-green);
+            color: var(--white) !important;
+        }
+        .bg-white{
+            background-color: var(--white);
+        }
+    </style>
+    <div class="absolute-container flex-container light-grey">
+        <div class="left-container flex-container column-container">
+            <div class="top-container flex-container center-content">
+                <h1>Deportes</h1>
+            </div>
+            <div class="info-title flex-container title-menu bg-white">
+                <p>MENU</p>
+            </div>
+            <div class="option-container flex-container">
+
+                <div class="light-option option-active"></div>
+                <div class="option-content flex-container option-active" onclick="location.href='{% url 'home' %}'">
+                    <p><i class="fas fa-list">x</i><span>Inicio</span></p>
+                </div>
+            </div>
+
+            <div class="option-container flex-container">
+                <div class="light-option"></div>
+                <div class="option-content flex-container">
+                    <p><i class="fas fa-list">x</i><span>Opción 1</span></p>
+                </div>
+            </div>
+            
+            <div class="option-container flex-container">
+                <div class="light-option"></div>
+                <div class="option-content flex-container">
+                    <p><i class="fas fa-list">x</i><span>Opción 2</span></p>
+                </div>
+            </div>
+
+            <div class="option-container flex-container">
+                <div class="light-option"></div>
+                <div class="option-content flex-container">
+                    <p><i class="fas fa-list">x</i><span>Opción 3</span></p>
+                </div>
+            </div>
+
+            {% if user.userType == 'AD' %}
+            <div class="option-container flex-container" onclick="location.href='{% url 'registrarDocente' %}'">
+                <div class="light-option"></div>
+                <div class="option-content flex-container">
+                    <p><i class="fas fa-list"></i><span>Registrar Docente</span></p>                          
+                </div>
+            </div>
+            
+            <div class="option-container flex-container" onclick="location.href='{% url 'resetPassword' %}'">
+                <div class="light-option option-active"></div>
+                <div class="option-content flex-container option-active">
+                    <p><i class="fas fa-list">x</i><span>Reestrablecer contraseña</span></p>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="option-container flex-container" onclick="location.href='{% url 'changePassword' %}'">
+                <div class="light-option option-active"></div>
+                <div class="option-content flex-container option-active">
+                    <p><i class="fas fa-list">x</i><span>Contraseña</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="right-container flex-container column-container" onclick="location.href='{% url 'logout' %}'">
+            <div class="top-container flex-container top-bar">
+                <p id="link-logout">Cerrar Sesión</p>
+            </div>
+            <div class="info-title flex-container title-menu">
+                <p>Inicio</p>
+            </div>
+            <style>
+            .body-container{
+                height: 85%;
+                width: 100%;
+                padding-left: 2rem;
+                padding-right: 2rem;
+                padding-bottom: 2rem;
+                box-sizing: border-box;
+            }
+            .body-content{
+                height: 100%;
+                width: 100%;
+                background-color: red;
+            }
+            </style>
+            <div class="body-container flex-container column-container">
+                <div class="body-content">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </body>
 </html>
