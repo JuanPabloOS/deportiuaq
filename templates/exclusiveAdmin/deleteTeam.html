@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Eliminar Admin
+Eliminar Equipo
 {% endblock %}
 
 {% block content %}
@@ -9,7 +9,8 @@ Eliminar Admin
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="password" name="password" id="">
+    <!-- El name password es importante -->
+    <input type="text" name="password" id="">
     <button>Aceptar</button>
 </form>
 {% endblock %}

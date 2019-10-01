@@ -26,7 +26,10 @@ class createUserForm(ModelForm):
         model= User
         fields=['username','first_name','last_name','email']
 
-class deleteSomethingForm(forms.Form):
+class deleteUserForm(forms.Form):
+    """
+    Pide una clave la cual puede s
+    """
     username=forms.CharField()
 
 
@@ -37,18 +40,21 @@ class createWorkshopForm(ModelForm):
     schedule=forms.CharField(label='Horario', widget=forms.TextInput(attrs={'type':'datetime-local'}))
     class Meta:
         model= Workshop
-        exclude=['schedule','totalAttendances']
+        exclude=['schedule','totalAttendances','period']
+
+class deleteWorkshopForm(forms.Form):
+    """
+    Formulario para eliminar un equipo representativo
+    """
+    workshop_id= forms.ModelChoiceField(queryset=Workshop.objects.all(),label="Taller deportivo")
     
+
 
 class updateWorkshopForm(ModelForm):
     """
     """
     pass
 
-class deleteWorkshopForm(forms.Form):
-    """
-    """
-    pass
 
 class createTeamForm(ModelForm):
     """
@@ -57,7 +63,7 @@ class createTeamForm(ModelForm):
     schedule=forms.CharField(label='Horario', widget=forms.TextInput(attrs={'type':'datetime-local'}))
     class Meta:
         model=Team
-        exclude=('schedule','totalAttendances')
+        exclude=('schedule','totalAttendances','period')
 
 class updateTeamForm(ModelForm):
     """
@@ -67,7 +73,7 @@ class updateTeamForm(ModelForm):
 class deleteTeamForm(forms.Form):
     """
     """
-    pass
+    team_id= forms.ModelChoiceField(queryset=Team.objects.all(),label="Equipo representativo")
 
 class addMemberToTeamForm(ModelForm):
     """
