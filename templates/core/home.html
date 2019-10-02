@@ -4,23 +4,198 @@
 
 {% block content %}
 
-
-<h1>este es el panel de control</h1>
-<ul>
-    <a href="{% url 'logout' %}">Cerrar sesión</a>
-    <br>
-    <a href="{% url 'changePassword' %}">Contraseña</a>
-</ul>
-
-<ul>
     {% if user.userType == 'AD' %}
-      <a href="{% url 'resetPassword' %}">Restablecer una contraseña</a>
-      <br>
-      <a href="{% url 'registrarDocente' %}">Registrar Docente</a>
-      <br>
-      <a href="{% url 'registrarBecario' %}">Registrar Becario</a>
-      <br>
-      <a href="{% url 'registrarAdmin' %}"></a>
+    <style>
+    .shortcut-half{
+      height: calc(100%/2);
+      width: 100%;
+    }
+    .shortcut-left{
+      height: 100%;
+      width: 75%;
+      padding: .5rem;
+      padding-left: .8rem;
+      box-sizing: border-box;
+      color: var(--text);
+    }
+    .shortcut-right{
+      height: 100%;
+      width: 25%;
+      justify-content: flex-end;
+      padding-right: .5rem;
+      padding-top: .5rem;
+      box-sizing: border-box;
+    }
+    .shortcut-icon{
+      height: 90%;
+      width: 70%;
+      border-radius: 6px;
+      background-color: var(--dark-green);
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-weight: 500;
+    }
+    .shortcut-left p{
+      font-size: .9rem;
+    }
+    .shortcut-text{
+      padding-right: .5rem;
+      padding-bottom: .1rem;
+      box-sizing: border-box;
+      justify-content: flex-end;
+      align-items: flex-end;
+      font-size: .8rem;
+    }
+    </style>
+    
+      <div class="shortcut-container flex-container"> 
+
+        <!-- SHORTCUT -->
+         <div class="shortcut-body flex-container column-container">
+           <div class="shortcut-half flex-container">
+            <div class="shortcut-left flex-container">
+              <p>Equipos Representativos</p>
+            </div>
+            <div class="shortcut-right flex-container">
+              <div class="shortcut-icon flex-container">
+                  <i class="fas fa-list"></i>
+              </div>
+            </div>
+           </div>
+           <div class="shortcut-half flex-container shortcut-text">
+              <p><span>Docente: </span>Pablo Samano Elton</p>
+            </div>
+         </div>
+         <!-- END SHORTCUT -->
+
+         <!-- SHORTCUT -->
+         <div class="shortcut-body flex-container column-container">
+            <div class="shortcut-half flex-container">
+             <div class="shortcut-left flex-container">
+               <p>Equipos Representativos</p>
+             </div>
+             <div class="shortcut-right flex-container">
+               <div class="shortcut-icon flex-container">
+                   <i class="fas fa-list"></i>
+               </div>
+             </div>
+            </div>
+            <div class="shortcut-half flex-container shortcut-text">
+               <p><span>Docente: </span>Pablo Samano Elton</p>
+             </div>
+          </div>
+          <!-- END SHORTCUT -->
+
+         <!-- SHORTCUT -->
+         <div class="shortcut-body flex-container column-container">
+            <div class="shortcut-half flex-container">
+             <div class="shortcut-left flex-container">
+               <p>Equipos Representativos</p>
+             </div>
+             <div class="shortcut-right flex-container">
+               <div class="shortcut-icon flex-container">
+                   <i class="fas fa-list"></i>
+               </div>
+             </div>
+            </div>
+            <div class="shortcut-half flex-container shortcut-text">
+               <p><span>Docente: </span>Pablo Samano Elton</p>
+             </div>
+          </div>
+          <!-- END SHORTCUT -->
+
+         <!-- SHORTCUT -->
+         <div class="shortcut-body flex-container column-container">
+            <div class="shortcut-half flex-container">
+             <div class="shortcut-left flex-container">
+               <p>Equipos Representativos</p>
+             </div>
+             <div class="shortcut-right flex-container">
+               <div class="shortcut-icon flex-container">
+                   <i class="fas fa-list"></i>
+               </div>
+             </div>
+            </div>
+            <div class="shortcut-half flex-container shortcut-text">
+               <p><span>Docente: </span>Pablo Samano Elton</p>
+             </div>
+          </div>
+          <!-- END SHORTCUT -->
+
+      </div>
+      <div class="main-body flex-container center-content">
+        <div class="main-graph flex-container">
+            <script src="https://code.highcharts.com/highcharts.js"></script>
+            <script src="https://code.highcharts.com/modules/data.js"></script>
+            <script src="https://code.highcharts.com/modules/exporting.js"></script>
+            <script src="https://code.highcharts.com/modules/export-data.js"></script>
+  <script>
+    Highcharts.getJSON(
+    'https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json',
+    function (data) {
+
+      Highcharts.chart('container', {
+        chart: {
+          zoomType: 'x'
+        },
+        title: {
+          text: 'Asistencias'
+        },
+        subtitle: {
+          text: document.ontouchstart === undefined ?
+            'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+        },
+        xAxis: {
+          type: 'datetime'
+        },
+        yAxis: {
+          title: {
+            text: 'Exchange rate'
+          }
+        },
+        legend: {
+          enabled: false
+        },
+        plotOptions: {
+          area: {
+            fillColor: {
+              linearGradient: {
+                x1: 0,
+                y1: 0,
+                x2: 0,
+                y2: 1
+              },
+              stops: [
+                [0, Highcharts.getOptions().colors[0]],
+                [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+              ]
+            },
+            marker: {
+              radius: 2
+            },
+            lineWidth: 1,
+            states: {
+              hover: {
+                lineWidth: 1
+              }
+            },
+            threshold: null
+          }
+        },
+
+        series: [{
+          type: 'area',
+          name: 'USD to EUR',
+          data: data
+        }]
+      });
+    }
+  );
+          
+</script>
+            <div id="container" style="min-width: 1000px; height: 350px; margin-top: 50px;"></div>
+        </div>
+      </div>
     {% endif %}
-</ul>
 {% endblock %}

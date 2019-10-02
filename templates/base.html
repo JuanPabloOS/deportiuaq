@@ -15,64 +15,6 @@
       crossorigin="anonymous"></script>
 </head>
 <body>
-    <style>
-        .left-container{
-            height: 100%;
-            width: 18%;
-            background-color: var(--white);
-        }
-        .right-container{
-            height: 100%;
-            width: 82%;
-            box-sizing: border-box;
-        }
-        .top-container{
-            height: 8%;
-            width: 100%;
-            background-color: var(--white);
-        }
-        .info-title{
-            height: 7%;
-            width: 100%;
-        }
-        .option-container{
-            height: calc(100%/12);
-            width: 100%;
-            align-items: center;
-            padding-right: 20px;
-            box-sizing: border-box;
-        }
-        .light-option{
-            height: 60%;
-            width: 2.2%;
-            border-radius: 6px;
-            margin-right: 10px;
-        }
-        .option-content{
-            height: 60%;
-            width: 97.8%;
-            border-radius: 6px;
-            align-items: center;
-            padding-left: 20px;
-            box-sizing: border-box;
-            font-size: .8rem;
-            color: var(--gray);
-            cursor: pointer;
-        }
-        .option-content li{
-            margin-right: 10px;
-        }
-        .option-content span{
-            margin-left: 10px;
-        }
-        .option-active{
-            background-color: var(--light-green);
-            color: var(--white) !important;
-        }
-        .bg-white{
-            background-color: var(--white);
-        }
-    </style>
     <div class="absolute-container flex-container light-grey">
         <div class="left-container flex-container column-container">
             <div class="top-container flex-container center-content">
@@ -103,10 +45,10 @@
                 </div>
             </div>
 
-            <div class="option-container flex-container">
+            <div class="option-container flex-container" onclick="location.href='{% url 'registrarBecario' %}'">
                 <div class="light-option"></div>
                 <div class="option-content flex-container">
-                    <p><i class="fas fa-list">x</i><span>Opción 3</span></p>
+                    <p><i class="fas fa-list">x</i><span>Registrar Becario</span></p>
                 </div>
             </div>
 
@@ -119,44 +61,29 @@
             </div>
             
             <div class="option-container flex-container" onclick="location.href='{% url 'resetPassword' %}'">
-                <div class="light-option option-active"></div>
-                <div class="option-content flex-container option-active">
+                <div class="light-option"></div>
+                <div class="option-content flex-container">
                     <p><i class="fas fa-list">x</i><span>Reestrablecer contraseña</span></p>
                 </div>
             </div>
             {% endif %}
 
             <div class="option-container flex-container" onclick="location.href='{% url 'changePassword' %}'">
-                <div class="light-option option-active"></div>
-                <div class="option-content flex-container option-active">
+                <div class="light-option"></div>
+                <div class="option-content flex-container">
                     <p><i class="fas fa-list">x</i><span>Contraseña</span></p>
                 </div>
             </div>
         </div>
-        <div class="right-container flex-container column-container" onclick="location.href='{% url 'logout' %}'">
+        <div class="right-container flex-container column-container">
             <div class="top-container flex-container top-bar">
-                <p id="link-logout">Cerrar Sesión</p>
+                <p id="link-logout" onclick="location.href='{% url 'logout' %}'">Cerrar Sesión</p>
             </div>
             <div class="info-title flex-container title-menu">
                 <p>Inicio</p>
             </div>
-            <style>
-            .body-container{
-                height: 85%;
-                width: 100%;
-                padding-left: 2rem;
-                padding-right: 2rem;
-                padding-bottom: 2rem;
-                box-sizing: border-box;
-            }
-            .body-content{
-                height: 100%;
-                width: 100%;
-                background-color: red;
-            }
-            </style>
             <div class="body-container flex-container column-container">
-                <div class="body-content">
+                <div class="body-content flex-container column-container">
                     {% block content %}{% endblock %}
                 </div>
             </div>
