@@ -22,6 +22,10 @@ a {
   --dark-green: #1ed1bb;
   --text: #2e2e2e;
 }
+.base-container{
+    width: 100%; 
+    height: 100%;
+}
 h1 {
   font-size: 1.3rem;
   font-weight: 400;
@@ -104,7 +108,7 @@ h1 {
   width: 97.8%;
   border-radius: 6px;
   align-items: center;
-  padding-left: 20px;
+  padding-left: 15px;
   box-sizing: border-box;
   font-size: 0.8rem;
   color: var(--gray);
@@ -114,6 +118,7 @@ h1 {
   background-color: var(--light-green);
   color: var(--white);
   font-weight: 500;
+  font-size: .76rem;
 }
 .option-content li {
   margin-right: 10px;
@@ -166,6 +171,112 @@ h1 {
   width: 100%;
   background-color: var(--white);
   border-radius: 10px;
+}
+.shortcut-half {
+  height: calc(100% / 2);
+  width: 100%;
+}
+.shortcut-left {
+  height: 100%;
+  width: 75%;
+  padding: 0.5rem;
+  padding-left: 0.8rem;
+  box-sizing: border-box;
+  color: var(--text);
+}
+.shortcut-right {
+  height: 100%;
+  width: 25%;
+  justify-content: flex-end;
+  padding-right: 0.5rem;
+  padding-top: 0.5rem;
+  box-sizing: border-box;
+}
+.shortcut-icon {
+  height: 90%;
+  width: 70%;
+  border-radius: 6px;
+  background-color: var(--dark-green);
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-weight: 500;
+}
+.shortcut-left p {
+  font-size: 0.9rem;
+}
+.shortcut-text {
+  padding-right: 0.5rem;
+  padding-bottom: 0.1rem;
+  box-sizing: border-box;
+  justify-content: flex-end;
+  align-items: flex-end;
+  font-size: 0.8rem;
+}
+
+/* FORMS */
+.form-container input[type="submit"]{
+    height: 35px;
+    width: 250px;
+    border: none;
+    outline: none;
+    color: var(--white);
+    font-size: 0.9rem;
+    font-weight: 400;
+    border-radius: 8px;
+    background-color: var(--medium-green);
+    cursor: pointer;
+}
+.form-container input[type="submit"]:hover{
+    background-color: var(--light-green);
+    font-weight: 500;
+}
+.form-group {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  margin-top: 30px;
+}
+.form-group label {
+  display: block;
+  font-size: 0.8rem;
+}
+.form-group input[type="text"] {
+  height: 35px;
+  width: 250px;
+  border: none;
+  outline: none;
+  color: var(--white);
+  font-size: 0.9rem;
+  font-weight: 400;
+  border-radius: 4px;
+  background-color: var(--light-grey);
+  color: #2e2e2e;
+  padding-left: 10px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+.form-group input[type="text"]:focus {
+  border: 2px solid var(--light-green);
+  box-sizing: border-box;
+}
+.form-group input[type="password"]:focus {
+  border: 2px solid var(--light-green);
+}
+.form-group input[type="password"] {
+  height: 35px;
+  width: 250px;
+  border: none;
+  outline: none;
+  color: var(--white);
+  font-size: 0.9rem;
+  font-weight: 400;
+  border-radius: 4px;
+  background-color: var(--light-grey);
+  color: #2e2e2e;
+  padding-left: 10px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
 }
 
 #link-logout {

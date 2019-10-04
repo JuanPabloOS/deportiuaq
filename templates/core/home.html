@@ -5,50 +5,6 @@
 {% block content %}
 
     {% if user.userType == 'AD' %}
-    <style>
-    .shortcut-half{
-      height: calc(100%/2);
-      width: 100%;
-    }
-    .shortcut-left{
-      height: 100%;
-      width: 75%;
-      padding: .5rem;
-      padding-left: .8rem;
-      box-sizing: border-box;
-      color: var(--text);
-    }
-    .shortcut-right{
-      height: 100%;
-      width: 25%;
-      justify-content: flex-end;
-      padding-right: .5rem;
-      padding-top: .5rem;
-      box-sizing: border-box;
-    }
-    .shortcut-icon{
-      height: 90%;
-      width: 70%;
-      border-radius: 6px;
-      background-color: var(--dark-green);
-      align-items: center;
-      justify-content: center;
-      color: var(--white);
-      font-weight: 500;
-    }
-    .shortcut-left p{
-      font-size: .9rem;
-    }
-    .shortcut-text{
-      padding-right: .5rem;
-      padding-bottom: .1rem;
-      box-sizing: border-box;
-      justify-content: flex-end;
-      align-items: flex-end;
-      font-size: .8rem;
-    }
-    </style>
-    
       <div class="shortcut-container flex-container"> 
 
         <!-- SHORTCUT -->
@@ -144,7 +100,7 @@
         },
         subtitle: {
           text: document.ontouchstart === undefined ?
-            'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+            'Selecciona la parte en la que quieres hacer ZOOM' : 'ZOOM'
         },
         xAxis: {
           type: 'datetime'

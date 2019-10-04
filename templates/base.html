@@ -27,7 +27,7 @@
 
                 <div class="light-option option-active"></div>
                 <div class="option-content flex-container option-active" onclick="location.href='{% url 'home' %}'">
-                    <p><i class="fas fa-list">x</i><span>Inicio</span></p>
+                    <p><i class="fas fa-bars"></i><span>Inicio</span></p>
                 </div>
             </div>
 
@@ -48,7 +48,7 @@
             <div class="option-container flex-container" onclick="location.href='{% url 'registrarBecario' %}'">
                 <div class="light-option"></div>
                 <div class="option-content flex-container">
-                    <p><i class="fas fa-list">x</i><span>Registrar Becario</span></p>
+                    <p><i class="fas fa-user"></i><span>Registrar Becario</span></p>
                 </div>
             </div>
 
@@ -56,14 +56,14 @@
             <div class="option-container flex-container" onclick="location.href='{% url 'registrarDocente' %}'">
                 <div class="light-option"></div>
                 <div class="option-content flex-container">
-                    <p><i class="fas fa-list"></i><span>Registrar Docente</span></p>                          
+                    <p><i class="fas fa-user-tie"></i><span>Registrar Docente</span></p>                          
                 </div>
             </div>
             
             <div class="option-container flex-container" onclick="location.href='{% url 'resetPassword' %}'">
                 <div class="light-option"></div>
                 <div class="option-content flex-container">
-                    <p><i class="fas fa-list">x</i><span>Reestrablecer contraseña</span></p>
+                    <p><i class="fas fa-lock-open"></i><span>Restablecer contraseña</span></p>
                 </div>
             </div>
             {% endif %}
@@ -71,7 +71,7 @@
             <div class="option-container flex-container" onclick="location.href='{% url 'changePassword' %}'">
                 <div class="light-option"></div>
                 <div class="option-content flex-container">
-                    <p><i class="fas fa-list">x</i><span>Contraseña</span></p>
+                    <p><i class="fas fa-key"></i><span>Contraseña</span></p>
                 </div>
             </div>
         </div>
@@ -80,7 +80,7 @@
                 <p id="link-logout" onclick="location.href='{% url 'logout' %}'">Cerrar Sesión</p>
             </div>
             <div class="info-title flex-container title-menu">
-                <p>Inicio</p>
+                <p>Panel de Administración</p>
             </div>
             <div class="body-container flex-container column-container">
                 <div class="body-content flex-container column-container">
