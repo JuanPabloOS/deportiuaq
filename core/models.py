@@ -115,6 +115,7 @@ class Workshop(models.Model):
 
 class TeamMember(models.Model):
     idTeam=models.ForeignKey('Team', on_delete=models.CASCADE)
+    expediente=models.IntegerField()
     first_name=models.CharField(verbose_name='Nombre(s)', max_length=30)
     last_name=models.CharField(verbose_name='Apellido',max_length=150)
     mail=models.EmailField(verbose_name='Correo', max_length=254)
@@ -126,11 +127,12 @@ class TeamMember(models.Model):
 
 class WsMember(models.Model):
     idWS=models.ForeignKey('Workshop', on_delete=models.CASCADE)
+    expediente=models.IntegerField()
     first_name=models.CharField(verbose_name='Nombre(s)', max_length=30)
     last_name=models.CharField(verbose_name='Apellidos',max_length=150)
     mail=models.EmailField(verbose_name='Correo',max_length=254)
     totalAssists=models.SmallIntegerField(verbose_name='Total asistencias', blank=True, null=True)
-
+    
     class Meta:
         verbose_name='Miembro de taller'
         verbose_name_plural='Miembros de taller'
@@ -169,8 +171,13 @@ class Player(models.Model):
         verbose_name_plural='Jugadores'
 
 class CallTheRollTeam(models.Model):
-    idUser=models.ForeignKey('User', on_delete=models.CASCADE)
+    idUser=models.ForeignKey('TeamMember', on_delete=models.CASCADE)
     idTeamTeam=models.ForeignKey('Team', on_delete=models.CASCADE)
     date=models.DateField(auto_now=True)
     attended=models.BooleanField(default=False)
 
+class CallTheRollWs(models.Model):
+    idUser=models.ForeignKey('WsMember', on_delete=models.CASCADE)
+    idWs=models.ForeignKey('Workshop', on_delete=models.CASCADE)
+    date=models.DateField(auto_now=True)
+    attended=models.BooleanField(default=False)

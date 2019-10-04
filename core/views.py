@@ -18,7 +18,7 @@ def principalPage(request):
     """
     Muestra la página informativa del portal
     """
-    return render(request, 'principalPage.html',{})
+    return render(request, 'core/principalPage.html',{})
     
 def login_view(request):
     """

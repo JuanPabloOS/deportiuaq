@@ -17,9 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include
-
+from core.views import principalPage
 
 urlpatterns = [
+    path('', principalPage, name='principalPage2'),
     path('admin/', admin.site.urls),
     path('deportiuaq/', include('core.urls')),
     path('deportiuaq/admin/',include('administrador.urls')),

@@ -1,14 +1,14 @@
 from django.urls import path
 from . import views
 urlpatterns=[
-    path('addMemberToTeam/',views.addMemberToTeam,name='addMemberToTeam'),
-    path('deleteTeamMember/',views.deleteTeamMember,name='deleteTeamMember'),
-    path('addMemberToWs/',views.addMemberToWs,name='addMemberToWs'),
-    path('deleteWsMember/',views.deleteWsMember,name='deleteWsMember'),
-    path('updateWorkshop/',views.updateWorkshop,name='updateWorkshop'),
-    path('updateTeam/',views.updateTeam,name='updateTeam'),
+    path('registrarAlumnoE/',views.addMemberToTeam,name='registrarAlumnoE'),
+    path('eliminarAlumnoE/',views.deleteTeamMember,name='eliminarAlumnoE'),
+    path('registrarAlumnoT/',views.addMemberToWs,name='agregarAlumnoT'),
+    path('eliminarAlumnoT/',views.deleteWsMember,name='eliminarAlumnoT'),
+    path('actualizarTaller/',views.updateWorkshop,name='actualizarTaller'),
+    path('actualizarEquipo/',views.updateTeam,name='actualizarEquipo'),
     path('callTheRoll/',views.callTheRoll,name='callTheRoll'),
     path('absolveWs/',views.absolveWs,name='absolveWs'),
-    path('statisticsAttendance/',views.statisticsAttendance,name='statisticsAttendance'),
-    path('statisticsMatches/',views.statisticsMatches,name='statisticsMatches'),
+    path('estadisticosAsistencia/',views.statisticsAttendance,name='estadisticosAsistencia'),
+    path('estadisticosPartidos/',views.statisticsMatches,name='estadisticosestadisticosAsistencia'),
 ]

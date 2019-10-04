@@ -19,7 +19,7 @@ from .forms import createWorkshopForm
 from .forms import createTeamForm
 from .forms import deleteWorkshopForm
 from .forms import deleteTeamForm
-#decorador
+ #decorador
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 
