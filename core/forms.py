@@ -18,31 +18,31 @@ class LoginForm(forms.Form):
 
 
 
-class ConfirmPasswordForm(forms.ModelForm):
-    """
-    Confirmar contraseña para continuar
-    """
-    confirm_password = forms.CharField(widget=forms.PasswordInput())
+# class (forms.ModelForm):
+#     """
+#     Confirmar contraseña para continuar
+#     """
+#     confirm_password = forms.CharField(widget=forms.PasswordInput())
 
-    class Meta:
-        model = User
-        fields = ('confirm_password', )
+#     class Meta:
+#         model = User
+#         fields = ('confirm_password', )
 
-    def clean(self):
-        cleaned_data = super(ConfirmPasswordForm, self).clean()
-        confirm_password = cleaned_data.get('confirm_password')
-        if not check_password(confirm_password, self.instance.password):
-            print("========================")
-            print("el error")
-            self.add_error('confirm_password', 'Password does not match.')
-        print("================================")
-        print("succes")
+#     def clean(self):
+#         cleaned_data = super(ConfirmPasswordForm, self).clean()
+#         confirm_password = cleaned_data.get('confirm_password')
+#         if not check_password(confirm_password, self.instance.password):
+#             print("========================")
+#             print("el error")
+#             self.add_error('confirm_password', 'Password does not match.')
+#         print("================================")
+#         print("succes")
 
-    def save(self, commit=True):
-        user = super(ConfirmPasswordForm, self).save(commit)
-        user.last_login = timezone.now()
-        if commit:
-            user.save()
-        return user
+#     def save(self, commit=True):
+#         user = super(ConfirmPasswordForm, self).save(commit)
+#         user.last_login = timezone.now()
+#         if commit:
+#             user.save()
+#         return user
 
 

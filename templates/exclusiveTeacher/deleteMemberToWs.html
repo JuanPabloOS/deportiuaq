@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Eliminar Miembros WorkShop
+{% endblock %}
+
+{% block content %}
+
+<form method='POST'>
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <input type="password" name="password">
+    <input type="submit" value="Enviar">
+    
+</form>
+    <!--  Mensajes  -->
+    {% if messages %}
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    {% endif %}
+    <!-- Errores  -->
+    {% if form.errors %}
+        {% for error in form.errors %}
+            {{ error }}
+        {% endfor %}
+    {% endif %}
+
+
+{% endblock %}
