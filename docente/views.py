@@ -39,31 +39,30 @@ def addMemberToTeam(request):
         return render(request,'exclusiveTeacher/addMemberToTeam.html',{'form':form})
 
 def deleteTeamMember(request):
-    pass
-#     """
-#     Eliminar Alumno del equipo
-#     """
-#     if request.method=='POST':
-#         passwordToVerify=''
-#         try: #Verificar que efectivamente se haya resibido una contraseña
-#             passwordToVerify=request.POST['password']
-#         except:
-#             return JsonResponse({'status':0,'msg':'Ingresa tu contraseña'})
-#         currentPassword=request.user.password #obtener la contraseña de loggeo
-#         matchcheck=check_password(passwordToVerify,currentPassword) #comparar ambas contraseñas
-#         if(matchcheck): #realizar la acción
-#             expedienteMember=request.POST['expediente']
-#             idTeam=request.POST['idTeam']
-#             try:
-#                 member = WsMember.objects.get(expediente=expedienteMember, idTeam=idTeam).delete()
-#                 return JsonResponse({'status':1,'msg':'Usuario dado de baja'})
-#             except ObjectDoesNotExist:
-#                 return JsonResponse({'status': 0, 'msg':'El usuario no existe'})
-#         else:
-#             return JsonResponse({'status':0,'msg':'La contraseña no coincide'})
-#     else:
-#             form=deleteMemberToTeamForm()
-#             return render(request,'exclusiveTeacher/deleteMemberToTeam.html',{'form':form})
+    """
+    Eliminar Alumno del equipo
+    """
+    if request.method=='POST':
+        passwordToVerify=''
+        try: #Verificar que efectivamente se haya resibido una contraseña
+            passwordToVerify=request.POST['password']
+        except:
+            return JsonResponse({'status':0,'msg':'Ingresa tu contraseña'})
+        currentPassword=request.user.password #obtener la contraseña de loggeo
+        matchcheck=check_password(passwordToVerify,currentPassword) #comparar ambas contraseñas
+        if(matchcheck): #realizar la acción
+            expedienteMember=request.POST['expediente']
+            idTeam=request.POST['idTeam']
+            try:
+                member = WsMember.objects.get(expediente=expedienteMember, idTeam=idTeam).delete()
+                return JsonResponse({'status':1,'msg':'Usuario dado de baja'})
+            except ObjectDoesNotExist:
+                return JsonResponse({'status': 0, 'msg':'El usuario no existe'})
+        else:
+            return JsonResponse({'status':0,'msg':'La contraseña no coincide'})
+    else:
+            form=deleteMemberToTeamForm()
+            return render(request,'exclusiveTeacher/deleteMemberToTeam.html',{'form':form})
 
 def addMemberToWs(request):
     """
@@ -121,12 +120,17 @@ def updateTeam(request):
     """
     pass
 
-def callTheRoll(request):
+def callTheRollWs(request):
     """
     Pasar lista
     """
     pass
 
+def callTheRollTeam(request):
+    """
+    Pasar lista
+    """
+    pass
 
 def absolveWs(request):
     """

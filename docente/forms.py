@@ -18,10 +18,33 @@ class addMemberToWorkshopForm(ModelForm):
 class deleteMemberToWorkshopForm(ModelForm):
     class Meta:
         model=WsMember
-        fields=['idWs', 'expediente']
+        fields=['idWS', 'expediente']
 
 class deleteMemberToTeamForm(ModelForm):
     class Meta:
         model=TeamMember
         fields=['idTeam', 'expediente']
 
+class updateWorkshopForm(ModelForm):
+    class Meta:
+        model=Workshop
+        fields=['responsible', 'schedule']
+
+class callTheRollWsForm(ModelForm):
+    class Meta:
+        model=Team
+        fields=['idUser', 'attended']
+
+class callTheRollTeamForm(ModelForm):
+    class Meta:
+        model=Team
+        fields=['idUser', 'attended']
+
+class absolveWsForm(ModelForm):
+    class Meta:
+        model=Team
+        fields=['idUser','absolved']
+
+#Pendiente:
+#statisticsAttendance
+#statisticsMatches

@@ -132,7 +132,8 @@ class WsMember(models.Model):
     last_name=models.CharField(verbose_name='Apellidos',max_length=150)
     mail=models.EmailField(verbose_name='Correo',max_length=254)
     totalAssists=models.SmallIntegerField(verbose_name='Total asistencias', blank=True, null=True)
-    
+    absolved=models.BooleanField(verbose_name='Absuelto',default=False, blank=True)
+
     class Meta:
         verbose_name='Miembro de taller'
         verbose_name_plural='Miembros de taller'
@@ -172,7 +173,7 @@ class Player(models.Model):
 
 class CallTheRollTeam(models.Model):
     idUser=models.ForeignKey('TeamMember', on_delete=models.CASCADE)
-    idTeamTeam=models.ForeignKey('Team', on_delete=models.CASCADE)
+    idTeam=models.ForeignKey('Team', on_delete=models.CASCADE)
     date=models.DateField(auto_now=True)
     attended=models.BooleanField(default=False)
 
