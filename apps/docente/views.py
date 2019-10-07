@@ -9,14 +9,14 @@ from .forms import addMemberToTeamForm
 from .forms import deleteMemberToWorkshopForm
 from .forms import deleteMemberToTeamForm
 
-from core.models import User
-from core.models import Workshop
-from core.models import Team
-from core.models import TeamMember
-from core.models import Match
-from core.models import Player
-from core.models import CallTheRollTeam
-from core.models import CallTheRollWs
+from apps.core.models import User
+from apps.core.models import Workshop
+from apps.core.models import Team
+from apps.core.models import TeamMember
+from apps.core.models import Match
+from apps.core.models import Player
+from apps.core.models import CallTheRollTeam
+from apps.core.models import CallTheRollWs
 
 from django.contrib.auth.hashers import check_password
 

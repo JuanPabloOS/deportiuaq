@@ -1,9 +1,9 @@
 from django import forms
 from django.forms import ModelForm
-from core.models import TeamMember
-from core.models import Workshop
-from core.models import WsMember
-from core.models import Team
+from apps.core.models import TeamMember
+from apps.core.models import Workshop
+from apps.core.models import WsMember
+from apps.core.models import Team
 
 class addMemberToTeamForm(ModelForm):
     class Meta:

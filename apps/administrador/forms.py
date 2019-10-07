@@ -2,13 +2,13 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 #Modelos
-from core.models import User
-from core.models import Team
-from core.models import Workshop
-from core.models import TeamMember
-from core.models import WsMember
-from core.models import Match
-from core.models import Player
+from apps.core.models import User
+from apps.core.models import Team
+from apps.core.models import Workshop
+from apps.core.models import TeamMember
+from apps.core.models import WsMember
+from apps.core.models import Match
+from apps.core.models import Player
 
 class resetPasswordForm(forms.Form):
     """

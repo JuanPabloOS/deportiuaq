@@ -8,9 +8,9 @@ from django.contrib.auth.hashers import check_password
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 #importar modelos
-from core.models import User
-from core.models import Workshop
-from core.models import Team
+from apps.core.models import User
+from apps.core.models import Workshop
+from apps.core.models import Team
 #importar formularios
 from .forms import createUserForm
 from .forms import resetPasswordForm
