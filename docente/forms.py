@@ -30,20 +30,20 @@ class updateWorkshopForm(ModelForm):
         model=Workshop
         fields=['responsible', 'schedule']
 
-class callTheRollWsForm(ModelForm):
-    class Meta:
-        model=Team
-        fields=['idUser', 'attended']
+# class callTheRollWsForm(ModelForm):
+#     class Meta:
+#         model=Team
+#         fields=['idUser', 'attended']
 
-class callTheRollTeamForm(ModelForm):
-    class Meta:
-        model=Team
-        fields=['idUser', 'attended']
+# class callTheRollTeamForm(ModelForm):
+#     class Meta:
+#         model=TeamMember
+#         fields=['idUser', 'attended']
 
-class absolveWsForm(ModelForm):
-    class Meta:
-        model=Team
-        fields=['idUser','absolved']
+# class absolveWsForm(ModelForm):
+#     class Meta:
+#         model=WsMember
+#         fields=['idUser','absolved']
 
 #Pendiente:
 #statisticsAttendance
