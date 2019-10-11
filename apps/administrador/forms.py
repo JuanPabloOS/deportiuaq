@@ -26,7 +26,7 @@ class createUserForm(ModelForm):
         model= User
         fields=['username','first_name','last_name','email']
         labels = {
-            'username':'Expediente',
+            'username':'Expediente/Folio',
             'first_name':'Nombre',
             'last_name':'Apellidos',            
             'email':'Correo electrónico',            

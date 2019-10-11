@@ -4,6 +4,9 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.http import JsonResponse
 
+#Decoradores
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 # import forms
 from .forms import addMemberToTeamForm
 from .forms import deleteMemberToWorkshopForm
@@ -22,6 +25,8 @@ from apps.core.models import CallTheRollWs
 from django.contrib.auth.hashers import check_password
 
 # Create your views here.
+@login_required
+@user_passes_test(lambda user: user.userType=='DC' or user.userType=='BC')
 def addMemberToTeam(request):
     """
     Agregar Alumno al equipo
@@ -39,6 +44,8 @@ def addMemberToTeam(request):
         form = addMemberToTeamForm()
         return render(request,'exclusiveTeacher/addMemberToTeam.html',{'form':form})
 
+@login_required
+@user_passes_test(lambda user: user.userType=='DC' or user.userType=='BC')
 def deleteTeamMember(request):
     """
     Eliminar Alumno del equipo
@@ -65,6 +72,8 @@ def deleteTeamMember(request):
             form=deleteMemberToTeamForm()
             return render(request,'exclusiveTeacher/deleteMemberToTeam.html',{'form':form})
 
+@login_required
+@user_passes_test(lambda user: user.userType=='DC' or user.userType=='BC')
 def addMemberToWs(request):
     """
     Agregar Alumno al taller
@@ -82,6 +91,8 @@ def addMemberToWs(request):
         form = addMemberToWorkshopForm()
         return render(request,'exclusiveTeacher/addMemberToWs.html',{'form':form})
 
+@login_required
+@user_passes_test(lambda user: user.userType=='DC' or user.userType=='BC')
 def deleteWsMember(request):
     """
     Eliminar Alumno del taller
@@ -108,6 +119,8 @@ def deleteWsMember(request):
             form=deleteMemberToWorkshopForm()
             return render(request,'exclusiveTeacher/deleteMemberToWs.html',{'form':form})
 
+@login_required
+@user_passes_test(lambda user: user.userType=='DC' or user.userType=='BC')
 def updateWorkshop(request):
     """
     Editar taller deportivo
@@ -122,32 +135,44 @@ def updateWorkshop(request):
         form = updateWorkshopForm()
         return render(request,'exclusiveTeacher/updateWorkshop.html',{'form':form})
 
+@login_required
+@user_passes_test(lambda user: user.userType=='DC' or user.userType=='BC')
 def updateTeam(request):
     """
     Editarequipo representativo
     """
     pass
 
+@login_required
+@user_passes_test(lambda user: user.userType=='DC')
 def callTheRollWs(request):
     """
     Pasar lista
     """
     pass
 
+@login_required
+@user_passes_test(lambda user: user.userType=='DC')
 def callTheRollTeam(request):
     """
     Pasar lista
     """
     pass
 
+@login_required
+@user_passes_test(lambda user: user.userType=='DC')
 def absolveWs(request):
     """
     Liberación de taller
     """
     pass
 
+@login_required
+@user_passes_test(lambda user: user.userType=='DC' or user.userType=='BC')
 def statisticsAttendance(request):
     pass
 
+@login_required
+@user_passes_test(lambda user: user.userType=='DC')
 def statisticsMatches(request):
     pass

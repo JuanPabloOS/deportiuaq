@@ -76,16 +76,3 @@ def changePassword(request):
     else:
         form = PasswordChangeForm(request.user)
         return render(request, 'core/changePassword.html', {'form': form })
-
-# class confirmPassToContinue(UpdateView):
-#     form_class = ConfirmPasswordForm
-#     template_name = 'core/confirmPassToContinue.html'
-
-#     def get_object(self):
-#         return self.request.user
-
-#     def get_success_url(self):
-#         print("=========================")
-#         print("Continuar")
-#         return self.request.get_full_path()
-
