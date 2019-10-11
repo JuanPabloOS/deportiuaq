@@ -8,6 +8,7 @@ from django.http import JsonResponse
 from .forms import addMemberToTeamForm
 from .forms import deleteMemberToWorkshopForm
 from .forms import deleteMemberToTeamForm
+from .forms import updateWorkshopForm
 
 from apps.core.models import User
 from apps.core.models import Workshop
@@ -111,8 +112,15 @@ def updateWorkshop(request):
     """
     Editar taller deportivo
     """
-
-    pass
+    if request.method == 'POST':
+        form = updateWorkshopForm(request.POST)
+        if form.is_valid():
+            return HttpResponse('Formulario válido')
+        else:
+            return HttpResponse('Formulario no válido')
+    else:
+        form = updateWorkshopForm()
+        return render(request,'exclusiveTeacher/updateWorkshop.html',{'form':form})
 
 def updateTeam(request):
     """

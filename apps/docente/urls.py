@@ -9,6 +9,8 @@ urlpatterns=[
     path('actualizarEquipo/',views.updateTeam,name='actualizarEquipo'),
     path('callTheRollWs/',views.callTheRollWs,name='callTheRollWs'),
     path('callTheRollTeam/',views.callTheRollTeam,name='callTheRollTeam'),
+    path('updateWorkshop', views.updateWorkshop, name='updateWorkshop'),
+
     path('absolveWs/',views.absolveWs,name='absolveWs'),
     path('estadisticosAsistencia/',views.statisticsAttendance,name='estadisticosAsistencia'),
     path('estadisticosPartidos/',views.statisticsMatches,name='estadisticosestadisticosAsistencia'),

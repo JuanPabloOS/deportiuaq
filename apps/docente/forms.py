@@ -28,7 +28,13 @@ class deleteMemberToTeamForm(ModelForm):
 class updateWorkshopForm(ModelForm):
     class Meta:
         model=Workshop
-        fields=['responsible', 'schedule']
+        fields=['responsible', 'schedule','maxMembers']
+
+        labels={
+            'maxMembers':'Especifique un máximo de integrantes si lo hay'
+        }
+        
+
 
 # class callTheRollWsForm(ModelForm):
 #     class Meta:

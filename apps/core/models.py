@@ -105,6 +105,7 @@ class Workshop(models.Model):
     schedule=models.CharField(verbose_name='Horario', max_length=50, blank=True)
     totalAttendances=models.PositiveSmallIntegerField(verbose_name='Total Asistencias', blank=True, null=True)
     period=models.CharField(verbose_name='Periodo', max_length=6, blank=True, null=True) # 2019-1
+    maxMembers=models.PositiveIntegerField(verbose_name='Máximo de estudiantes', blank=True, null=True)
 
     class Meta:
         verbose_name='Taller deportivo'
