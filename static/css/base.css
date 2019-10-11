@@ -215,6 +215,12 @@ h1 {
 }
 
 /* FORMS */
+.form-container{
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  background-color: var(--white);
+}
 .form-container input[type="submit"]{
     height: 35px;
     width: 250px;

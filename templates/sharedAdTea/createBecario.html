@@ -3,16 +3,19 @@
 {% block title %}Registro|Becario{% endblock%}
 
 {% block content %}
-<h1>Registro de Becario</h1>
-<form method="POST">
-
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Registrar">
-    {% if messages %}
-        {% for message in messages %}
-            {{ message }}
-        {% endfor %}
-    {% endif %}
-</form>
-{% endblock %}
+<div class="base-container flex-container center-content">
+    <div class="form-container flex-container column-container center-content">
+        <h1>Registrar becario</h1>
+            <form method="POST" class="form-group">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Registrar">
+                {% if messages %}
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                {% endif %}
+            </form>
+            {% endblock %}
+        </div>
+    </div>

@@ -25,6 +25,21 @@ class createUserForm(ModelForm):
     class Meta:
         model= User
         fields=['username','first_name','last_name','email']
+        labels = {
+            'username':'Expediente',
+            'first_name':'Nombre',
+            'last_name':'Apellidos',            
+            'email':'Correo electrónico',            
+        }
+        widgets = {
+            'username':forms.TextInput(attrs ={'type':'text','min':'100000'}),                          
+            'first_name': forms.TextInput(attrs = {'class':'validate'}),
+            'last_name': forms.TextInput(attrs = {'class':'validate'}),
+            'email': forms.TextInput(attrs = {'class':'validate'}),
+        }
+        help_texts = {
+            'username': None,
+        }
 
 class deleteUserForm(forms.Form):
     """
