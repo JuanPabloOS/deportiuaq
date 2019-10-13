@@ -1,9 +1,9 @@
 from django import forms
 from django.forms import ModelForm
-from apps.core.models import TeamMember
-from apps.core.models import Team
-from apps.core.models import Match
-from apps.core.models import Player
+from .models import TeamMember
+from .models import Team
+from .models import Match
+from .models import Player
 class addMemberToTeamForm(ModelForm):
     class Meta:
         model=TeamMember

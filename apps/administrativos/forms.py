@@ -3,7 +3,7 @@ from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 #Modelos
 from apps.core.models import User
-from apps.core.models import Workshop
+from apps.workshop.models import Workshop
 
 
 class resetPasswordForm(forms.Form):
