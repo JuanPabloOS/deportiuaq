@@ -23,6 +23,7 @@ urlpatterns = [
     path('', principalPage, name='principalPage2'),
     path('admin/', admin.site.urls),
     path('deportiuaq/', include('apps.core.urls')),
-    path('deportiuaq/admin/',include('apps.administrador.urls')),
-    path('deportiuaq/docente/',include('apps.docente.urls')),
+    path('deportiuaq/admin/',include('apps.administrativos.urls')),
+    path('deportiuaq/workshop/',include('apps.workshop.urls')),
+    path('deportiuaq/team/',include('apps.team.urls')),
 ] 

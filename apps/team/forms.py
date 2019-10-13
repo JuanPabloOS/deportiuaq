@@ -1,40 +1,49 @@
 from django import forms
 from django.forms import ModelForm
 from apps.core.models import TeamMember
-from apps.core.models import Workshop
-from apps.core.models import WsMember
 from apps.core.models import Team
-
+from apps.core.models import Match
+from apps.core.models import Player
 class addMemberToTeamForm(ModelForm):
     class Meta:
         model=TeamMember
         exclude=('totalAssists',)
 
-class addMemberToWorkshopForm(ModelForm):
-    class Meta:
-        model=WsMember
-        exclude=('totalAssists',)
 
-class deleteMemberToWorkshopForm(ModelForm):
-    class Meta:
-        model=WsMember
-        fields=['idWS', 'expediente']
 
 class deleteMemberToTeamForm(ModelForm):
     class Meta:
         model=TeamMember
         fields=['idTeam', 'expediente']
 
-class updateWorkshopForm(ModelForm):
+class createTeamForm(ModelForm):
+    """
+    Crear un equipo representativo
+    """
+    schedule=forms.CharField(label='Horario', widget=forms.TextInput(attrs={'type':'datetime-local'}))
     class Meta:
-        model=Workshop
-        fields=['responsible', 'schedule','maxMembers']
+        model=Team
+        exclude=('schedule','totalAttendances','period')
 
-        labels={
-            'maxMembers':'Especifique un máximo de integrantes si lo hay'
-        }
-        
+class updateTeamForm(ModelForm):
+    """
+    """
+    pass
 
+class deleteTeamForm(forms.Form):
+    """
+    """
+    team_id= forms.ModelChoiceField(queryset=Team.objects.all(),label="Equipo representativo")
+
+class addMemberToTeamForm(ModelForm):
+    """
+    """
+    pass
+
+class deleteTeamMemberForm(forms.Form):
+    """
+    """
+    pass
 
 # class callTheRollWsForm(ModelForm):
 #     class Meta:

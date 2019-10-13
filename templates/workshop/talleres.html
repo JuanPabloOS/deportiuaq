@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Talleres Deportivos
+{% endblock %}
+
+{% block content %}
+<table>
+    {% for taller in talleres %}
+
+    <tr>
+        <td>
+                {{ taller.sport }} {{ taller.branch }}
+        </td>
+        <td>
+            <a href="{% url actualizarTaler idTaller=taller.id %}"></a>
+            <button onclick="eliminarTaller({{ taller.id }})">Eliminar</button>
+        </td>
+        
+    </tr>
+    {% endfor %}
+</table>
+<script>
+// function eliminarTaller(idTaller){
+//     var xhttp = new XMLHttpRequest();
+//     xhttp.onreadystatechange = function() {
+//         if (this.readyState == 4 && this.status == 200) {
+//         document.getElementById("demo").innerHTML = this.responseText;
+//         }
+//     };
+//     xhttp.open("GET", "{% url 'eliminarTaller' %}", true);
+//     xhttp.send();
+// }
+
+
+</script>
+
+
+
+{% endblock %}

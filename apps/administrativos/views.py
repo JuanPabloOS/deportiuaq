@@ -9,16 +9,13 @@ from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 #importar modelos
 from apps.core.models import User
-from apps.core.models import Workshop
-from apps.core.models import Team
+
 #importar formularios
 from .forms import createUserForm
 from .forms import resetPasswordForm
 from .forms import deleteUserForm
-from .forms import createWorkshopForm
-from .forms import createTeamForm
-from .forms import deleteWorkshopForm
-from .forms import deleteTeamForm
+
+
  #decorador
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
@@ -60,20 +57,20 @@ def resetPassword(request):
                     usuario.password=new_password # reestablecer la contraseña
                     usuario.save()
                     messages.success(request, 'Contraseña restablecida')
-                    return render(request,'exclusiveAdmin/resetPassword.html',{'form':form})
+                    return render(request,'core/resetPassword.html',{'form':form})
                 else:
                     messages.error(request, 'La contraseña no coincide')
-                    return render(request,'exclusiveAdmin/resetPassword.html',{'form':form})
+                    return render(request,'core/resetPassword.html',{'form':form})
             #usuario erróneo
             except User.DoesNotExist:
                 messages.error(request, 'Usuario no existente')
-                return render(request,'exclusiveAdmin/resetPassword.html',{'form':form})                         
+                return render(request,'core/resetPassword.html',{'form':form})                         
         else:
             messages.error(request, 'Petición no completada')
-            return render(request,'exclusiveAdmin/resetPassword.html',{'form':form})
+            return render(request,'core/resetPassword.html',{'form':form})
     else:
         form=resetPasswordForm()
-        return render(request,'exclusiveAdmin/resetPassword.html',{'form':form})
+        return render(request,'core/resetPassword.html',{'form':form})
 
 @login_required
 @user_passes_test(lambda user: user.userType=='AD')
@@ -92,10 +89,10 @@ def createTeacher(request):
             return redirect('registrarDocente')
         else:
             messages.error(request,'Error: Registro no completado')
-            return render(request, 'exclusiveAdmin/createTeacher.html',{'form':form})
+            return render(request, 'core/createTeacher.html',{'form':form})
     else:
         form=createUserForm()        
-        return render(request, 'exclusiveAdmin/createTeacher.html',{'form':form})
+        return render(request, 'core/createTeacher.html',{'form':form})
 
 @login_required
 @user_passes_test(lambda user: user.userType=='AD' or user.userType=='DC')
@@ -115,10 +112,10 @@ def createBecario(request):
             return redirect('registrarBecario')
         else:
             messages.error(request,'Error: Registro no completado')
-            return render(request, 'sharedAdTea/createBecario.html',{'form':form})
+            return render(request, 'core/createBecario.html',{'form':form})
     else:
         form=createUserForm()        
-        return render(request, 'sharedAdTea/createBecario.html',{'form':form})
+        return render(request, 'core/createBecario.html',{'form':form})
 
 @login_required
 @user_passes_test(lambda user: user.userType=='AD')
@@ -138,10 +135,10 @@ def createAdmin(request):
             return redirect('registrarAdmin')
         else:
             messages.error(request,'Error: Registro no completado')
-            return render(request, 'exclusiveAdmin/createAdmin.html',{'form':form})
+            return render(request, 'core/createAdmin.html',{'form':form})
     else:
         form=createUserForm()        
-        return render(request, 'exclusiveAdmin/createAdmin.html',{'form':form})
+        return render(request, 'core/createAdmin.html',{'form':form})
 
 @login_required
 @user_passes_test(lambda user: user.userType=='AD')
@@ -170,7 +167,7 @@ def deleteAdmin(request):
             return JsonResponse({'status':0,'msg':'La contraseña no coincide'})
     else:
         form=deleteUserForm()
-        return render(request,'exclusiveAdmin/deleteAdmin.html',{'form':form})
+        return render(request,'core/deleteAdmin.html',{'form':form})
 
 @login_required
 @user_passes_test(lambda user: user.userType=='AD')
@@ -199,7 +196,7 @@ def deleteTeacher(request):
             return JsonResponse({'status':0,'msg':'La contraseña no coincide'})
     else:
         form=deleteUserForm()
-        return render(request,'exclusiveAdmin/deleteTeacher.html',{'form':form})
+        return render(request,'core/deleteTeacher.html',{'form':form})
 
 @login_required
 @user_passes_test(lambda user: user.userType=='AD' or user.userType=='DC')
@@ -228,112 +225,10 @@ def deleteBecario(request):
             return JsonResponse({'status':0,'msg':'La contraseña no coincide'})
     else:
         form=deleteUserForm()
-        return render(request,'sharedAdTea/deleteBecario.html',{'form':form})
+        return render(request,'core/deleteBecario.html',{'form':form})
 
-@login_required
-@user_passes_test(lambda user: user.userType=='AD')
-def createWorkshop(request):
-    """
-    Crear taller deportivo
-    """
-    if request.method == 'POST':
-        form=createWorkshopForm(request.POST)
-        try:
-            exists = Workshop.objects.get(sport=request.POST['sport'],branch=request.POST['branch'],period=setPeriod())
-            messages.error(request, 'Ya existe ese taller')
-            return redirect('crearTaller')
-        except ObjectDoesNotExist:
-            if form.is_valid():
-                newWs = form.save(commit=False)
-                newWs.period = setPeriod()
-                newWs.save()
-                messages.success(request,'Registro completado')
-                return render(request, 'exclusiveAdmin/createWorkshop.html',{'form':form})
-            else:
-                messages.error(request,'Error: revisa que todos los datos sean correctos')
-                return render(request, 'exclusiveAdmin/createWorkshop.html',{'form':form})
-        #return render(request, 'exclusiveAdmin/createWorkshop.html',{'form':form})
-    else:
-        form = createWorkshopForm()
-        return render(request, 'exclusiveAdmin/createWorkshop.html',{'form':form})
 
-@login_required
-@user_passes_test(lambda user: user.userType=='AD')
-def deleteWorkshop(request):
-    """
-    Eliminar taller deportivo
-    """
-    if request.method == 'POST': #Obtener los datos por POST
-        passwordToVerify=''
-        try: #Verificar que efectivamente se haya resibido una contraseña
-            passwordToVerify=request.POST['password']
-        except:
-            return JsonResponse({'status':0,'msg':'Ingresa tu contraseña'})
-        currentPassword=request.user.password #obtener la contraseña de loggeo
-        matchcheck=check_password(passwordToVerify,currentPassword) #comparar ambas contraseñas
-        if(matchcheck): #realizar la acción
-            workshopId=request.POST['workshop_id']
-            try:
-                objects, dictionary = Workshop.objects.get(id=workshopId).delete()
-                return JsonResponse({'status':1,'msg':'Taller eliminado','objects':objects,'dictionary':dictionary})
-            except ObjectDoesNotExist:
-                return JsonResponse({'status':0,'msg':'El taller no existe o ya ha sido eliminado'})
-        else:
-            return JsonResponse({'status':0,'msg':'La contraseña no coincide'})
-    else:
-        form = deleteWorkshopForm()
-        return render(request, 'exclusiveAdmin/deleteWorkshop.html', {'form':form})
 
-@login_required
-@user_passes_test(lambda user: user.userType=='AD')
-def createTeam(request):
-    """
-    Crear equipo representativo
-    """
-    if request.method == 'POST':
-        try:
-            exists = Team.objects.get(sport=request.POST['sport'], branch=request.POST['branch'], period=setPeriod())
-            messages.error(request,'Ya existe ese equipo')
-            return redirect('crearEquipo')
-        except ObjectDoesNotExist:
-            form=createTeamForm(request.POST)
-            if form.is_valid():
-                team=form.save(commit=False)
-                team.period = setPeriod()
-                team.save()
-                messages.success(request,'Registro completado')
-                return render(request, 'exclusiveAdmin/createTeam.html',{'form':form})
-            else:
-                messages.error(request,'Error: revisa que todos los datos sean correctos')
-                return render(request, 'exclusiveAdmin/createTeam.html',{'form':form})
-        #return render(request, 'exclusiveAdmin/createTeam.html',{'form':form})
-    else:
-        form = createTeamForm()
-        return render(request, 'exclusiveAdmin/createTeam.html',{'form':form})
 
-@login_required
-@user_passes_test(lambda user: user.userType=='AD')
-def deleteTeam(request):
-    """
-    Eliminar equipo representativo
-    """
-    if request.method == 'POST': #Obtener los datos por POST
-        passwordToVerify=''
-        try: #Verificar que efectivamente se haya resibido una contraseña
-            passwordToVerify=request.POST['password']
-        except:
-            return JsonResponse({'status':0,'msg':'Ingresa tu contraseña'})
-        currentPassword=request.user.password #obtener la contraseña de loggeo
-        matchcheck=check_password(passwordToVerify,currentPassword) #comparar ambas contraseñas
-        if(matchcheck): #realizar la acción
-            teamId=request.POST.get('team_id',False)
-            try:
-                objects, dictionary = Team.objects.get(id=teamId).delete()
-                return JsonResponse({'status':1,'msg':'Equipo eliminado','objects':objects,'dictionary':dictionary})
-            except ObjectDoesNotExist:
-                return JsonResponse({'status':0,'msg':'El equipo no existe o ya ha sido eliminado'})
-        else:
-            return JsonResponse({'status':0,'msg':'La contraseña no coincide'})
-    else:
-        form = deleteTeamForm()
-        return render(request, 'exclusiveAdmin/deleteTeam.html', {'form':form})
+
+
