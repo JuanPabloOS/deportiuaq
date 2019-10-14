@@ -9,7 +9,9 @@ from django.contrib.auth.decorators import login_required       #pedir una sesi√
 from django.contrib.auth.decorators import user_passes_test     #Comprobar los permisos de usuario
 from django.views.decorators.http import require_http_methods   #admitir determinados tipos de petici√≥n
 #modelos
-from apps.core.models import Workshop
+from .models import Workshop
+from .models import WsMember
+from .models import CallTheRollWs
 #formularios
 from .forms import createWorkshopForm
 from .forms import deleteWorkshopForm

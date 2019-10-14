@@ -1,8 +1,8 @@
 from django import forms
 from django.forms import ModelForm
 
-from apps.core.models import Workshop
-from apps.core.models import WsMember
+from .models import Workshop
+from .models import WsMember
 
 class createWorkshopForm(ModelForm):
     """
