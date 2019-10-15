@@ -1,11 +1,12 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views
 
 urlpatterns=[
-    path('talleres/',views.talleres, name='talleres'),
+    path('talleres/',views.talleres_view, name='talleres'),
+    path('verTaller/<int:idTaller>/', views.verTaller_view, name='verTaller'),
     path('crearTaller/',views.createWorkshop, name='crearTaller'),
     path('eliminarTaller/', views.deleteWorkshop, name='eliminarTaller'),
-    path('actualizarTaller/',views.updateWorkshop,name='actualizarTaller'),
+    path('actualizarTaller/<int:idTaller>/',views.updateWorkshop,name='actualizarTaller'),
     path('registrarAlumnoT/',views.addMemberToWs,name='agregarAlumnoT'),
     path('eliminarAlumnoT/',views.deleteWsMember,name='eliminarAlumnoT'),
     path('callTheRollWs/',views.callTheRollWs,name='callTheRollWs'),
