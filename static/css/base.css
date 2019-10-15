@@ -289,6 +289,10 @@ h1 {
   font-size: 0.8rem;
   cursor: pointer;
 }
+#link-logout:hover{
+  color: #6cd2c8 !important;
+  font-weight: 500;
+}
 
 /* TOAST STYLES */
 #toast {
@@ -390,6 +394,3 @@ white-space: nowrap;
 }
 /* END TOAST */
 
-.helptext{
-  visibility: hidden;
-}
