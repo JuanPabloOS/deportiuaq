@@ -6,11 +6,11 @@ from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.hashers import check_password
 #modelos
-from apps.core.models import Team
-from apps.core.models import TeamMember
-from apps.core.models import Match
-from apps.core.models import Player
-from apps.core.models import CallTheRollTeam
+from .models import Team
+from .models import TeamMember
+from .models import Match
+from .models import Player
+from .models import CallTheRollTeam
 #formularios
 from .forms import createTeamForm
 from .forms import deleteTeamForm

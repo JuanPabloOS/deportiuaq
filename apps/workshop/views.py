@@ -9,16 +9,52 @@ from django.contrib.auth.decorators import login_required       #pedir una sesi�
 from django.contrib.auth.decorators import user_passes_test     #Comprobar los permisos de usuario
 from django.views.decorators.http import require_http_methods   #admitir determinados tipos de petición
 #modelos
-from apps.core.models import Workshop
+from .models import Workshop
+from .models import WsMember
+from .models import CallTheRollWs
+from apps.core.models import User
 #formularios
 from .forms import createWorkshopForm
 from .forms import deleteWorkshopForm
 from .forms import deleteMemberToWorkshopForm
 from .forms import updateWorkshopForm
 # Create your views here.
-def talleres(request):
+import datetime
+# Create your views here.
+def setPeriod():
+    """
+    Obtener el periodo actual
+    """
+    now = datetime.datetime.now()
+    month = now.month
+    year = now.year
+    period=''
+    if 0<month<8: #el primer período termina en julio
+        period=str(year)+'-1'
+    else:
+        period=str(year)+'-2'
+    return period
+
+@login_required
+def talleres_view(request):
+    """
+    Lista todos los talleres
+    """
     talleres = Workshop.objects.all()
-    return render (request, 'workshop/talleres.html', {'talleres':talleres})
+    return render(request, 'workshop/talleres.html', {'talleres':talleres})
+    #return HttpResponse(talleres)
+
+@login_required
+def verTaller_view(request, idTaller):
+    """
+        Ver un taller en específico
+    """
+    try:
+        periodo=setPeriod()
+        miembros = WsMember.objects.filter(idWS=idTaller)
+        return render(request,'workshop/verTaller.html',{'miembros':miembros})
+    except ObjectDoesNotExist:
+        return redirect('talleres')
 
 @login_required
 @user_passes_test(lambda user: user.userType=='AD')
@@ -36,9 +72,10 @@ def createWorkshop(request):
             if form.is_valid():
                 newWs = form.save(commit=False)
                 newWs.period = setPeriod()
+                newWs.responsible=form.cleaned_data['responsible']
                 newWs.save()
                 messages.success(request,'Registro completado')
-                return render(request, 'workshop/createWorkshop.html',{'form':form})
+                return redirect('crearTaller')
             else:
                 messages.error(request,'Error: revisa que todos los datos sean correctos')
                 return render(request, 'workshop/createWorkshop.html',{'form':form})
@@ -75,19 +112,38 @@ def deleteWorkshop(request):
 
 @login_required
 @user_passes_test(lambda user: user.userType=='DC' or user.userType=='BC')
-def updateWorkshop(request):
+def updateWorkshop(request, idTaller):
     """
     Editar taller deportivo
     """
     if request.method == 'POST':
         form = updateWorkshopForm(request.POST)
         if form.is_valid():
-            return HttpResponse('Formulario válido')
+            print(form.cleaned_data)
+            taller=Workshop.objects.get(id=form.cleaned_data['id'])
+            taller.responsible=form.cleaned_data['responsible']
+            taller.schedule=form.cleaned_data['schedule'],
+            taller.maxMembers=form.cleaned_data['maxMembers']
+            taller.save()
+            messages.success(request, 'Se actualizó el taller')
+            return redirect('talleres')
         else:
-            return HttpResponse('Formulario no válido')
+            print('No se pudo actualizar')
+            messages.error(request,'No se pudo actualizar el taller')
+            return render(request,'workshop/updateWorkshop.html',{'form':form})
     else:
-        form = updateWorkshopForm()
-        return render(request,'workshop/updateWorkshop.html',{'form':form})
+        taller=Workshop.objects.get(id=idTaller)
+        print('==================')
+        print(taller.id)
+        print('====================')
+        form=updateWorkshopForm(
+            initial={
+                'id':taller.id,
+                'responsible':taller.responsible,
+                'schedule':taller.schedule,
+                'maxMembers':taller.maxMembers,
+                })
+        return render(request,'workshop/updateWorkshop.html',{'form':form, 'taller':taller})
 
 
 @login_required

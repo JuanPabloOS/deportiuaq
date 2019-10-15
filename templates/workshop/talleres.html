@@ -13,8 +13,8 @@ Talleres Deportivos
                 {{ taller.sport }} {{ taller.branch }}
         </td>
         <td>
-            <a href="{% url actualizarTaler idTaller=taller.id %}"></a>
-            <button onclick="eliminarTaller({{ taller.id }})">Eliminar</button>
+            <a href="{% url 'actualizarTaller' taller.id %}">Editar</a>
+            <button>Eliminar</button>
         </td>
         
     </tr>

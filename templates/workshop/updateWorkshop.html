@@ -5,7 +5,7 @@ Actualizar taller
 {% endblock %}
 
 {% block content %}
-
+<p>{{ taller.sport }} {{ taller.branch }}</p>
 <form method='POST'>
     {% csrf_token %}
     {{ form.as_p }}
