@@ -51,9 +51,9 @@ def verTaller_view(request, idTaller):
     """
         Ver un taller en específico
     """
-    print("===================")
-    print(request.user)
-    print("===================")
+    # print("===================")
+    # print(request.user)
+    # print("===================")
     try:
         periodo=setPeriod()
         taller=Workshop.objects.get(id=idTaller)
