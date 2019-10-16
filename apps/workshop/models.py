@@ -61,6 +61,8 @@ class WsMember(models.Model):
         verbose_name='Miembro de taller'
         verbose_name_plural='Miembros de taller'
 
+    def __str__(self):
+        return '%s %s' %(self.last_name, self.first_name)
 
 
 class CallTheRollWs(models.Model):

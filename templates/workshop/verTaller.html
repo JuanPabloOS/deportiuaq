@@ -5,17 +5,76 @@ Ver taller
 {% endblock %}
 
 {% block content %}
+    <p>{{ taller.sport }} {{ taller.branch }}</p>
     <table>
         <tr>
+            <th>Expediente</th>
             <th>Nombre</th>
-            <th></th>
+            <th>Correo</th>
+            <th>Asistencias</th>
+            <th>Absuelto</th>
+            
         </tr>
         {% for miembro in miembros %}
         <tr>
+            <td>{{ miembro.expediente }}</td>
             <td>{{ miembro.first_name }} {{ miembro.last_name }}</td>
-            <td><Button>Eliminar</Button></td>
+            <td>{{ miembro.mail }}</td>
+            <td>{{ miembro.totalAssists }}</td>
+            <td>{% if miembro.absolved %} Si {% else %} No {% endif %}</td>
+            <td><Button onclick="modalJuan({{ miembro.expediente }})">Eliminar</Button></td>
         </tr>
         {% endfor %}
     </table>
 
+    <div id="modal" style="border:1px solid red;">
+        <p>Eliminar alumno</p>
+        {% csrf_token %}
+        <input type="number" name="expediente" id="expediente" hidden>
+        <label>
+            Ingrese su contraseña
+            <input type="password" name="password" id="password">
+        </label>
+        
+        <button onclick="eliminarAlumno()">Aceptar</button>
+        <p id="retroalimentacion">Retroalimentación</p>
+    </div>
+    <script>
+            function modalJuan(expediente){
+                document.getElementById("expediente").value = expediente;
+            }
+            
+            function eliminarAlumno(){
+                var xhttp;
+                var csrftoken = '{{ csrf_token }}';
+                var idWS = '{{ taller.id }}'
+                var password = document.getElementById("password").value;
+                var expediente = document.getElementById("expediente").value;
+                xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    var retroalimentacion = document.getElementById("retroalimentacion");
+                    if (this.readyState == 4 && this.status == 200) {
+                        respuesta=JSON.parse(this.responseText);
+                        console.log(this.responseText);
+                        
+                        switch (respuesta.status) {
+                            case 0:
+                                retroalimentacion.innerHTML = respuesta.msg;
+                                break;
+                            case 1:
+                                alert("Done");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                };
+                xhttp.open("POST", "{% url 'eliminarAlumnoT' %}", true);
+                xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                
+                xhttp.send('password='+password+'&expediente='+expediente+'&idWS='+idWS);
+            }
+            </script>
 {% endblock %}
+

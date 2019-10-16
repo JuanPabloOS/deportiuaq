@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.hashers import check_password
 #Decoradores
 from django.contrib.auth.decorators import login_required       #pedir una sesión activa
 from django.contrib.auth.decorators import user_passes_test     #Comprobar los permisos de usuario
@@ -18,6 +19,7 @@ from .forms import createWorkshopForm
 from .forms import deleteWorkshopForm
 from .forms import deleteMemberToWorkshopForm
 from .forms import updateWorkshopForm
+from .forms import addMemberToWorkshopForm
 # Create your views here.
 import datetime
 # Create your views here.
@@ -49,10 +51,14 @@ def verTaller_view(request, idTaller):
     """
         Ver un taller en específico
     """
+    print("===================")
+    print(request.user)
+    print("===================")
     try:
         periodo=setPeriod()
+        taller=Workshop.objects.get(id=idTaller)
         miembros = WsMember.objects.filter(idWS=idTaller)
-        return render(request,'workshop/verTaller.html',{'miembros':miembros})
+        return render(request,'workshop/verTaller.html',{'miembros':miembros,'taller':taller})
     except ObjectDoesNotExist:
         return redirect('talleres')
 
@@ -155,9 +161,16 @@ def addMemberToWs(request):
     if request.method == 'POST':
         form = addMemberToWorkshopForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request,'Registro completado')
-            return redirect('addMemberToWs')
+            try:
+                isAlreadyIn = WsMember.objects.get(expediente=form.cleaned_data["expediente"], idWS__period=setPeriod())
+                # print("<--------->")
+                # print(isAlreadyIn)
+                # print("<--------->")
+                messages.error(request, 'El alumno ya está registrado en otro taller')
+            except ObjectDoesNotExist:
+                form.save()
+                messages.success(request,'Registro completado')
+            return redirect('registrarAlumnoT')
         else:
             messages.error(request,'Error: revisa que los datos sean correctos')
             return render(request,'workshop/addMemberToWs.html',{'form':form})
@@ -171,21 +184,39 @@ def deleteWsMember(request):
     """
     Eliminar Alumno del taller
     """
+    # print("===================")
+    # print(request.user)
+    # print("===================")
     if request.method=='POST':
+        # print(request)
+        # print("======================")
+        # print(request.POST)
+        # print("======================")
         passwordToVerify=''
         try: #Verificar que efectivamente se haya resibido una contraseña
             passwordToVerify=request.POST['password']
+            print(request.POST['password'])
         except:
             return JsonResponse({'status':0,'msg':'Ingresa tu contraseña'})
         currentPassword=request.user.password #obtener la contraseña de loggeo
+        # print("===================")
+        # print(currentPassword)
+        # print("===================")
         matchcheck=check_password(passwordToVerify,currentPassword) #comparar ambas contraseñas
         if(matchcheck): #realizar la acción
+            print("==================")
             expedienteMember=request.POST['expediente']
+            print('expediente', expedienteMember)
             idWS=request.POST['idWS']
+            print('idWS', idWS)
+            print("==================")
             try:
-                member = WsMember.objects.get(expediente=expedienteMember, idWS=idWS).delete()
+                member = WsMember.objects.get(expediente=int(expedienteMember), idWS_id=int(idWS))
+                print("<---------------->")
+                print(member)
+                print("<---------------->")
                 return JsonResponse({'status':1,'msg':'Usuario dado de baja'})
-            except ObjectDoesNotExist:
+            except:
                 return JsonResponse({'status': 0, 'msg':'El usuario no existe'})
         else:
             return JsonResponse({'status':0,'msg':'La contraseña no coincide'})

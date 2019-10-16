@@ -30,7 +30,11 @@ class deleteWorkshopForm(forms.Form):
 class addMemberToWorkshopForm(ModelForm):
     class Meta:
         model=WsMember
-        exclude=('totalAssists',)
+        exclude=('totalAssists','absolved')
+
+        labels={
+            'idWS':'Taller'
+        }
 
 class deleteMemberToWorkshopForm(ModelForm):
     class Meta:
