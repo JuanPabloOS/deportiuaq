@@ -184,37 +184,19 @@ def deleteWsMember(request):
     """
     Eliminar Alumno del taller
     """
-    # print("===================")
-    # print(request.user)
-    # print("===================")
     if request.method=='POST':
-        # print(request)
-        # print("======================")
-        # print(request.POST)
-        # print("======================")
         passwordToVerify=''
-        try: #Verificar que efectivamente se haya resibido una contraseña
+        try: #Verificar que efectivamente se haya recibido una contraseña
             passwordToVerify=request.POST['password']
-            print(request.POST['password'])
         except:
             return JsonResponse({'status':0,'msg':'Ingresa tu contraseña'})
-        currentPassword=request.user.password #obtener la contraseña de loggeo
-        # print("===================")
-        # print(currentPassword)
-        # print("===================")
+        currentPassword=request.user.password #obtener la contraseña de loggeo        
         matchcheck=check_password(passwordToVerify,currentPassword) #comparar ambas contraseñas
         if(matchcheck): #realizar la acción
-            print("==================")
             expedienteMember=request.POST['expediente']
-            print('expediente', expedienteMember)
             idWS=request.POST['idWS']
-            print('idWS', idWS)
-            print("==================")
             try:
-                member = WsMember.objects.get(expediente=int(expedienteMember), idWS_id=int(idWS))
-                print("<---------------->")
-                print(member)
-                print("<---------------->")
+                member = WsMember.objects.get(expediente=int(expedienteMember), idWS_id=int(idWS)).delete()
                 return JsonResponse({'status':1,'msg':'Usuario dado de baja'})
             except:
                 return JsonResponse({'status': 0, 'msg':'El usuario no existe'})
@@ -227,10 +209,7 @@ def deleteWsMember(request):
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')
 def callTheRollWs(request):
-    """
-    Pasar lista
-    """
-    pass
+    return 
 
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')

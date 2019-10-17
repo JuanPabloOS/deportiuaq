@@ -4,7 +4,7 @@ from django.forms import ModelForm
 from .models import Workshop
 from .models import WsMember
 from apps.core.models import User
-
+from .models import CallTheRollWs
 class createWorkshopForm(ModelForm):
     """
     Formulario para crear un equipo representativo
@@ -39,7 +39,7 @@ class addMemberToWorkshopForm(ModelForm):
 class deleteMemberToWorkshopForm(ModelForm):
     class Meta:
         model=WsMember
-        fields=['idWS', 'expediente']
+        fields=['expediente']
 
 class updateWorkshopForm(forms.Form):
     id=forms.IntegerField(label="", widget=forms.NumberInput(attrs={'hidden':True}))
@@ -56,3 +56,8 @@ class updateWorkshopForm(forms.Form):
     #         'maxMembers':'Especifique un máximo de integrantes si es el caso'
     #     }
     #
+
+class callTheRollWsForm(ModelForm):
+    class Meta:
+        model=CallTheRollWs
+        fields=['idUser','idWs','attended']

@@ -68,5 +68,5 @@ class WsMember(models.Model):
 class CallTheRollWs(models.Model):
     idUser=models.ForeignKey('WsMember', on_delete=models.CASCADE)
     idWs=models.ForeignKey('Workshop', on_delete=models.CASCADE)
-    date=models.DateField(auto_now=True)
+    date=models.DateField(auto_now_add=True)
     attended=models.BooleanField(default=False)
