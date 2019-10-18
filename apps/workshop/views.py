@@ -59,10 +59,12 @@ def verTaller_view(request, idTaller):
         taller=Workshop.objects.get(id=idTaller)
         miembros = WsMember.objects.filter(idWS=idTaller)
         updateForm = updateWorkshopForm(initial={
-            'reponsible':taller.responsible,
-            'schedule':str(taller.schedule),
-            'maxMembers':taller.maxMembers
+                'id':taller.id,
+                'responsible':taller.responsible,
+                'schedule':taller.schedule,
+                'maxMembers':taller.maxMembers,
         })
+        
         addMemberForm=addMemberToWorkshopForm()
         return render(request,'workshop/editarTaller.html',{'miembros':miembros,'taller':taller,'updateForm':updateForm, 'addMemberForm':addMemberForm})
     except ObjectDoesNotExist:
@@ -130,19 +132,22 @@ def deleteWorkshop(request):
         form = deleteWorkshopForm()
         return render(request, 'workshop/deleteWorkshop.html', {'form':form})
 
+@require_http_methods(['POST'])
 @login_required
 @user_passes_test(lambda user: user.userType=='DC' or user.userType=='BC')
-@require_http_methods(['POST'])
 def updateWorkshop(request, idTaller):
     """
     Editar taller deportivo
     """
+    ('jhffjg')
     form = updateWorkshopForm(request.POST)
     if form.is_valid():
-        print(form.cleaned_data)
         taller=Workshop.objects.get(id=form.cleaned_data['id'])
         taller.responsible=form.cleaned_data['responsible']
-        taller.schedule=form.cleaned_data['schedule'],
+        scheduleStr=form.cleaned_data['schedule']
+        taller.schedule=scheduleStr
+        print(dir(form))
+        print("==============")
         taller.maxMembers=form.cleaned_data['maxMembers']
         taller.save()
         messages.success(request, 'Se actualizó el taller')
