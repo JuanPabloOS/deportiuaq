@@ -13,8 +13,8 @@ Talleres Deportivos
                 <a href="{% url 'verTaller' taller.id %}">{{ taller.sport }} {{ taller.branch }}</a>
         </td>
         <td>
-            <a href="{% url 'actualizarTaller' taller.id %}">Editar</a>
-            <button>Eliminar</button>
+            <a href="{% url 'verTaller' taller.id %}">Editar taller</a>
+            <button><a href="{% url 'verAlumnosTaller' taller.id %}">Ver integrantes</a></button>
         </td>
         
     </tr>

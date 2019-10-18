@@ -5,27 +5,45 @@ Ver taller
 {% endblock %}
 
 {% block content %}
-    <p>{{ taller.sport }} {{ taller.branch }}</p>
-    <table>
-        <tr>
-            <th>Expediente</th>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Asistencias</th>
-            <th>Absuelto</th>
-            
-        </tr>
-        {% for miembro in miembros %}
-        <tr>
-            <td>{{ miembro.expediente }}</td>
-            <td>{{ miembro.first_name }} {{ miembro.last_name }}</td>
-            <td>{{ miembro.mail }}</td>
-            <td>{{ miembro.totalAssists }}</td>
-            <td>{% if miembro.absolved %} Si {% else %} No {% endif %}</td>
-            <td><Button onclick="modalJuan({{ miembro.expediente }})">Eliminar</Button></td>
-        </tr>
-        {% endfor %}
-    </table>
+    <h1>Taller</h1>
+
+    <section style="background-color:aquamarine">
+        {{ taller.sport }}
+        <br>
+        Rama: {{ taller.branch }}
+        <br>
+        <form action="{% url 'actualizarTaller' taller.id%}" method="POST">
+            {% csrf_token %}
+            {{ updateForm.as_p }}
+            <input type="submit" value="Editar">
+        </form>
+    </section>
+    <section style="background-color:bisque">
+        <table>
+            <tr>
+                <th>Expediente</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Asistencias</th>
+                <th>Absuelto</th>
+                
+            </tr>
+            {% for miembro in miembros %}
+            <tr>
+                <td>{{ miembro.expediente }}</td>
+                <td>{{ miembro.first_name }} {{ miembro.last_name }}</td>
+                <td>{{ miembro.mail }}</td>
+                <td>{{ miembro.totalAssists }}</td>
+                <td>{% if miembro.absolved %} Si {% else %} No {% endif %}</td>
+                <td><Button onclick="modalJuan({{ miembro.expediente }})">Eliminar</Button></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>
+    <section style="background-color:azure">
+        {{ updateForm.as_p }}
+    </section>
+    
 
     <div id="modal" style="border:1px solid red;">
         <p>Eliminar alumno</p>
@@ -39,6 +57,12 @@ Ver taller
         <button onclick="eliminarAlumno()">Aceptar</button>
         <p id="retroalimentacion">Retroalimentación</p>
     </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    {% endif %}
     <script>
             function modalJuan(expediente){
                 document.getElementById("expediente").value = expediente;

@@ -58,10 +58,24 @@ def verTaller_view(request, idTaller):
         periodo=setPeriod()
         taller=Workshop.objects.get(id=idTaller)
         miembros = WsMember.objects.filter(idWS=idTaller)
-        return render(request,'workshop/verTaller.html',{'miembros':miembros,'taller':taller})
+        updateForm = updateWorkshopForm(initial={
+            'reponsible':taller.responsible,
+            'schedule':str(taller.schedule),
+            'maxMembers':taller.maxMembers
+        })
+        addMemberForm=addMemberToWorkshopForm()
+        return render(request,'workshop/editarTaller.html',{'miembros':miembros,'taller':taller,'updateForm':updateForm, 'addMemberForm':addMemberForm})
     except ObjectDoesNotExist:
         return redirect('talleres')
 
+
+def verAlumnosTaller_view(request, idTaller):
+    try:
+        taller = Workshop.objects.get(id=idTaller)
+        miembros = WsMember.objects.filter(idWS=idTaller)
+        return render(request, 'workshop/verAlumnos.html', {'taller':taller,'miembros':miembros})
+    except:
+        return redirect('talleres')
 @login_required
 @user_passes_test(lambda user: user.userType=='AD')
 def createWorkshop(request):
@@ -118,38 +132,53 @@ def deleteWorkshop(request):
 
 @login_required
 @user_passes_test(lambda user: user.userType=='DC' or user.userType=='BC')
+@require_http_methods(['POST'])
 def updateWorkshop(request, idTaller):
     """
     Editar taller deportivo
     """
-    if request.method == 'POST':
-        form = updateWorkshopForm(request.POST)
-        if form.is_valid():
-            print(form.cleaned_data)
-            taller=Workshop.objects.get(id=form.cleaned_data['id'])
-            taller.responsible=form.cleaned_data['responsible']
-            taller.schedule=form.cleaned_data['schedule'],
-            taller.maxMembers=form.cleaned_data['maxMembers']
-            taller.save()
-            messages.success(request, 'Se actualizó el taller')
-            return redirect('talleres')
-        else:
-            print('No se pudo actualizar')
-            messages.error(request,'No se pudo actualizar el taller')
-            return render(request,'workshop/updateWorkshop.html',{'form':form})
+    form = updateWorkshopForm(request.POST)
+    if form.is_valid():
+        print(form.cleaned_data)
+        taller=Workshop.objects.get(id=form.cleaned_data['id'])
+        taller.responsible=form.cleaned_data['responsible']
+        taller.schedule=form.cleaned_data['schedule'],
+        taller.maxMembers=form.cleaned_data['maxMembers']
+        taller.save()
+        messages.success(request, 'Se actualizó el taller')
+        return redirect('verTaller', idTaller)
     else:
-        taller=Workshop.objects.get(id=idTaller)
-        print('==================')
-        print(taller.id)
-        print('====================')
-        form=updateWorkshopForm(
-            initial={
-                'id':taller.id,
-                'responsible':taller.responsible,
-                'schedule':taller.schedule,
-                'maxMembers':taller.maxMembers,
-                })
-        return render(request,'workshop/updateWorkshop.html',{'form':form, 'taller':taller})
+        print('No se pudo actualizar')
+        messages.error(request,'No se pudo actualizar el taller')
+        return redirect('verTaller', idTaller)
+    # if request.method == 'POST':
+    #     form = updateWorkshopForm(request.POST)
+    #     if form.is_valid():
+    #         print(form.cleaned_data)
+    #         taller=Workshop.objects.get(id=form.cleaned_data['id'])
+    #         taller.responsible=form.cleaned_data['responsible']
+    #         taller.schedule=form.cleaned_data['schedule'],
+    #         taller.maxMembers=form.cleaned_data['maxMembers']
+    #         taller.save()
+    #         messages.success(request, 'Se actualizó el taller')
+    #         return redirect('talleres')
+    #     else:
+    #         print('No se pudo actualizar')
+    #         messages.error(request,'No se pudo actualizar el taller')
+    #         return render(request,'workshop/updateWorkshop.html',{'form':form})
+    # else:
+    #     taller=Workshop.objects.get(id=idTaller)
+    #     print('==================')
+    #     print(taller.id)
+    #     print('====================')
+    #     form=updateWorkshopForm(
+    #         initial={
+    #             'id':taller.id,
+    #             'responsible':taller.responsible,
+    #             'schedule':taller.schedule,
+    #             'maxMembers':taller.maxMembers,
+    #             })
+    #     return render(request,'workshop/updateWorkshop.html',{'form':form, 'taller':taller})
 
 
 @login_required
