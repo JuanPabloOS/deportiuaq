@@ -26,15 +26,19 @@ class deleteWorkshopForm(forms.Form):
     Formulario para eliminar un equipo representativo
     """
     workshop_id= forms.ModelChoiceField(queryset=Workshop.objects.all(),label="Taller deportivo")
-    
+
 class addMemberToWorkshopForm(ModelForm):
+    
     class Meta:
         model=WsMember
         exclude=('totalAssists','absolved')
-
         labels={
-            'idWS':'Taller'
+            'idWS':''
         }
+        widgets={
+            'idWS':forms.NumberInput(attrs={'hidden':True})
+        }
+
 
 class deleteMemberToWorkshopForm(ModelForm):
     class Meta:

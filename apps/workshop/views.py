@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
@@ -65,7 +66,9 @@ def verTaller_view(request, idTaller):
                 'maxMembers':taller.maxMembers,
         })
         
-        addMemberForm=addMemberToWorkshopForm()
+        addMemberForm=addMemberToWorkshopForm(initial={
+            'idWS':taller.id
+        })
         return render(request,'workshop/editarTaller.html',{'miembros':miembros,'taller':taller,'updateForm':updateForm, 'addMemberForm':addMemberForm})
     except ObjectDoesNotExist:
         return redirect('talleres')
@@ -78,6 +81,7 @@ def verAlumnosTaller_view(request, idTaller):
         return render(request, 'workshop/verAlumnos.html', {'taller':taller,'miembros':miembros})
     except:
         return redirect('talleres')
+
 @login_required
 @user_passes_test(lambda user: user.userType=='AD')
 def createWorkshop(request):
@@ -139,15 +143,12 @@ def updateWorkshop(request, idTaller):
     """
     Editar taller deportivo
     """
-    ('jhffjg')
     form = updateWorkshopForm(request.POST)
     if form.is_valid():
         taller=Workshop.objects.get(id=form.cleaned_data['id'])
         taller.responsible=form.cleaned_data['responsible']
         scheduleStr=form.cleaned_data['schedule']
         taller.schedule=scheduleStr
-        print(dir(form))
-        print("==============")
         taller.maxMembers=form.cleaned_data['maxMembers']
         taller.save()
         messages.success(request, 'Se actualizó el taller')
@@ -156,61 +157,30 @@ def updateWorkshop(request, idTaller):
         print('No se pudo actualizar')
         messages.error(request,'No se pudo actualizar el taller')
         return redirect('verTaller', idTaller)
-    # if request.method == 'POST':
-    #     form = updateWorkshopForm(request.POST)
-    #     if form.is_valid():
-    #         print(form.cleaned_data)
-    #         taller=Workshop.objects.get(id=form.cleaned_data['id'])
-    #         taller.responsible=form.cleaned_data['responsible']
-    #         taller.schedule=form.cleaned_data['schedule'],
-    #         taller.maxMembers=form.cleaned_data['maxMembers']
-    #         taller.save()
-    #         messages.success(request, 'Se actualizó el taller')
-    #         return redirect('talleres')
-    #     else:
-    #         print('No se pudo actualizar')
-    #         messages.error(request,'No se pudo actualizar el taller')
-    #         return render(request,'workshop/updateWorkshop.html',{'form':form})
-    # else:
-    #     taller=Workshop.objects.get(id=idTaller)
-    #     print('==================')
-    #     print(taller.id)
-    #     print('====================')
-    #     form=updateWorkshopForm(
-    #         initial={
-    #             'id':taller.id,
-    #             'responsible':taller.responsible,
-    #             'schedule':taller.schedule,
-    #             'maxMembers':taller.maxMembers,
-    #             })
-    #     return render(request,'workshop/updateWorkshop.html',{'form':form, 'taller':taller})
 
-
+@require_http_methods(['POST'])
 @login_required
 @user_passes_test(lambda user: user.userType=='DC' or user.userType=='BC')
 def addMemberToWs(request):
     """
     Agregar Alumno al taller
     """
-    if request.method == 'POST':
-        form = addMemberToWorkshopForm(request.POST)
-        if form.is_valid():
-            try:
-                isAlreadyIn = WsMember.objects.get(expediente=form.cleaned_data["expediente"], idWS__period=setPeriod())
-                # print("<--------->")
-                # print(isAlreadyIn)
-                # print("<--------->")
-                messages.error(request, 'El alumno ya está registrado en otro taller')
-            except ObjectDoesNotExist:
-                form.save()
-                messages.success(request,'Registro completado')
-            return redirect('registrarAlumnoT')
-        else:
-            messages.error(request,'Error: revisa que los datos sean correctos')
-            return render(request,'workshop/addMemberToWs.html',{'form':form})
-    else:
-        form = addMemberToWorkshopForm()
-        return render(request,'workshop/addMemberToWs.html',{'form':form})
+    form = addMemberToWorkshopForm(request.POST)
+    if form.is_valid():
+        try:
+            isAlreadyIn = WsMember.objects.get(expediente=form.cleaned_data["expediente"], idWS__period=setPeriod())
+            # print("<--------->")
+            # print(isAlreadyIn)
+            # print("<--------->")
+            messages.error(request, 'El alumno ya está registrado en otro taller')
+            
+        except ObjectDoesNotExist:
+            form.save()
+            messages.success(request,'Registro completado')
+        next = request.POST.get('next', '/')
+        return HttpResponseRedirect(next)
+        
+    
 
 @login_required
 @user_passes_test(lambda user: user.userType=='DC' or user.userType=='BC')
@@ -242,8 +212,14 @@ def deleteWsMember(request):
 
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')
-def callTheRollWs(request):
-    return 
+def callTheRollWs(request, idTaller):
+    if request.method == 'POST':
+        try:
+            miembros = WsMember.objects.all(idWS=idTaller)
+        except:
+            pass
+    else:
+        pass 
 
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')

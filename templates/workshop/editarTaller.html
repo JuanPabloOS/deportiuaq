@@ -6,7 +6,8 @@ Ver taller
 
 {% block content %}
     <h1>Taller</h1>
-
+    <!-- Editar datos de un taller -->
+    <!-- No todos los datos pueden ser editados -->
     <section style="background-color:aquamarine">
         {{ taller.sport }}
         <br>
@@ -18,6 +19,7 @@ Ver taller
             <input type="submit" value="Editar">
         </form>
     </section>
+    <!-- Lista de todos los integrantesd el taller -->
     <section style="background-color:bisque">
         <table>
             <tr>
@@ -40,7 +42,28 @@ Ver taller
             {% endfor %}
         </table>
     </section>
-    
+    <!-- Sección para registrar un nuevo alumno -->
+    <section>
+        <form action="{% url 'registrarAlumnoT' %}" method='POST'>
+            {% csrf_token %}
+            {{ addMemberForm.as_p }}
+            <input type="hidden" name="next" value="{{ request.path }}">
+            <input type="submit" value="Registrar">
+        </form>
+        <!-- <label for="">Expediente:</label>
+        <input type="number" name="" id="newExpediente">
+
+        <label for="">Nombre(s):</label>
+        <input type="text" name="" id="newNombre">
+
+        <label for="">Apellidos:</label>
+        <input type="text" name="" id="newApellidos">
+
+        <label for="">Correo:</label>
+        <input type="email" name="" id="newCorreo">
+
+        <button onclick="agregarAlumno()">Registrar</button> -->
+    </section>
     
 
     <div id="modal" style="border:1px solid red;">
@@ -69,7 +92,7 @@ Ver taller
             function eliminarAlumno(){
                 var xhttp;
                 var csrftoken = '{{ csrf_token }}';
-                var idWS = '{{ taller.id }}'
+                var idWS = '{{ taller.id }}';
                 var password = document.getElementById("password").value;
                 var expediente = document.getElementById("expediente").value;
                 xhttp = new XMLHttpRequest();
@@ -97,6 +120,41 @@ Ver taller
                 
                 xhttp.send('password='+password+'&expediente='+expediente+'&idWS='+idWS);
             }
+
+            // function agregarAlumno(){
+            //     var xhttp;
+            //     var csrftoken = '{{ csrf_token }}';
+            //     var idWS = '{{ taller.id }}';
+            //     var expediente =document.getElementById("newExpediente").value;
+            //     var nombre =document.getElementById("newNombre").value;
+            //     var apellidos =document.getElementById("newApellidos").value;
+            //     var correo =document.getElementById("newCorreo").value;
+                
+            //     xhttp = new XMLHttpRequest();
+            //     xhttp.onreadystatechange = function() {
+            //         var retroalimentacion = document.getElementById("retroalimentacion");
+            //         if (this.readyState == 4 && this.status == 200) {
+            //             respuesta=JSON.parse(this.responseText);
+            //             console.log(this.responseText);
+                        
+            //             switch (respuesta.status) {
+            //                 case 0:
+            //                     retroalimentacion.innerHTML = respuesta.msg;
+            //                     break;
+            //                 case 1:
+            //                     retroalimentacion.innerHTML = respuesta.msg;
+            //                     break;
+            //                 default:
+            //                     break;
+            //             }
+            //         }
+            //     };
+            //     xhttp.open("POST", "{% url 'registrarAlumnoT' %}", true);
+            //     xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+            //     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                
+            //     xhttp.send('idWS='+idWS+'&expediente='+newExpediente+'&first_name='+newNombre+'&last_name='+newApellidos+'&mail='+newCorreo);
+            // }
             </script>
 {% endblock %}
 
