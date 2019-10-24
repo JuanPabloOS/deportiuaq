@@ -64,4 +64,4 @@ class updateWorkshopForm(forms.Form):
 class callTheRollWsForm(ModelForm):
     class Meta:
         model=CallTheRollWs
-        fields=['idUser','idWs','attended']
+        fields=['idUser','attended']

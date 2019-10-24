@@ -11,5 +11,6 @@ urlpatterns=[
     path('registrarAlumnoT/',views.addMemberToWs,name='registrarAlumnoT'),
     path('eliminarAlumnoT/',views.deleteWsMember,name='eliminarAlumnoT'),
     path('callTheRollWs/',views.callTheRollWs,name='callTheRollWs'),
-    path('absolveWs/',views.absolveWs,name='absolveWs'),
+    #path('absolveWs/',views.absolveWs,name='absolveWs'),
+    path('render_pdf_view', views.generate_pdf, name="render_pdf_view"),
 ]
