@@ -49,14 +49,36 @@ class Workshop(models.Model):
 
 
 class WsMember(models.Model):
+    PLAN_CHOICES = (
+        ('SOF11','SOF11'),
+        ('LAT11','LAT11'),
+        ('INF11','INF11'),
+        ('INC11','INC11'),
+        ('TEL11','TEL11'),
+        ('SOF18','SOF18'),
+        ('LAT18','LAT18'),
+        ('INF18','INF18'),
+        ('INC18','INC18'),
+        ('TEL18','TEL18'),
+    )
+    GROUP_CHOICES=(
+        (60,'60'),
+        (70,'70'),
+        (71,'71'),
+        (72,'72'),
+        (73,'73'),
+        (74,'74'),
+    )
     idWS=models.ForeignKey('Workshop', on_delete=models.CASCADE)
     expediente=models.IntegerField()
     first_name=models.CharField(verbose_name='Nombre(s)', max_length=30)
     last_name=models.CharField(verbose_name='Apellidos',max_length=150)
     mail=models.EmailField(verbose_name='Correo',max_length=254)
+    plan=models.CharField(choices=PLAN_CHOICES, max_length=5, default='SOF11')
+    group=models.SmallIntegerField(choices=GROUP_CHOICES, default=70)
     totalAssists=models.SmallIntegerField(verbose_name='Total asistencias', blank=True, null=True)
     absolved=models.BooleanField(verbose_name='Absuelto',default=False, blank=True)
-
+    
     class Meta:
         verbose_name='Miembro de taller'
         verbose_name_plural='Miembros de taller'

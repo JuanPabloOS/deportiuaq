@@ -22,7 +22,6 @@ from .forms import deleteMemberToWorkshopForm
 from .forms import updateWorkshopForm
 from .forms import addMemberToWorkshopForm
 #PDF
-from .utils import render_to_pdf
 import io
 from django.http import FileResponse
 from reportlab.pdfgen import canvas
@@ -227,115 +226,38 @@ def callTheRollWs(request, idTaller):
     else:
         pass
 
-import os
-from django.conf import settings
-from django.template import Context
-from django.template.loader import get_template
-from xhtml2pdf import pisa
-
-def link_callback(uri, rel):
-    """
-    Convert HTML URIs to absolute system paths so xhtml2pdf can access those
-    resources
-    """
-    # use short variable names
-    sUrl = settings.STATIC_URL      # Typically /static/
-    sRoot = settings.STATIC_ROOT    # Typically /home/userX/project_static/
-    mUrl = settings.MEDIA_URL       # Typically /static/media/
-    mRoot = settings.MEDIA_ROOT     # Typically /home/userX/project_static/media/
-
-    # convert URIs to absolute system paths
-    if uri.startswith(mUrl):
-        path = os.path.join(mRoot, uri.replace(mUrl, ""))
-    elif uri.startswith(sUrl):
-        path = os.path.join(sRoot, uri.replace(sUrl, ""))
-    else:
-        return uri  # handle absolute uri (ie: http://some.tld/foo.png)
-
-    # make sure that file exists
-    if not os.path.isfile(path):
-            raise Exception(
-                'media URI must start with %s or %s' % (sUrl, mUrl)
-            )
-    return path
-
-def render_pdf_view(request):
-    template_path = 'workshop/pdfLiberacionTaller.html'
-   
-    context = {'myvar': 'this is your template context'}
-    # Create a Django response object, and specify content_type as pdf
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-    # find the template and render it.
-    template = get_template(template_path)
-    html = template.render({'context':'hi'})
-
-    # create a pdf
-    pisaStatus = pisa.CreatePDF(
-       html, dest=response, link_callback=link_callback)
-    # if error then show some funy view
-    if pisaStatus.err:
-       return HttpResponse('We had some errors <pre>' + html + '</pre>')
-    return response
-def generate_pdf(request):
-    template = 'workshop/pdfLiberacionTaller.html'
-    context = {'myvar': 'this is your template context'}
-    pdf = render_to_pdf(template, context)
-    if pdf:
-        response = HttpResponse(pdf, content_type='application/pdf')
-        filename = "Liberaciones.pdf"
-        content = "inline; filename='%s'" % filename
-        download = request.GET.get("download")
-        if download:
-            content = "attachment; filename='%s'" % filename
-        response['Content-Disposition'] = content
-        return response
-    return HttpResponse("Not found")
 # @login_required
 # @user_passes_test(lambda user: user.userType=='DC')
-# def absolveWs(request):
-#     alumnos = list(WsMember.objects.all())
-#     buffer = io.BytesIO()
-#     p = canvas.Canvas(buffer, pagesize=A4)
-#     p.drawString(100,750,'Carta de liberación de taller')
-#     p.drawString(100, 100, alumnos[0].first_name)
-#     alumnos.pop()
-#     p.showPage()
-#     p.save()
+def absolveWs(request):
+    
+    alumnos = list(WsMember.objects.all())
+    w, h = A4
+    buffer = io.BytesIO()
+    p = canvas.Canvas(buffer, pagesize=A4)
+    p.setFont("Times-Roman", 20)
+    p.drawString(150,h-150,'FACULTAD DE INFORMÁTICA')
+    p.setFont("Times-Roman", 18)
+    p.drawString(155,h-180,'COORDINACIÓN DE DEPORTES')
+    p.setFont("Times-Roman", 12)
+    p.drawString(175,h-200,'TALLERES DE DESARROLLO HUMANO')
+    p.setFont("Times-Roman", 14)
+    p.drawString(215,h-230,'FORMATO DE LIBERACIÓN')
 
-#     # FileResponse sets the Content-Disposition header so that browsers
-#     # present the option to save the file.
-#     buffer.seek(0)
-#     return FileResponse(buffer, as_attachment=False, filename='Liberación de talleres.pdf')
+    p.drawString(100,h-300,'Disciplina de taller: Basquetbol')
+    p.drawString(100,h-316,'Nombre: '+alumnos[0].first_name)
+    p.drawString(100,h-332,'Carrera: SOF11 Grupo: 73 Matrícula: 242798')
+    p.drawString(100,h-348,'Por medio de la presente, se hace la notificación de manera oficial, que el')
+    p.drawString(100,h-364,'alumno cumplió satisfactoriamente su estadía participando en el Taller')
+    p.drawString(100,h-380,'Deportivo de:')
+    p.drawString(100,h-396,'Tiro con arco')
+    p.drawString(100,h-412,'en el período comprendido de agosto-diciembre 2019.')
+    p.drawString(100,h-450,'Se extiende la presente para los efectos que al interesado convengan.')
 
+    alumnos.pop()
+    p.showPage()
+    p.save()
 
-
-
-# @login_required
-# @user_passes_test(lambda user: user.userType=='DC')
-# def absolveWs(request):
-#     alumnos = list(WsMember.objects.all())
-#     #lista = ['Juan','Aris','Eladio','Tony','Diego','Carlos']
-#     # Create a file-like buffer to receive PDF data.
-#     buffer = io.BytesIO()
-
-#     # Create the PDF object, using the buffer as its "file."
-#     p = canvas.Canvas(buffer, pagesize=landscape(letter))
-
-#     while len(alumnos)>=2:
-#         p.drawString(100, 100, alumnos[0].first_name)
-#         alumnos.pop(0)
-#         p.drawString(150, 100, alumnos[1].first_name)
-#         alumnos.pop(0)
-#         p.showPage()
-
-#     if len(alumnos)>0:
-#         p.drawString(100, 100, alumnos[0].first_name)
-#         alumnos.pop()
-#         p.showPage()
-#     p.save()
-
-#     # FileResponse sets the Content-Disposition header so that browsers
-#     # present the option to save the file.
-#     buffer.seek(0)
-#     return FileResponse(buffer, as_attachment=False, filename='Liberación de talleres.pdf')
+    # FileResponse sets the Content-Disposition header so that browsers
+    # present the option to save the file.
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=False, filename='Liberación de talleres.pdf')
