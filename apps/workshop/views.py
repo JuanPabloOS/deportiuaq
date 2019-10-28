@@ -21,7 +21,12 @@ from .forms import deleteWorkshopForm
 from .forms import deleteMemberToWorkshopForm
 from .forms import updateWorkshopForm
 from .forms import addMemberToWorkshopForm
-# Create your views here.
+#PDF
+import io
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter, landscape, A4
+#Específico para obtener el período actual
 import datetime
 # Create your views here.
 def setPeriod():
@@ -219,12 +224,40 @@ def callTheRollWs(request, idTaller):
         except:
             pass
     else:
-        pass 
+        pass
 
-@login_required
-@user_passes_test(lambda user: user.userType=='DC')
+# @login_required
+# @user_passes_test(lambda user: user.userType=='DC')
 def absolveWs(request):
-    """
-    Liberación de taller
-    """
-    pass
+    
+    alumnos = list(WsMember.objects.all())
+    w, h = A4
+    buffer = io.BytesIO()
+    p = canvas.Canvas(buffer, pagesize=A4)
+    p.setFont("Times-Roman", 20)
+    p.drawString(150,h-150,'FACULTAD DE INFORMÁTICA')
+    p.setFont("Times-Roman", 18)
+    p.drawString(155,h-180,'COORDINACIÓN DE DEPORTES')
+    p.setFont("Times-Roman", 12)
+    p.drawString(175,h-200,'TALLERES DE DESARROLLO HUMANO')
+    p.setFont("Times-Roman", 14)
+    p.drawString(215,h-230,'FORMATO DE LIBERACIÓN')
+
+    p.drawString(100,h-300,'Disciplina de taller: Basquetbol')
+    p.drawString(100,h-316,'Nombre: '+alumnos[0].first_name)
+    p.drawString(100,h-332,'Carrera: SOF11 Grupo: 73 Matrícula: 242798')
+    p.drawString(100,h-348,'Por medio de la presente, se hace la notificación de manera oficial, que el')
+    p.drawString(100,h-364,'alumno cumplió satisfactoriamente su estadía participando en el Taller')
+    p.drawString(100,h-380,'Deportivo de:')
+    p.drawString(100,h-396,'Tiro con arco')
+    p.drawString(100,h-412,'en el período comprendido de agosto-diciembre 2019.')
+    p.drawString(100,h-450,'Se extiende la presente para los efectos que al interesado convengan.')
+
+    alumnos.pop()
+    p.showPage()
+    p.save()
+
+    # FileResponse sets the Content-Disposition header so that browsers
+    # present the option to save the file.
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=False, filename='Liberación de talleres.pdf')

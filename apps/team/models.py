@@ -58,7 +58,7 @@ class TeamMember(models.Model):
 class Match(models.Model):
     RIVAL_OPTIONS=(
         ('FBA','Bellas Artes'),
-        ('FCP','Ciencias Políticas'),
+        ('FCP','Ciencias Políticas y Sociales'),
         ('FCA','Contaduría y Administración'),
         ('FDE','Derecho'),
         ('FEN','Enfermería'),    
@@ -90,6 +90,5 @@ class Player(models.Model):
 
 class CallTheRollTeam(models.Model):
     idUser=models.ForeignKey('TeamMember', on_delete=models.CASCADE)
-    idTeam=models.ForeignKey('Team', on_delete=models.CASCADE)
     date=models.DateField(auto_now=True)
     attended=models.BooleanField(default=False)
