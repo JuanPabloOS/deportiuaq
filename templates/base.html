@@ -13,7 +13,7 @@
       src="https://use.fontawesome.com/releases/v5.8.1/js/all.js"
       integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ"
       crossorigin="anonymous"></script>
-    <script src="{% static 'js/functions.js' %}"></script>
+    <script defer src="{% static 'js/functions.js' %}"></script>
 </head>
 <body>
     <div class="absolute-container flex-container light-grey">
@@ -24,56 +24,59 @@
             <div class="info-title flex-container title-menu bg-white">
                 <p>MENU</p>
             </div>
-            <div class="option-container flex-container">
+            <div class="menu-container">
+            <!-- MENUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU -->
+            <style>
+            .menu-container{
+                padding: 1rem;
+                box-sizing: border-box;
+            }
+            .active, .collapsible:hover {
+                background-color: #555;
+            }
 
-                <div class="light-option option-active"></div>
-                <div class="option-content flex-container option-active" onclick="location.href='{% url 'home' %}'">
-                    <p><i class="fas fa-bars"></i><span>Inicio</span></p>
-                </div>
+            .option-list {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                margin-top: 2px;
+            }
+            .option-menu{
+                display: block;
+                width: 100%;
+                text-decoration: none;
+                color: #707070;
+                font-size: .8rem;
+                padding-left: 2rem !important;
+                box-sizing: border-box;
+                background: #ededed;
+            }
+            </style>
+            <!-- INICIO -->
+            <button class="option-content option-active" onclick="location.href='{% url 'home' %}'"><i class="fas fa-home"></i><span>Inicio</span></button>
+            <!-- MULTIPLES -->
+            <button class="option option-content"><i class="fas fa-clipboard-list">x</i><span>Múltiples</span></button>
+            <div class="option-list">
+                <a class="option-menu option-content" href="#"><i class="fas fa-clipboard-list">x</i><span>Alta</span></a>
+                <a class="option-menu option-content" href="#"><i class="fas fa-clipboard-list">x</i><span>Baja</span></a>
+                <a class="option-menu option-content" href="#"><i class="fas fa-clipboard-list">x</i><span>Cambio</span></a>
+                <a class="option-menu option-content" href="#"><i class="fas fa-clipboard-list">x</i><span>Eliminar</span></a>
             </div>
-
-            <div class="option-container flex-container">
-                <div class="light-option"></div>
-                <div class="option-content flex-container">
-                    <p><i class="fas fa-list">x</i><span>Opción 1</span></p>
-                </div>
-            </div>
-            
-            <div class="option-container flex-container" onclick="location.href='{% url 'talleres' %}'">
-                <div class="light-option"></div>
-                <div class="option-content flex-container">
-                    <p><i class="fas fa-clipboard-list"></i><span>Talleres</span></p>
-                </div>
-            </div>
-
-            <div class="option-container flex-container" onclick="location.href='{% url 'registrarBecario' %}'">
-                <div class="light-option"></div>
-                <div class="option-content flex-container">
-                    <p><i class="fas fa-user"></i><span>Registrar Becario</span></p>
-                </div>
-            </div>
+            <!-- TALLERES -->
+            <button class="option-content" onclick="location.href='{% url 'talleres' %}'"><i class="fas fa-clipboard-list"></i><span>Talleres</span></button>
+            <!-- BECARIOS -->
+            <button class="option-content" onclick="location.href='{% url 'registrarBecario' %}'"><i class="fas fa-user"></i><span>Registrar Becario</span></button>
 
             {% if user.userType == 'AD' %}
-            <div class="option-container flex-container" onclick="location.href='{% url 'registrarDocente' %}'">
-                <div class="light-option"></div>
-                <div class="option-content flex-container">
-                    <p><i class="fas fa-user-tie"></i><span>Registrar Docente</span></p>                          
-                </div>
-            </div>
-            
-            <div class="option-container flex-container" onclick="location.href='{% url 'resetPassword' %}'">
-                <div class="light-option"></div>
-                <div class="option-content flex-container">
-                    <p><i class="fas fa-lock-open"></i><span>Restablecer contraseña</span></p>
-                </div>
-            </div>
+                <!-- DOCENTES -->
+                <button class="option-content" onclick="location.href='{% url 'registrarDocente' %}'"><i class="fas fa-user-tie"></i><span>Registrar Docente</span></button>
+                <!-- RESETEAR CONSTRASEÑA -->
+                <button class="option-content" onclick="location.href='{% url 'resetPassword' %}'"><i class="fas fa-lock-open"></i><span>Restablecer contraseña</span></button>
             {% endif %}
 
-            <div class="option-container flex-container" onclick="location.href='{% url 'changePassword' %}'">
-                <div class="light-option"></div>
-                <div class="option-content flex-container">
-                    <p><i class="fas fa-key"></i><span>Contraseña</span></p>
-                </div>
+            <!-- CAMBIAR CONSTRASEÑA -->
+            <button class="option-content" onclick="location.href='{% url 'changePassword' %}'"><i class="fas fa-key"></i><span>Contraseña</span></button>
+            <!-- MENUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU -->
             </div>
         </div>
         <div class="right-container flex-container column-container">

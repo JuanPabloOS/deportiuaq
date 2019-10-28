@@ -107,7 +107,7 @@ h1 {
   width: 100%;
 }
 .option-container {
-  height: calc(100% / 12);
+  min-height: calc(100% / 12);
   width: 100%;
   align-items: center;
   padding-right: 20px;
@@ -120,21 +120,26 @@ h1 {
   margin-right: 10px;
 }
 .option-content {
-  height: 60%;
-  width: 97.8%;
   border-radius: 6px;
   align-items: center;
   padding-left: 15px;
   box-sizing: border-box;
   font-size: 0.8rem;
-  color: var(--gray);
+  color: var(--gray) !important;
   cursor: pointer;
+  background: none;
+  padding: .5rem;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  margin-top: .5rem;
 }
 .option-content:hover {
-  background-color: var(--light-green);
-  color: var(--white);
+  background-color: var(--dark-green) !important;
+  color: var(--white) !important;
   font-weight: 500;
-  font-size: .76rem;
+  /* font-size: .76rem; */
 }
 .option-content li {
   margin-right: 10px;
@@ -143,7 +148,12 @@ h1 {
   margin-left: 10px;
 }
 .option-active {
-  background-color: var(--light-green);
+  background-color: var(--light-green) !important;
+  color: var(--white) !important;
+  font-weight: 500;
+}
+.option-active-list {
+  background-color: var(--light-green) !important;
   color: var(--white) !important;
   font-weight: 500;
 }
