@@ -1,6 +1,6 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,32 +26,6 @@
             </div>
             <div class="menu-container">
             <!-- MENUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU -->
-            <style>
-            .menu-container{
-                padding: 1rem;
-                box-sizing: border-box;
-            }
-            .active, .collapsible:hover {
-                background-color: #555;
-            }
-
-            .option-list {
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height 0.2s ease-out;
-                margin-top: 2px;
-            }
-            .option-menu{
-                display: block;
-                width: 100%;
-                text-decoration: none;
-                color: #707070;
-                font-size: .8rem;
-                padding-left: 2rem !important;
-                box-sizing: border-box;
-                background: #ededed;
-            }
-            </style>
             <!-- INICIO -->
             <button class="option-content option-active" onclick="location.href='{% url 'home' %}'"><i class="fas fa-home"></i><span>Inicio</span></button>
             <!-- MULTIPLES -->

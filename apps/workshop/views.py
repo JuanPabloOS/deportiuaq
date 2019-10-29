@@ -185,7 +185,8 @@ def addMemberToWs(request):
         next = request.POST.get('next', '/')
         return HttpResponseRedirect(next)
         
-    
+def match(request):
+    return render(request, 'workshop/createMatch.html')
 
 @login_required
 @user_passes_test(lambda user: user.userType=='DC' or user.userType=='BC')

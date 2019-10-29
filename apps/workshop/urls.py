@@ -12,4 +12,5 @@ urlpatterns=[
     path('eliminarAlumnoT/',views.deleteWsMember,name='eliminarAlumnoT'),
     path('callTheRollWs/',views.callTheRollWs,name='callTheRollWs'),
     path('absolveWs/',views.absolveWs,name='absolveWs'),
+    path('match/', views.match,name="match"),
 ]
