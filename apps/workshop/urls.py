@@ -10,7 +10,7 @@ urlpatterns=[
     path('actualizarTaller/<int:idTaller>/',views.updateWorkshop,name='actualizarTaller'),
     path('registrarAlumnoT/',views.addMemberToWs,name='registrarAlumnoT'),
     path('eliminarAlumnoT/',views.deleteWsMember,name='eliminarAlumnoT'),
-    path('callTheRollWs/',views.callTheRollWs,name='callTheRollWs'),
+    path('callTheRollWs/<int:idTaller>/',views.callTheRollWs,name='callTheRollWs'),
     path('absolveWs/',views.absolveWs,name='absolveWs'),
     path('match/', views.match,name="match"),
 ]

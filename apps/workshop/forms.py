@@ -15,7 +15,7 @@ class createWorkshopForm(ModelForm):
     )
     class Meta:
         model= Workshop
-        exclude=['totalAttendances','period','responsible']
+        exclude=['totalAttendances','period','responsible','totalMembers']
 
         labels={
             'maxMembers':'Especifique un máximo de integrantes si es el caso'
@@ -64,4 +64,4 @@ class updateWorkshopForm(forms.Form):
 class callTheRollWsForm(ModelForm):
     class Meta:
         model=CallTheRollWs
-        fields=['idUser','attended']
+        fields=['attended']

@@ -92,7 +92,7 @@ Ver taller
             function eliminarAlumno(){
                 var xhttp;
                 var csrftoken = '{{ csrf_token }}';
-                var idWS = '{{ taller.id }}';
+                var idWs = '{{ taller.id }}';
                 var password = document.getElementById("password").value;
                 var expediente = document.getElementById("expediente").value;
                 xhttp = new XMLHttpRequest();
@@ -118,7 +118,7 @@ Ver taller
                 xhttp.setRequestHeader("X-CSRFToken", csrftoken);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 
-                xhttp.send('password='+password+'&expediente='+expediente+'&idWS='+idWS);
+                xhttp.send('password='+password+'&expediente='+expediente+'&idWs='+idWs);
             }
 
             // function agregarAlumno(){
