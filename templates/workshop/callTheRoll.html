@@ -5,6 +5,26 @@ Pase de lista
 {% endblock %}
 
 {% block content %}
-
-
+    <table>
+        <tr>
+            <th>Alumno</th>
+            
+            {% for sesion in sesiones %}
+                <th>{{ sesion.date }}</th>
+            {% endfor %}
+        </tr>
+        {% for alumno, asistenciaValues in asistencias.items %}
+            <tr>
+               <td>{{ alumno }}</td>
+               {% for key in asistenciaValues %}
+                <td><input disabled type="checkbox" name="" id="" {% if key.attended %}selected{% endif %}></td>
+               {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+    <script>
+    window.onload = function(){
+        console.log({{ asistencias }})
+    }
+    </script>
 {% endblock %}
