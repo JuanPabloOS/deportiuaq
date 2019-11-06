@@ -5,26 +5,70 @@ Pase de lista
 {% endblock %}
 
 {% block content %}
-    <table>
+
+<table>
+    <tr>
+        <th>Alumno</th>
+        {% for sesion in sesiones %}
+            {% if forloop.last %}
+                {% load current_date %}
+                {% if sesion.date|compare_date is True %}
+                    <th>Hoy</th>
+                {% else %}
+                    <th>{{ sesion.date|date:"SHORT_DATE_FORMAT" }}</th>
+                    <th>Hoy</th>
+                {% endif %}
+            {% else %}
+                <th>{{ sesion.date|date:"SHORT_DATE_FORMAT" }}</th>
+            {% endif %}
+        {% endfor %}
+    </tr>
+    {% for miembro in miembros %}
         <tr>
-            <th>Alumno</th>
-            
-            {% for sesion in sesiones %}
-                <th>{{ sesion.date }}</th>
+            <td>{{ miembro }}</td>
+            {% for asistencia in miembro.get_attendances.all %}
+                {% if forloop.last %}
+                    {% load current_date %}
+                    
+                    {% if asistencia.idSesion.date|compare_date is True %}
+                        <td><input type="checkbox" class="checkAttendance" name="{{ miembro.id }}" id="{{ miembro.id }}" {% if asistencia.attended %}checked{% endif %}></td>
+                    {% else %}
+                        <td><input type="checkbox" {% if asistencia.attended %}checked{% endif %} disabled></td>
+                        <td><input type="checkbox" class="checkAttendance" name="{{ miembro.id }}" id=""></td>
+                    {% endif %}
+                {% else %}
+                        <td><input type="checkbox" {% if asistencia.attended %}checked{% endif %} disabled></td>
+                {% endif %}
             {% endfor %}
         </tr>
-        {% for alumno, asistenciaValues in asistencias.items %}
-            <tr>
-               <td>{{ alumno }}</td>
-               {% for key in asistenciaValues %}
-                <td><input disabled type="checkbox" name="" id="" {% if key.attended %}selected{% endif %}></td>
-               {% endfor %}
-            </tr>
-        {% endfor %}
-    </table>
-    <script>
-    window.onload = function(){
-        console.log({{ asistencias }})
-    }
-    </script>
+    {% endfor %}
+    
+    
+    
+</table>
+<button id="callTheRoll">Tomar asistencia</button>
+
+<script>
+    document.getElementById("callTheRoll").addEventListener("click", (e)=>{
+        var attendancesNodes = document.querySelectorAll("input[type=checkbox]:checked.checkAttendance")
+        console.log(attendancesNodes)
+        var attendances = []
+        attendancesNodes.forEach((x)=>{
+            attendances.push(x.getAttribute("name"))
+        })
+        console.log(attendances)
+        var xhttp;
+        var csrftoken = '{{ csrf_token }}';
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            var retroalimentacion = document.getElementById("retroalimentacion");
+            if (this.readyState == 4 && this.status == 200) {
+            }
+        }
+        xhttp.open("POST", "{{ request.path }}", true);
+        xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("attendances="+attendances);
+    })
+</script>
 {% endblock %}

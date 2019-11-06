@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
@@ -224,36 +225,44 @@ from django.db.models import Count
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')
 def callTheRollWs(request, idTaller):
+    #El request tipo POST regresa un JSON
     if request.method == 'POST':
+        # Registrar las asistencias o retardos por POST
         try:
-            pass
-        except:
-            pass
-    else:
-        
+            try: 
+                # Ya existe una sesión para el día de hoy
+                #Recuperar la sesión
+                sesionExistente = Sesion.objects.get(idWs=idTaller,date=datetime.date.today())
+                asistencias = CallTheRollWs.objects.filter(idSesion=sesionExistente) #recuperar las asistencias de la sesion
+                for asistencia in asistencias:
+                    if str(asistencia.idWsMember_id) in request.POST['attendances']:
+                        asistencia.attended = True
+                        asistencia.save()
+                    else:
+                        print("inasistencia")
+                        asistencia.attended = False
+                        asistencia.save()
+                return JsonResponse({'status':1, 'msg':'Pase de lista actualizado'})
+            except ObjectDoesNotExist:
+                # No existe una sesión para el día de hoy, por lo tanto se crea
+                idWsInstance = get_object_or_404(Workshop, id=idTaller)
+                todaySesion = Sesion(idWs=idWsInstance, date=datetime.date.today())
+                todaySesion.save()
+                alumnos = WsMember.objects.filter(idWs=idTaller)
+                for alumno in alumnos:
+                    if str(alumno.id) in request.POST['attendances']:
+                        CallTheRollWs(idWsMember=alumno, idSesion=todaySesion, attended=True).save()
+                    else:
+                        CallTheRollWs(idWsMember=alumno, idSesion=todaySesion, attended=False).save()
+                return JsonResponse({'status':1, 'msg':'Se ha tomado el pase de lista'})
+        except Exception as e:
+            return JsonResponse({'status':0,'msg':'No se ha podido pasar lista, intenta de nuevo'})
+    else: #El request tipo GET regresa un
         asistencias = dict()                                     #Declarar el conjunto de todas las asistencias por alumno
-
         sesiones = Sesion.objects.filter(idWs=idTaller).values() #Obtener las sesiones del taller corresóndiente
-        for sesion in sesiones:
-            sesion['date'] =  datetime.date.strftime(sesion['date'],'%d/%m/%y')
-        #print("===============sesiones")
-        #print(sesiones)
         miembros = WsMember.objects.filter(idWs=idTaller).order_by('last_name') #Buscar los miembros inscritos en el taller
-        for miembro in miembros:#Por cada integrante del taller hacer lo siguiente
-            attendances = CallTheRollWs.objects.filter(idSesion__idWs=idTaller, idWsMember=miembro.id).values() #obtener asistencias por integrante
-            a =dict() #declarar el subconjunto de asistencias como diccionario
-            for attendance in attendances: #por cada instancia en el queryset hacer lo siguiente
-                #crear una nueva posición en 'a' con el idSesion_id de la instancia 
-                #como llave y agregarle la misma instancia
-                
-                a[attendance['idSesion_id']]=attendance
-            asistencias[miembro]=list(a);   #Agregar el subconjunto de asistencias 
-                                            #en el conjunto de asistencias por cada miembro del taller
-        # print("==============")
-        # print(asistencias)
         return render(request,'workshop/callTheRoll.html',{'sesiones':sesiones,'asistencias':asistencias, 'miembros':miembros})
-        
-   
+
 # @login_required
 # @user_passes_test(lambda user: user.userType=='DC')
 def absolveWs(request):

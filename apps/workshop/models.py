@@ -95,13 +95,6 @@ class WsMember(models.Model):
             ws.totalMembers+=1
             ws.save()
         return super(WsMember, self).save(*args,**kwargs)
-        
-
-    def delete(self, *args, **kwargs):
-        ws=Workshop.objects.get(id=self.idWs.id)
-        ws.totalMembers-=1
-        ws.save()
-        return super(WsMember, self).delete(*args,**kwargs)
 
     def __str__(self):
         return '%s %s' %(self.last_name, self.first_name)
@@ -122,8 +115,8 @@ class Sesion(models.Model):
             return super(Sesion, self).save(*args, **kwargs)
 
 class CallTheRollWs(models.Model):
-    idWsMember=models.ForeignKey('WsMember', on_delete=models.CASCADE)
-    idSesion=models.ForeignKey('Sesion',on_delete=models.CASCADE)
+    idWsMember=models.ForeignKey('WsMember', on_delete=models.CASCADE, related_name='get_attendances')
+    idSesion=models.ForeignKey('Sesion',on_delete=models.CASCADE, related_name="get_sesion")
     attended=models.BooleanField(default=False)
     
     def __str__(self):
