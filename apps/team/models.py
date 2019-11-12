@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ObjectDoesNotExist
 # Create your models here.
 class Team(models.Model):
     VARONIL='Varonil'
@@ -88,7 +89,29 @@ class Player(models.Model):
         verbose_name='Jugador'
         verbose_name_plural='Jugadores'
 
+class Sesion(models.Model):
+    idTeam=models.ForeignKey('Team', on_delete=models.CASCADE)
+    date=models.DateField()
+
+    def __str__(self):
+        return '%s %s' %(self.idTeam, self.date)
+
+    def save(self, *args, **kwargs):
+        #Evitar sesiones duplicadas
+        try:
+            alreadyExists = Sesion.objects.get(date=self.date)
+            return False
+        except ObjectDoesNotExist:
+            return super(Sesion, self).save(*args, **kwargs)
+
 class CallTheRollTeam(models.Model):
-    idUser=models.ForeignKey('TeamMember', on_delete=models.CASCADE)
-    date=models.DateField(auto_now=True)
+    idTeamMember=models.ForeignKey('TeamMember', on_delete=models.CASCADE, related_name='get_attendances')
+    idSesion=models.ForeignKey('Sesion',on_delete=models.CASCADE, related_name="get_sesion")
     attended=models.BooleanField(default=False)
+    
+    def __str__(self):
+        return '%s %s' %(self.attended, self.idTeamMember)
+
+    class Meta:
+        verbose_name='Asistencia'
+        verbose_name_plural='Asistencias'

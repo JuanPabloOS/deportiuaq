@@ -11,6 +11,7 @@ from .models import TeamMember
 from .models import Match
 from .models import Player
 from .models import CallTheRollTeam
+from .models import Sesion
 #formularios
 from .forms import createTeamForm
 from .forms import deleteTeamForm
@@ -37,6 +38,14 @@ def setPeriod():
     else:
         period=str(year)+'-2'
     return period
+
+@login_required
+def talleres_view(request):
+    """
+    Lista todos los equipos
+    """
+    equipos = Team.objects.all()
+    return render(request, 'workshop/equipos.html', {'equipos':equipos})
 
 @login_required
 @user_passes_test(lambda user: user.userType=='AD')
@@ -147,13 +156,47 @@ def deleteTeamMember(request):
             form=deleteMemberToTeamForm()
             return render(request,'team/deleteMemberToTeam.html',{'form':form})
 
+
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')
-def callTheRollTeam(request):
-    """
-    Pasar lista
-    """
-    pass
+def callTheRollTeam(request, idTeam):
+    #El request tipo POST regresa un JSON
+    if request.method == 'POST':
+        # Registrar las asistencias o retardos por POST
+        try:
+            try: 
+                # Ya existe una sesión para el día de hoy
+                #Recuperar la sesión
+                sesionExistente = Sesion.objects.get(idTeam=idTeam,date=datetime.date.today())
+                asistencias = CallTheRollTeam.objects.filter(idSesion=sesionExistente) #recuperar las asistencias de la sesion
+                for asistencia in asistencias:
+                    if str(asistencia.idWsMember_id) in request.POST['attendances']:
+                        asistencia.attended = True
+                        asistencia.save()
+                    else:
+                        print("inasistencia")
+                        asistencia.attended = False
+                        asistencia.save()
+                return JsonResponse({'status':1, 'msg':'Pase de lista actualizado'})
+            except ObjectDoesNotExist:
+                # No existe una sesión para el día de hoy, por lo tanto se crea
+                idTeamInstance = get_object_or_404(Workshop, id=idTeam)
+                todaySesion = Sesion(idWs=idTeamInstance, date=datetime.date.today())
+                todaySesion.save()
+                alumnos = TeamMember.objects.filter(idTeam=idTeam)
+                for alumno in alumnos:
+                    if str(alumno.id) in request.POST['attendances']:
+                        CallTheRollTeam(idTeamMember=alumno, idSesion=todaySesion, attended=True).save()
+                    else:
+                        CallTheRollTeam(idTeamMember=alumno, idSesion=todaySesion, attended=False).save()
+                return JsonResponse({'status':1, 'msg':'Se ha tomado el pase de lista'})
+        except Exception as e:
+            return JsonResponse({'status':0,'msg':'No se ha podido pasar lista, intenta de nuevo'})
+    else: #El request tipo GET regresa un
+        asistencias = dict()                                     #Declarar el conjunto de todas las asistencias por alumno
+        sesiones = Sesion.objects.filter(idTeam=idTeam).values() #Obtener las sesiones del taller corresóndiente
+        miembros = TeamMember.objects.filter(idTeam=idTeam).order_by('last_name') #Buscar los miembros inscritos en el taller
+        return render(request,'team/callTheRoll.html',{'sesiones':sesiones,'asistencias':asistencias, 'miembros':miembros})
 
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')

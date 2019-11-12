@@ -219,9 +219,7 @@ def deleteWsMember(request):
             form=deleteMemberToWorkshopForm()
             return render(request,'workshop/deleteMemberToWs.html',{'form':form})
 
-from django.core import serializers
-from django.db.models import Prefetch
-from django.db.models import Count
+
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')
 def callTheRollWs(request, idTaller):
