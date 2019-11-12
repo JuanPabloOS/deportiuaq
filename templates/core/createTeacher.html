@@ -4,7 +4,11 @@
 
 {% block content %}
 <div class="base-container flex-container center-content">
-    <div class="form-container flex-container column-container center-content">
+    <div class="table-left flex-container">
+        <h2>Docentes</h2>
+
+    </div>
+    <div class="form-right flex-container column-container center-content">
         <h1>Registrar docente</h1>
             <form method="POST" class="form-group">
                 {% csrf_token %}
@@ -14,8 +18,8 @@
                     {% for message in messages %}
                         {{ message }}
                         <script defer>
-                        lauch_toast();
-                        </script>
+                                lauch_toast();
+                                </script>
                     {% endfor %}
                 {% endif %}
             </form>

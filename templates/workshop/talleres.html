@@ -5,21 +5,43 @@ Talleres Deportivos
 {% endblock %}
 
 {% block content %}
-<table>
-    {% for taller in talleres %}
-
-    <tr>
-        <td>
-                {{ taller.sport }} {{ taller.branch }}
-        </td>
-        <td>
-            <a href="{% url 'actualizarTaller' taller.id %}">Editar</a>
-            <button>Eliminar</button>
-        </td>
-        
-    </tr>
-    {% endfor %}
-</table>
+<div class="base-container flex-container workshop-space">
+        {% for taller in talleres %}
+            <div class="workshop-container flex-container">
+                <div class="workshop-icon flex-container center-content">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <div class="workshop-content flex-container">
+                    <div class="workshop-title flex-container">
+                        {{ taller.sport }}
+                    </div>
+                    <div class="workshop-inscribed flex-container">
+                        Inscritos: {{ taller.maxMembers }}
+                    </div>
+                    <div class="workshop-teacher flex-container">
+                        Docente: {{ taller.responsible }}
+                    </div>
+                    <div class="workshop-options flex-container">
+                        <div class="workshop-option flex-container" onclick="location.href='{% url 'verTaller' taller.id %}'">
+                            Editar taller
+                        </div>
+                        <div class="workshop-option flex-container" onclick="location.href='{% url 'verAlumnosTaller' taller.id %}'">
+                            Ver integrantes
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- <tr>
+            <td>
+                    <a href="{% url 'verTaller' taller.id %}">{{ taller.sport }} {{ taller.branch }}</a>
+            </td>
+            <td>
+                <a href="{% url 'verTaller' taller.id %}">Editar taller</a>
+                <button><a href="{% url 'verAlumnosTaller' taller.id %}">Ver integrantes</a></button>
+            </td>
+            
+        </tr> -->
+        {% endfor %}
 <script>
 // function eliminarTaller(idTaller){
 //     var xhttp = new XMLHttpRequest();
@@ -36,5 +58,5 @@ Talleres Deportivos
 </script>
 
 
-
+</div>
 {% endblock %}
