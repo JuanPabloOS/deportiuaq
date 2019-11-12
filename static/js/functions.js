@@ -22,3 +22,23 @@ var launch_toast = ()=>{
 function hi(){
 	alert("adad");
 }
+// MODAL EDITAR TALLER
+document.getElementById("btn-edit").addEventListener("click",()=>{
+  let modal1 = document.getElementById("modal-workshop").style.display="flex";
+});
+// CERRAR MODAL DE EDITAR TALLER
+document.getElementById("modal-btn2").addEventListener("click",()=>{
+  var modal = document.getElementById("modal-workshop").style.display="none";
+});
+
+
+
+// MODAL AGREGAR ALUMNO
+document.getElementById("addmember").addEventListener("click",()=>{
+  let modal1 = document.getElementById("modal-addmember").style.display="flex";
+});
+
+// CERRAR MODAL DE EDITAR TALLER
+document.getElementById("closeadd").addEventListener("click",()=>{
+  var modal = document.getElementById("modal-addmember").style.display="none";
+});
