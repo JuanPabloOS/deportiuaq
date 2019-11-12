@@ -22,12 +22,32 @@ a {
   --dark-green: #1ed1bb;
   --text: #2e2e2e;
 }
+::-webkit-scrollbar {
+  width: 10px;
+  /* display: none; */
+}
+textarea::-webkit-scrollbar-track{
+  background: #d1cece;
+}
+::-webkit-scrollbar-track {
+  background: white;
+  /* background: transparent; */
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: var(--gray);
+}
 .base-container{
     width: 100%; 
     height: 100%;
 }
 h1 {
   font-size: 1.3rem;
+  font-weight: 400;
+}
+h2 {
+  font-size: 1.1rem;
   font-weight: 400;
 }
 .light-grey {
@@ -91,7 +111,7 @@ h1 {
   width: 100%;
 }
 .option-container {
-  height: calc(100% / 12);
+  min-height: calc(100% / 12);
   width: 100%;
   align-items: center;
   padding-right: 20px;
@@ -104,21 +124,26 @@ h1 {
   margin-right: 10px;
 }
 .option-content {
-  height: 60%;
-  width: 97.8%;
   border-radius: 6px;
   align-items: center;
   padding-left: 15px;
   box-sizing: border-box;
   font-size: 0.8rem;
-  color: var(--gray);
+  color: var(--gray) !important;
   cursor: pointer;
+  background: none;
+  padding: .5rem;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  margin-top: .5rem;
 }
 .option-content:hover {
-  background-color: var(--light-green);
-  color: var(--white);
+  background-color: var(--dark-green) !important;
+  color: var(--white) !important;
   font-weight: 500;
-  font-size: .76rem;
+  /* font-size: .76rem; */
 }
 .option-content li {
   margin-right: 10px;
@@ -127,12 +152,40 @@ h1 {
   margin-left: 10px;
 }
 .option-active {
-  background-color: var(--light-green);
+  background-color: var(--light-green) !important;
+  color: var(--white) !important;
+  font-weight: 500;
+}
+.option-active-list {
+  background-color: var(--light-green) !important;
   color: var(--white) !important;
   font-weight: 500;
 }
 .bg-white {
   background-color: var(--white);
+}
+.menu-container{
+  padding: 1rem;
+  box-sizing: border-box;
+}
+.active, .collapsible:hover {
+  background-color: #555;
+}
+.option-list {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  margin-top: 2px;
+}
+.option-menu{
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  color: #707070;
+  font-size: .8rem;
+  padding-left: 2rem !important;
+  box-sizing: border-box;
+  background: #ededed;
 }
 
 /* BODY */
@@ -154,6 +207,7 @@ h1 {
 .shortcut-container {
   height: 20%;
   width: 100%;
+  padding-bottom: .3rem;
   justify-content: space-between;
 }
 .shortcut-body {
@@ -284,7 +338,61 @@ h1 {
   box-sizing: border-box;
   margin-bottom: 10px;
 }
-
+.table-left{
+  height: 100%;
+  width: 70%;
+  background: white;
+  margin-right: 10px;
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  box-sizing: border-box;
+}
+.table-right{
+  height: 100%;
+  width: 70%;
+  background: white;
+  margin-left: 10px;
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  box-sizing: border-box;
+}
+.form-right{
+  height: 100%;
+  width: 30%;
+  background: white;
+  border-radius: 10px;
+}
+.form-right input[type="submit"] {
+  height: 35px;
+  width: 230px;
+  border: none;
+  outline: none;
+  color: var(--white);
+  font-size: 0.9rem;
+  font-weight: 400;
+  border-radius: 8px;
+  background-color: var(--medium-green);
+  cursor: pointer;
+}
+.form-right input[type="submit"]:hover{
+  background-color: var(--light-green);
+  font-weight: 500;
+}
+.form-right input[type="text"] {
+  height: 35px;
+  width: 230px;
+  border: none;
+  outline: none;
+  color: var(--white);
+  font-size: 0.9rem;
+  font-weight: 400;
+  border-radius: 4px;
+  background-color: var(--light-grey);
+  color: #2e2e2e;
+  padding-left: 10px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
 #link-logout {
   font-size: 0.8rem;
   cursor: pointer;

@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Ver taller
+{% endblock %}
+
+{% block content %}
+    <h1>Taller</h1>
+    <!-- Editar datos de un taller -->
+    <!-- No todos los datos pueden ser editados -->
+    <section style="background-color:aquamarine">
+        {{ taller.sport }}
+        <br>
+        Rama: {{ taller.branch }}
+        <br>
+        <form action="{% url 'actualizarTaller' taller.id%}" method="POST">
+            {% csrf_token %}
+            {{ updateForm.as_p }}
+            <input type="submit" value="Editar">
+        </form>
+    </section>
+    <!-- Lista de todos los integrantesd el taller -->
+    <section style="background-color:bisque">
+        <table>
+            <tr>
+                <th>Expediente</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Asistencias</th>
+                <th>Absuelto</th>
+                
+            </tr>
+            {% for miembro in miembros %}
+            <tr>
+                <td>{{ miembro.expediente }}</td>
+                <td>{{ miembro.first_name }} {{ miembro.last_name }}</td>
+                <td>{{ miembro.mail }}</td>
+                <td>{{ miembro.totalAssists }}</td>
+                <td>{% if miembro.absolved %} Si {% else %} No {% endif %}</td>
+                <td><Button onclick="modalJuan({{ miembro.expediente }})">Eliminar</Button></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>
+    <!-- Sección para registrar un nuevo alumno -->
+    <section>
+        <form action="{% url 'registrarAlumnoT' %}" method='POST'>
+            {% csrf_token %}
+            {{ addMemberForm.as_p }}
+            <input type="hidden" name="next" value="{{ request.path }}">
+            <input type="submit" value="Registrar">
+        </form>
+        <!-- <label for="">Expediente:</label>
+        <input type="number" name="" id="newExpediente">
+
+        <label for="">Nombre(s):</label>
+        <input type="text" name="" id="newNombre">
+
+        <label for="">Apellidos:</label>
+        <input type="text" name="" id="newApellidos">
+
+        <label for="">Correo:</label>
+        <input type="email" name="" id="newCorreo">
+
+        <button onclick="agregarAlumno()">Registrar</button> -->
+    </section>
+    
+
+    <div id="modal" style="border:1px solid red;">
+        <p>Eliminar alumno</p>
+        {% csrf_token %}
+        <input type="number" name="expediente" id="expediente" hidden>
+        <label>
+            Ingrese su contraseña
+            <input type="password" name="password" id="password">
+        </label>
+        
+        <button onclick="eliminarAlumno()">Aceptar</button>
+        <p id="retroalimentacion">Retroalimentación</p>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    {% endif %}
+    <script>
+            function modalJuan(expediente){
+                document.getElementById("expediente").value = expediente;
+            }
+            
+            function eliminarAlumno(){
+                var xhttp;
+                var csrftoken = '{{ csrf_token }}';
+                var idWs = '{{ taller.id }}';
+                var password = document.getElementById("password").value;
+                var expediente = document.getElementById("expediente").value;
+                xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    var retroalimentacion = document.getElementById("retroalimentacion");
+                    if (this.readyState == 4 && this.status == 200) {
+                        respuesta=JSON.parse(this.responseText);
+                        console.log(this.responseText);
+                        
+                        switch (respuesta.status) {
+                            case 0:
+                                retroalimentacion.innerHTML = respuesta.msg;
+                                break;
+                            case 1:
+                                alert("Done");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                };
+                xhttp.open("POST", "{% url 'eliminarAlumnoT' %}", true);
+                xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                
+                xhttp.send('password='+password+'&expediente='+expediente+'&idWs='+idWs);
+            }
+
+            // function agregarAlumno(){
+            //     var xhttp;
+            //     var csrftoken = '{{ csrf_token }}';
+            //     var idWS = '{{ taller.id }}';
+            //     var expediente =document.getElementById("newExpediente").value;
+            //     var nombre =document.getElementById("newNombre").value;
+            //     var apellidos =document.getElementById("newApellidos").value;
+            //     var correo =document.getElementById("newCorreo").value;
+                
+            //     xhttp = new XMLHttpRequest();
+            //     xhttp.onreadystatechange = function() {
+            //         var retroalimentacion = document.getElementById("retroalimentacion");
+            //         if (this.readyState == 4 && this.status == 200) {
+            //             respuesta=JSON.parse(this.responseText);
+            //             console.log(this.responseText);
+                        
+            //             switch (respuesta.status) {
+            //                 case 0:
+            //                     retroalimentacion.innerHTML = respuesta.msg;
+            //                     break;
+            //                 case 1:
+            //                     retroalimentacion.innerHTML = respuesta.msg;
+            //                     break;
+            //                 default:
+            //                     break;
+            //             }
+            //         }
+            //     };
+            //     xhttp.open("POST", "{% url 'registrarAlumnoT' %}", true);
+            //     xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+            //     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                
+            //     xhttp.send('idWS='+idWS+'&expediente='+newExpediente+'&first_name='+newNombre+'&last_name='+newApellidos+'&mail='+newCorreo);
+            // }
+            </script>
+{% endblock %}
+

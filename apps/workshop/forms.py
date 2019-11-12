@@ -4,7 +4,7 @@ from django.forms import ModelForm
 from .models import Workshop
 from .models import WsMember
 from apps.core.models import User
-
+from .models import CallTheRollWs
 class createWorkshopForm(ModelForm):
     """
     Formulario para crear un equipo representativo
@@ -15,7 +15,7 @@ class createWorkshopForm(ModelForm):
     )
     class Meta:
         model= Workshop
-        exclude=['totalAttendances','period','responsible']
+        exclude=['totalAttendances','period','responsible','totalMembers']
 
         labels={
             'maxMembers':'Especifique un máximo de integrantes si es el caso'
@@ -26,16 +26,24 @@ class deleteWorkshopForm(forms.Form):
     Formulario para eliminar un equipo representativo
     """
     workshop_id= forms.ModelChoiceField(queryset=Workshop.objects.all(),label="Taller deportivo")
-    
+
 class addMemberToWorkshopForm(ModelForm):
+    
     class Meta:
         model=WsMember
-        exclude=('totalAssists',)
+        exclude=('totalAssists','absolved')
+        labels={
+            'idWS':''
+        }
+        widgets={
+            'idWS':forms.NumberInput(attrs={'hidden':True})
+        }
+
 
 class deleteMemberToWorkshopForm(ModelForm):
     class Meta:
         model=WsMember
-        fields=['idWS', 'expediente']
+        fields=['expediente']
 
 class updateWorkshopForm(forms.Form):
     id=forms.IntegerField(label="", widget=forms.NumberInput(attrs={'hidden':True}))
@@ -52,3 +60,8 @@ class updateWorkshopForm(forms.Form):
     #         'maxMembers':'Especifique un máximo de integrantes si es el caso'
     #     }
     #
+
+class callTheRollWsForm(ModelForm):
+    class Meta:
+        model=CallTheRollWs
+        fields=['attended']

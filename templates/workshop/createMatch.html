@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}Crear Match{% endblock%}
+
+{% block content %}
+<div class="base-container flex-container center-content">
+    
+    <div class="form-right flex-container column-container center-content" style="padding: 3rem; 
+    box-sizing: border-box;">
+        <h1>Registrar partido</h1>
+            <form method="POST" class="form-group">
+                
+                <style>
+                select{
+                    height: 35px;
+                    width: 230px;
+                    border: none;
+                    outline: none;
+                    color: var(--white);
+                    font-size: 0.9rem;
+                    font-weight: 400;
+                    border-radius: 4px;
+                    background-color: var(--light-grey);
+                    color: #2e2e2e;
+                    padding-left: 10px;
+                    box-sizing: border-box;
+                    margin-bottom: 10px;
+                }
+                .form-group input[type='number']{
+                    height: 35px;
+                    width: 70px;
+                    border: none;
+                    outline: none;
+                    color: var(--white);
+                    font-size: 0.9rem;
+                    font-weight: 400;
+                    border-radius: 4px;
+                    background-color: var(--light-grey);
+                    color: #2e2e2e;
+                    padding-left: 10px;
+                    box-sizing: border-box;
+                    margin-bottom: 10px;
+                }
+                </style>
+                <label for="">Equipo:</label>
+                <select name="" id="" >
+                    <option value="" selected disabled>Selecciona una opción</option>
+                    <option value="">DODOD</option>
+                    <option value="">DIDID</option>
+                </select>
+
+                <label for="">Adversario:</label>
+                <select name="" id="" >
+                    <option value="" selected disabled>Selecciona una opción</option>
+                    <option value="">DODOD</option>
+                    <option value="">DIDID</option>
+                </select>
+
+                <label for="">Ganador:</label>
+                <select name="" id="" >
+                    <option value="" selected disabled>Selecciona una opción</option>
+                    <option value="">DODOD</option>
+                    <option value="">DIDID</option>
+                </select>
+                
+                <label for="h">Puntajes</label>
+                <div class="" style="">
+                    <input type="number" name="" id="h">
+                    <input type="number" name="" id="h">
+                </div>
+                    
+                
+                <input type="submit" value="Registrar">
+                {% if messages %}
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                {% endif %}
+            </form>
+    </div>
+
+    <div class="table-right flex-container">
+            <h2>¿Quiénes juegaron?</h2>
+    
+        </div>
+</div>
+    {% endblock %}

@@ -4,7 +4,11 @@
 
 {% block content %}
 <div class="base-container flex-container center-content">
-    <div class="form-container flex-container column-container center-content">
+    <div class="table-left flex-container">
+        <h2>Becarios</h2>
+
+    </div>
+    <div class="form-right flex-container column-container center-content">
         <h1>Registrar becario</h1>
             <form method="POST" class="form-group">
                 {% csrf_token %}

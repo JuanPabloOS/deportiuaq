@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv=Content-Type content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        @page {
+            size: A4;
+            
+            @frame header_frame {           /* Static Frame */
+            -pdf-frame-content: header_content;
+            left: 50pt; width: 512pt; top: 150pt; height: 200pt;
+            /* -pdf-frame-border: 1; */
+            }
+            @frame content_frame {          /* Content Frame */
+                left: 100pt; width: 400pt; top: 350pt; height: 200pt;
+                /* -pdf-frame-border: 1; */
+            }
+            @frame footer_frame {           /* Another static Frame */
+                -pdf-frame-content: footer_content;
+                left: 50pt; width: 512pt; top: 600pt; height: 150pt;
+                /* -pdf-frame-border: 1; */
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Content for Static Frame 'header_frame' -->
+    <div id="header_content" style="text-align: center;">
+        <p style="font-size: 25px;">FACULTAD DE INFORMÁTICA</p>
+        <p style="font-size:20px">COORDINACIÓN DE DEPORTES</p>
+        <br>
+        <u style="font-size:16px">TALLERES DE DESARROLLO HUMANO</u>
+        <h2>FORMATO DE LIBERACIÓN</h2>
+    
+    </div>
+
+    <!-- Content for Static Frame 'footer_frame' -->
+    
+
+    <div id="footer_content" style="text-align: center;">
+        <h1>ATENTAMENTE</h1>
+        <p style="font-size:16px;">
+            Haziel Martín Botello Araujo
+            <br>
+            Coordinador de Deportes Facultad de Informática
+        </p>
+    </div>
+
+    <!-- HTML Content -->
+    
+    <p style="font-size:16px;text-align: justify;">
+    Disciplina de taller: <b>Basquetbol</b> Hora: <b>4</b> Día: <b>Lunes</b>
+    <br>
+    Nombre: <b>López González Andrea Cecilia</b>
+    <br>
+    Carrera: <b>SOF11</b> Grupo: <b>73</b> Matricula: <b>242798</b>
+    <br>
+    Por medio de la presente, se hace la notificación de manera oficial, 
+    que el alumno cumplió satisfactoriamente su estadía participando en el
+    Taller Deportivo de <b>Basquetball</b> en el período comprendido de 
+    agosto - diciembre 2019.
+    <br>
+    Se extiende la presente para los efectos que al interesado convengan
+    </p>
+</body>
+</html>
