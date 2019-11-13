@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from django.http import HttpResponse
+#from django.http import HttpResponse
 from .forms import LoginForm
 from django.contrib.auth import authenticate
 from django.contrib.auth import logout

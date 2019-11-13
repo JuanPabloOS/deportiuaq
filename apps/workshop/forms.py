@@ -31,7 +31,7 @@ class addMemberToWorkshopForm(ModelForm):
     
     class Meta:
         model=WsMember
-        exclude=('totalAssists','absolved')
+        exclude=('totalAttendances','absolved')
         labels={
             'idWS':''
         }
