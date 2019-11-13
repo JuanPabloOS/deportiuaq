@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Equipos representativos
+{% endblock %}
+
+{% block content %}
+<div class="base-container flex-container workshop-space">
+        {% for equipo in equipos %}
+            <div class="workshop-container flex-container">
+                <div class="workshop-icon flex-container center-content">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <div class="workshop-content flex-container">
+                    <div class="workshop-title flex-container">
+                        {{ equipo.sport }}
+                    </div>
+                    <div class="workshop-inscribed flex-container">
+                        Inscritos: {{ equipo.maxMembers }}
+                    </div>
+                    <div class="workshop-teacher flex-container">
+                        Docente: {{ equipo.responsible }}
+                    </div>
+                    <div class="workshop-options flex-container">
+                        <div class="workshop-option flex-container" onclick="location.href='{% url 'verEquipo' equipo.id %}'">
+                            Editar equipo
+                        </div>
+                        <div class="workshop-option flex-container" onclick="location.href='{% url 'verAlumnosEquipo' equipo.id %}'">
+                            Ver integrantes
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+</div>
+{% endblock %}

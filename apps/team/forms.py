@@ -4,12 +4,14 @@ from .models import TeamMember
 from .models import Team
 from .models import Match
 from .models import Player
+from apps.core.models import User
+
+
+    
 class addMemberToTeamForm(ModelForm):
     class Meta:
         model=TeamMember
-        exclude=('totalAssists',)
-
-
+        exclude=('totalAttendances',)
 
 class deleteMemberToTeamForm(ModelForm):
     class Meta:
@@ -25,11 +27,17 @@ class createTeamForm(ModelForm):
         model=Team
         exclude=('schedule','totalAttendances','period')
 
-class updateTeamForm(ModelForm):
+class updateTeamForm(forms.Form):
     """
     """
-    pass
-
+    id=forms.IntegerField(label="", widget=forms.NumberInput(attrs={'hidden':True}))
+    responsible=forms.ModelChoiceField(label='Responsable',
+        queryset=User.objects.filter(userType='DC')
+    )
+    schedule=forms.CharField(label='Horario', widget=forms.TextInput(attrs={'type':'text'}))
+    
+   
+        
 class deleteTeamForm(forms.Form):
     """
     """
@@ -38,7 +46,15 @@ class deleteTeamForm(forms.Form):
 class addMemberToTeamForm(ModelForm):
     """
     """
-    pass
+    class Meta:
+        model=TeamMember
+        exclude=('totalAttendances',)
+        labels={
+            'idTeam':''
+        }
+        widgets={
+            'idTeams':forms.NumberInput(attrs={'hidden':True})
+        }
 
 class deleteTeamMemberForm(forms.Form):
     """

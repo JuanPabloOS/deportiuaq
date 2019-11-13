@@ -80,7 +80,7 @@ def verTaller_view(request, idTaller):
     except ObjectDoesNotExist:
         return redirect('talleres')
 
-
+@login_required
 def verAlumnosTaller_view(request, idTaller):
     try:
         taller = Workshop.objects.get(id=idTaller)
@@ -176,20 +176,12 @@ def addMemberToWs(request):
     if form.is_valid():
         try:
             isAlreadyIn = WsMember.objects.get(expediente=form.cleaned_data["expediente"], idWs__period=setPeriod())
-            # print("<--------->")
-            # print(isAlreadyIn)
-            # print("<--------->")
             messages.error(request, 'El alumno ya está registrado en otro taller')
-            
         except:
             form.save()
             messages.success(request,'Registro completado')
         next = request.POST.get('next', '/')
         return HttpResponseRedirect(next)
-        
-def match(request):
-    return render(request, 'workshop/createMatch.html')
-
 
 @login_required
 @user_passes_test(lambda user: user.userType=='DC' or user.userType=='BC')
@@ -218,7 +210,6 @@ def deleteWsMember(request):
     else:
             form=deleteMemberToWorkshopForm()
             return render(request,'workshop/deleteMemberToWs.html',{'form':form})
-
 
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')
@@ -259,10 +250,10 @@ def callTheRollWs(request, idTaller):
         asistencias = dict()                                     #Declarar el conjunto de todas las asistencias por alumno
         sesiones = Sesion.objects.filter(idWs=idTaller).values() #Obtener las sesiones del taller corresóndiente
         miembros = WsMember.objects.filter(idWs=idTaller).order_by('last_name') #Buscar los miembros inscritos en el taller
-        return render(request,'workshop/callTheRoll.html',{'sesiones':sesiones,'asistencias':asistencias, 'miembros':miembros})
+        return render(request,'core/callTheRoll.html',{'sesiones':sesiones,'asistencias':asistencias, 'miembros':miembros})
 
-# @login_required
-# @user_passes_test(lambda user: user.userType=='DC')
+@login_required
+@user_passes_test(lambda user: user.userType=='DC')
 def absolveWs(request):
     alumnos = list(WsMember.objects.all())
     w, h = A4
