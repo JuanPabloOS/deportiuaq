@@ -35,9 +35,7 @@ class updateTeamForm(forms.Form):
         queryset=User.objects.filter(userType='DC')
     )
     schedule=forms.CharField(label='Horario', widget=forms.TextInput(attrs={'type':'text'}))
-    
-   
-        
+
 class deleteTeamForm(forms.Form):
     """
     """
@@ -61,6 +59,10 @@ class deleteTeamMemberForm(forms.Form):
     """
     pass
 
+class registerMatchForm(ModelForm):
+    class Meta:
+        model = Match
+        exclude=('winned', 'period')
 # class callTheRollWsForm(ModelForm):
 #     class Meta:
 #         model=Team

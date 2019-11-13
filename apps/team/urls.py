@@ -13,5 +13,6 @@ urlpatterns=[
     path('registrarAlumnoE/',views.addMemberToTeam,name='registrarAlumnoE'),
     path('eliminarAlumnoE/',views.deleteTeamMember,name='eliminarAlumnoE'),
     path('estadisticosAsistencia/',views.statisticsAttendance,name='estadisticosAsistencia'),
+    path('registrarPartido/', views.registerMatch_view, name='registrarPartido'),
     
 ]

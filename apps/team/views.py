@@ -18,6 +18,7 @@ from .forms import deleteTeamForm
 from .forms import addMemberToTeamForm
 from .forms import deleteMemberToTeamForm
 from .forms import updateTeamForm
+from .forms import registerMatchForm
  #decorador
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
@@ -244,6 +245,10 @@ def callTheRollTeam(request, idTeam):
         miembros = TeamMember.objects.filter(idTeam=idTeam).order_by('last_name') #Buscar los miembros inscritos en el taller
         return render(request,'team/callTheRoll.html',{'sesiones':sesiones,'asistencias':asistencias, 'miembros':miembros})
 
+
+def registerMatch_view(request):
+    form = registerMatchForm()
+    return render(request, 'team/match.html', {'form':form})
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')
 def statisticsMatches(request):
