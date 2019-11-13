@@ -42,3 +42,8 @@ document.getElementById("addmember").addEventListener("click",()=>{
 document.getElementById("closeadd").addEventListener("click",()=>{
   var modal = document.getElementById("modal-addmember").style.display="none";
 });
+
+// CERRAR MODAL DE ELIMINAR ALUMNO DE TALLER
+document.getElementById("alert-cancel-delete").addEventListener("click",()=>{
+  var modal = document.getElementById("alert-delete").style.display="none";
+});

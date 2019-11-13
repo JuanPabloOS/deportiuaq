@@ -87,7 +87,7 @@ Ver taller
     </div>
 </div>
     
-<!-- MODAL -->
+<!-- MODAL REGISTRAR -->
 <div class="modal-background flex-container" id="modal-addmember">
     <div class="modal-content flex-container p-top2">
             <h2>Editar taller</h2>
@@ -102,7 +102,7 @@ Ver taller
     </div>
 </div>
 
-<!-- MODAL -->
+<!-- MODAL MODIFICAR TALLER -->
 <div class="modal-background flex-container" id="modal-workshop">
     <div class="modal-content flex-container p-top2">
             <h2>Editar taller</h2>
@@ -114,6 +114,68 @@ Ver taller
         <button id="modal-btn2">Cancelar</button>
     </div>
 </div>
-    
-{% endblock %}
+<!-- MODAL ELIMINAR ALUMNO -->
+<div class="modal-background flex-container" id="alert-delete">
+    <div class="modal-content flex-container">
+        <div class="alert-title flex-container">
+            <div class="alert-icon flex-container m-bottom-1"><i class="fas fa-exclamation-triangle"></i></div>
+            <p class="m-bottom-1">Advertencia!</p>
+        </div>
+        <div class="alert-content flex-container m-top-1 form-group">
+            <p>El alumno se eliminará de forma permanente.</p>
+            {% csrf_token %}
+            <input type="number" name="expediente" id="expediente" hidden>
+       
+            <label class="m-top-1" for="">Ingrese su contraseña para confirmar:</label>
+            <input type="password" class="m-bottom-1 white" name="password" id="password">
+        </div>
+        <div class="alert-button flex-container m-top-1">
+            <button class="btn-option-cancel" id="alert-cancel-delete" onclick="">Cancelar</button>
+            <button class="btn-option light-green greenHover" onclick="eliminarAlumno()">Continuar</button>
+            
+        </div>
+        <div>
 
+        </div>
+    </div>
+</div>
+
+<script>
+    function modalJuan(expediente){
+        var modal = document.getElementById("alert-delete").style.display="flex";
+        document.getElementById("expediente").value = expediente;
+    }
+    
+    function eliminarAlumno(){
+        var xhttp;
+        var csrftoken = '{{ csrf_token }}';
+        var idWs = '{{ taller.id }}';
+        var password = document.getElementById("password").value;
+        var expediente = document.getElementById("expediente").value;
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            var retroalimentacion = document.getElementById("retroalimentacion");
+            if (this.readyState == 4 && this.status == 200) {
+                respuesta=JSON.parse(this.responseText);
+                console.log(this.responseText);
+                
+                switch (respuesta.status) {
+                    case 0:
+                        retroalimentacion.innerHTML = respuesta.msg;
+                        break;
+                    case 1:
+                        location.reload();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+        xhttp.open("POST", "{% url 'eliminarAlumnoT' %}", true);
+        xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        
+        xhttp.send('password='+password+'&expediente='+expediente+'&idWs='+idWs);
+    }
+</script>
+{% endblock %}
