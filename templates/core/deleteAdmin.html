@@ -9,6 +9,7 @@ Eliminar Admin
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
+    <label for="">Ingrese su contraseña</label>
     <input type="password" name="password" id="">
     <button>Aceptar</button>
 </form>

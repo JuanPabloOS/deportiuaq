@@ -38,6 +38,16 @@
                 <a class="option-menu option-content" href="#"><i class="fas fa-clipboard-list">x</i><span>Eliminar</span></a>
             </div>
             <!-- TALLERES -->
+            {% if user.userType == 'DC' or user.userType == 'AD' %}
+                <button class="option option-content"><i class="fas fa-clipboard-list">x</i><span>Eliminar usuario</span></button>
+                <div class="option-list">
+                    {% if user.userType == 'DC' or user.userType == 'AD' %}<a class="option-menu option-content" href="{% url 'eliminarBecario' %}"><i class="fas fa-clipboard-list">x</i><span>Becario</span></a>{% endif %}
+                    {% if user.userType == 'AD' %}
+                    <a class="option-menu option-content" href="{% url 'eliminarDocente' %}"><i class="fas fa-clipboard-list">x</i><span>Docente</span></a>
+                    <a class="option-menu option-content" href="{% url 'eliminarAdmin' %}"><i class="fas fa-clipboard-list">x</i><span>Administrador</span></a>
+                    {% endif %}
+                </div>
+            {% endif %}
             {% if user.userType == 'DC' %}
                 <button class="option-content" onclick="location.href='{% url 'talleres' %}'"><i class="fas fa-clipboard-list"></i><span>Talleres</span></button>
                 <!-- BECARIOS -->
@@ -51,13 +61,26 @@
             {% endif %}
             {% if user.userType == 'AD' %}
                 <!-- DOCENTES -->
+                <button class="option option-content"><i class="fas fa-clipboard-list">x</i><span>Talleres</span></button>
+                <div class="option-list">
+                    <a class="option-menu option-content" href="{% url 'crearTaller' %}"><i class="fas fa-clipboard-list">x</i><span>Registrar</span></a>
+                    <a class="option-menu option-content" href="{% url 'eliminarTaller' %}"><i class="fas fa-clipboard-list">x</i><span>Eliminar</span></a>
+                </div>
+
+                <button class="option option-content"><i class="fas fa-clipboard-list">x</i><span>Equipos</span></button>
+                <div class="option-list">
+                    <a class="option-menu option-content" href="{% url 'crearEquipo' %}"><i class="fas fa-clipboard-list">x</i><span>Registrar</span></a>
+                    <a class="option-menu option-content" href="{% url 'eliminarEquipo' %}"><i class="fas fa-clipboard-list">x</i><span>Eliminar</span></a>
+                </div>
+
+                <button class="option-content" onclick="location.href='{% url 'registrarAdmin' %}'"><i class="fas fa-user-tie"></i><span>Registrar Administrador</span></button>
                 <button class="option-content" onclick="location.href='{% url 'registrarDocente' %}'"><i class="fas fa-user-tie"></i><span>Registrar Docente</span></button>
                 <!-- RESETEAR CONSTRASEÑA -->
-                <button class="option-content" onclick="location.href='{% url 'resetPassword' %}'"><i class="fas fa-lock-open"></i><span>Restablecer contraseña</span></button>
+                <button class="option-content" onclick="location.href='{% url 'resetPassword' %}'"><i class="fas fa-lock-open"></i><span>Restablecer una contraseña</span></button>
             {% endif %}
 
             <!-- CAMBIAR CONSTRASEÑA -->
-            <button class="option-content" onclick="location.href='{% url 'changePassword' %}'"><i class="fas fa-key"></i><span>Contraseña</span></button>
+            <button class="option-content" onclick="location.href='{% url 'changePassword' %}'"><i class="fas fa-key"></i><span>Mi Contraseña</span></button>
             <!-- MENUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU -->
             </div>
         </div>
