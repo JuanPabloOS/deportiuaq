@@ -37,10 +37,17 @@
                 <a class="option-menu option-content" href="#"><i class="fas fa-clipboard-list">x</i><span>Eliminar</span></a>
             </div>
             <!-- TALLERES -->
-            <button class="option-content" onclick="location.href='{% url 'talleres' %}'"><i class="fas fa-clipboard-list"></i><span>Talleres</span></button>
-            <!-- BECARIOS -->
-            <button class="option-content" onclick="location.href='{% url 'registrarBecario' %}'"><i class="fas fa-user"></i><span>Registrar Becario</span></button>
+            {% if user.userType == 'DC' %}
+                <button class="option-content" onclick="location.href='{% url 'talleres' %}'"><i class="fas fa-clipboard-list"></i><span>Talleres</span></button>
+                <!-- BECARIOS -->
+                <button class="option-content" onclick="location.href='{% url 'registrarBecario' %}'"><i class="fas fa-user"></i><span>Registrar Becario</span></button>
 
+                <button class="option option-content"><i class="fas fa-clipboard-list">x</i><span>Pasar Lista</span></button>
+                <div class="option-list">
+                    <a class="option-menu option-content" href="#"><i class="fas fa-clipboard-list">x</i><span>Taller</span></a>
+                    <a class="option-menu option-content" href="{% url 'seleccionarEquipoPaseDeLista' %}"><i class="fas fa-clipboard-list">x</i><span>Equipo</span></a>
+                </div>
+            {% endif %}
             {% if user.userType == 'AD' %}
                 <!-- DOCENTES -->
                 <button class="option-content" onclick="location.href='{% url 'registrarDocente' %}'"><i class="fas fa-user-tie"></i><span>Registrar Docente</span></button>
