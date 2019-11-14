@@ -12,11 +12,12 @@ for (i = 0; i < coll.length; i++) {
     } 
   });
 }
-var launch_toast = ()=>{
+function launch_toast(e){
 	var x = document.getElementById("toast");
 	console.log("====");
 	console.log(x);
-	x.className = "show";
+  x.className = "show";
+  document.getElementById('desc').innerHTML = e;
 	setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
 }
 function hi(){
@@ -41,4 +42,9 @@ document.getElementById("addmember").addEventListener("click",()=>{
 // CERRAR MODAL DE EDITAR TALLER
 document.getElementById("closeadd").addEventListener("click",()=>{
   var modal = document.getElementById("modal-addmember").style.display="none";
+});
+
+// CERRAR MODAL DE ELIMINAR ALUMNO DE TALLER
+document.getElementById("alert-cancel-delete").addEventListener("click",()=>{
+  var modal = document.getElementById("alert-delete").style.display="none";
 });
