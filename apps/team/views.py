@@ -204,6 +204,11 @@ def deleteTeamMember(request):
             form=deleteMemberToTeamForm()
             return render(request,'team/deleteMemberToTeam.html',{'form':form})
 
+@require_http_methods(['GET'])
+def seleccionarEquipo(request):
+    equipos = Team.objects.filter(responsible=request.user, period=setPeriod())
+    return render(request, 'team/seleccionarEquipo.html',{'equipos':equipos})
+
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')
 def callTheRollTeam(request, idTeam):

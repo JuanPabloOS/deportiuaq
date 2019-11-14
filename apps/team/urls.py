@@ -8,6 +8,7 @@ urlpatterns=[
     path('verAlumnosEquipo/<int:idTeam>/', views.verAlumnosEquipo_view, name="verAlumnosEquipo"),
     path('eliminarEquipo/', views.deleteTeam, name='eliminarEquipo'), 
     path('actualizarEquipo/<int:idTeam>/',views.updateTeam,name='actualizarEquipo'),
+    path('seleccionar-Equipo-Pase-De-Lista/', views.seleccionarEquipo, name="seleccionarEquipoPaseDeLista"),
     path('callTheRollTeam/<int:idTeam>/',views.callTheRollTeam,name='callTheRollTeam'),
     path('estadisticosPartidos/',views.statisticsMatches,name='estadisticosPartidos'),
     path('registrarAlumnoE/',views.addMemberToTeam,name='registrarAlumnoE'),
