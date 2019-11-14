@@ -12,11 +12,12 @@ for (i = 0; i < coll.length; i++) {
     } 
   });
 }
-var launch_toast = ()=>{
+function launch_toast(e){
 	var x = document.getElementById("toast");
 	console.log("====");
 	console.log(x);
-	x.className = "show";
+  x.className = "show";
+  document.getElementById('desc').innerHTML = e;
 	setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
 }
 function hi(){

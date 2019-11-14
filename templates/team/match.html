@@ -1,10 +1,43 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="base-container flex-container center-content">
+    <div class="form-right flex-container column-container center-content" style="margin-right: 10px;">
+        <h1>Registrar partido</h1>
+            <form method="POST" class="form-group">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Registrar" style="width: 250px !important;">
+                {% if messages %}
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                {% endif %}
+            </form>
+        </div>
+        <div class="table-left flex-container" style="margin-right: 0px; !important">
+            <h2>¿Quién juegó?</h2>
+    
+        </div>
+    </div>
+    <script defer>
+    document.getElementById("id_idTeam").addEventListener("change", getTeam);
 
-<form method="POST" class="form-group">
-    {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Aceptar">
-</form>
+    function getTeam() {
+        var x = document.getElementById("id_idTeam").value;
+        alert(x)
+
+        var xhr = new XMLHttpRequest();
+ 
+        xhr.open("POST","URL",true);
+        xhr.send();
+    
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4 && xhr.status == 200){
+                // document.getElementById("ID").innerHTML = xhr.responseText;
+            }
+        }
+    }
+    </script>
+
 {% endblock %}
