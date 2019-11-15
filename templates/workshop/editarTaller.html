@@ -59,9 +59,29 @@ Ver taller
                         <button class="btn-option dark-green" id="addmember">Agregar alumno</button>
                     </div>
                 </div>
+                <style>
+                tbody tr:nth-child(even) {
+                    padding: 1rem;
+                }
+
+                tbody tr {
+                    border: none;
+                    background: var(--white);
+                }
+
+                table {
+                    background: var(--light-grey);
+                    border-radius: 10px 10px 0px 0px;
+                    border-spacing: 0px;
+                }
+                th{
+                    padding: .3rem;
+                    margin-bottom: 9px;
+                }
+                </style>
                     <div style="overflow-y: scroll;"></div>
                         <table style="text-align: center;">
-                            
+                            <thead>
                                 <tr>
                                     <th>Expediente</th>
                                     <th>Nombre</th>
@@ -70,16 +90,19 @@ Ver taller
                                     <th>Absuelto</th>
                                     <th>Acciones</th>
                                 </tr>
-                                {% for miembro in miembros %}
+                            </thead>
+                        {% for miembro in miembros %}
+                            <tbody>
                                 <tr>
-                                    <td>{{ miembro.expediente }}</td>
+                                    <td style="border:hidden;">{{ miembro.expediente }}</td>
                                     <td>{{ miembro.first_name }} {{ miembro.last_name }}</td>
                                     <td>{{ miembro.mail }}</td>
                                     <td>{{ miembro.totalAssists }}</td>
                                     <td>{% if miembro.absolved %} Si {% else %} No {% endif %}</td>
                                     <td><Button class="btn-trash" onclick="modalJuan({{ miembro.expediente }})"><i class="fas fa-trash-alt"></i></Button></td>
                                 </tr>
-                                {% endfor %}
+                            </tbody>
+                        {% endfor %}
                             </table>
                     </div>
             </div>
