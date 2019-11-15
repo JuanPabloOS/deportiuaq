@@ -80,7 +80,7 @@ class WsMember(models.Model):
     last_name=models.CharField(verbose_name='Apellidos',max_length=150)
     mail=models.EmailField(verbose_name='Correo',max_length=254)
     plan=models.CharField(choices=PLAN_CHOICES, max_length=5, default='SOF11')
-    group=models.SmallIntegerField(choices=GROUP_CHOICES, default=70)
+    group=models.SmallIntegerField(verbose_name='Grupo', choices=GROUP_CHOICES, default=70)
     totalAttendances=models.SmallIntegerField(verbose_name='Total asistencias', blank=True, null=True)
     absolved=models.BooleanField(verbose_name='Absuelto',default=False, blank=True)
     
@@ -101,7 +101,7 @@ class WsMember(models.Model):
 
 class Sesion(models.Model):
     idWs=models.ForeignKey('Workshop', on_delete=models.CASCADE)
-    date=models.DateField()
+    date=models.DateField(verbose_name='Día')
 
     def __str__(self):
         return '%s %s' %(self.idWs, self.date)
@@ -117,7 +117,7 @@ class Sesion(models.Model):
 class CallTheRollWs(models.Model):
     idWsMember=models.ForeignKey('WsMember', on_delete=models.CASCADE, related_name='get_attendances')
     idSesion=models.ForeignKey('Sesion',on_delete=models.CASCADE, related_name="get_sesion")
-    attended=models.BooleanField(default=False)
+    attended=models.BooleanField(verbose_name='Asistió', default=False)
     
     def __str__(self):
         return '%s %s' %(self.attended, self.idWsMember)
