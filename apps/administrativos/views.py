@@ -53,7 +53,7 @@ def resetPassword(request):
                 matchcheck=check_password(passwordAdmnistrador, currentpassword)    
                 # si la contraseña del staff es correcta
                 if matchcheck:
-                    new_password=make_password('b'+form.cleaned_data.get('username'))          
+                    new_password=make_password('d'+form.cleaned_data.get('username'))          
                     usuario.password=new_password # reestablecer la contraseña
                     usuario.save()
                     messages.success(request, 'Contraseña restablecida')
