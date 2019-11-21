@@ -354,6 +354,21 @@ h2 {
   box-sizing: border-box;
   margin-bottom: 10px;
 }
+.form-group input[type="datetime-local"] {
+  height: 35px;
+  width: 250px;
+  border: none;
+  outline: none;
+  color: var(--white);
+  font-size: 0.9rem;
+  font-weight: 400;
+  border-radius: 4px;
+  background-color: var(--light-grey);
+  color: #2e2e2e;
+  padding-left: 10px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
 .form-group input[type="text"]:focus {
   border: 2px solid var(--light-green);
   box-sizing: border-box;
@@ -1042,4 +1057,21 @@ h2 {
   color: red;
   font-weight: 500;
   cursor: pointer;
+}
+.btn-generic{
+  height: 35px;
+  width: 250px;
+  border: none;
+  outline: none;
+  color: var(--white);
+  font-size: 0.9rem;
+  font-weight: 400;
+  border-radius: 8px;
+  background-color: var(--medium-green);
+  cursor: pointer;
+}
+.modal-password{
+  background-color: var(--white) !important;
+  border: 2px solid var(--light-green) !important;
+  box-sizing: border-box;
 }

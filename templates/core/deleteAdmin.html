@@ -8,40 +8,34 @@ Eliminar Admin
 {% block content %}
 <div class="base-container flex-container center-content">
     <div class="form-container flex-container column-container center-content">
-        <h1>Eliminar administrador</h1>
+        <h1>Eliminar Administrador</h1>
             <form method="POST" class="form-group">
-                {% csrf_token %}                
-                    {% for field in form %}
-                        {{ field.label_tag }}{{ field }}     
-                    {% endfor %} 
-                <input type="submit" value="Registrar">
+                {% csrf_token %}
+                {{ form.as_p }}
+            </form>
+            <button class="btn-generic" id="delete-admin">Eliminar</button>
                 {% if messages %}
                     {% for message in messages %}
                         {{ message }}
                     {% endfor %}
                 {% endif %}
-            </form>
     </div>
 </div>
-
-<div class="modal-background flex-container" id="alert-delete" >
+<!-- MODAL CONTRASEÑA -->
+<div class="modal-background flex-container" id="modal-admin" style="display: flex;">
         <div class="modal-content flex-container">
             <div class="alert-title flex-container">
                 <div class="alert-icon flex-container m-bottom-1"><i class="fas fa-exclamation-triangle"></i></div>
                 <p class="m-bottom-1">Advertencia!</p>
             </div>
-            <div class="alert-content flex-container m-top-1 form-group">
-                <p>El administrador se eliminará de forma permanente.</p>
-                {% csrf_token %}
-                <input type="number" name="expediente" id="expediente" hidden>
-           
-                <label class="m-top-1" for="">Ingrese su contraseña para confirmar:</label>
-                <input type="password" class="m-bottom-1 white" name="password" id="password">
+            <div class="alert-content flex-container m-top-1 form-group ">
+                <p class="m-bottom-1">El usuario se eliminará permanentemente.</p>
+                <label for="">Ingrese su contraseña</label>
+                <input type="password" class="modal-password" name="password" id="" required>
             </div>
             <div class="alert-button flex-container m-top-1">
-                <button class="btn-option-cancel" id="alert-cancel-delete" onclick="">Cancelar</button>
+                <button class="btn-option-cancel" id="cancel-delete-admin">Cancelar</button>
                 <button class="btn-option light-green greenHover" onclick="eliminarAdministrador()">Continuar</button>
-                
             </div>
             <div>
     
@@ -50,24 +44,28 @@ Eliminar Admin
     </div>
 
     <script>
-            function modal(expediente){
-                var modal = document.getElementById("alert-delete").style.display="flex";
-                document.getElementById("expediente").value = expediente;
-            }
-            
+            // MODAL ELIMINAR ADMINISTRADOR
+            // ABRIR
+            document.getElementById("delete-admin").addEventListener("click",()=>{
+            let modal1 = document.getElementById("modal-admin").style.display="flex";
+            });
+            // CERRAR
+            document.getElementById("cancel-delete-admin").addEventListener("click",()=>{
+            let modal = document.getElementById("modal-admin").style.display="none";
+            });
+
             function eliminarAdministrador(){
                 var xhttp;
                 var csrftoken = '{{ csrf_token }}';
-                var idWs = '{{ taller.id }}';
                 var password = document.getElementById("password").value;
-                var expediente = document.getElementById("expediente").value;
+                var expediente = document.getElementById("id_username").value;
+                console.log(password)
+                console.log(expediente)
                 xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
-                    var retroalimentacion = document.getElementById("retroalimentacion");
                     if (this.readyState == 4 && this.status == 200) {
                         respuesta=JSON.parse(this.responseText);
                         console.log(this.responseText);
-                        
                         switch (respuesta.status) {
                             case 0:
                                 retroalimentacion.innerHTML = respuesta.msg;
@@ -80,11 +78,10 @@ Eliminar Admin
                         }
                     }
                 };
-                xhttp.open("POST", "{% url 'eliminarAlumnoT' %}", true);
+                xhttp.open("POST", "{% url 'eliminarAdmin' %}", true);
                 xhttp.setRequestHeader("X-CSRFToken", csrftoken);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                
-                xhttp.send('password='+password+'&expediente='+expediente+'&idWs='+idWs);
+                xhttp.send('password='+password+'&expediente='+expediente);
             }
 
     </script>
