@@ -50,6 +50,7 @@
             {% endif %}
             {% if user.userType == 'DC' %}
                 <button class="option-content" onclick="location.href='{% url 'talleres' %}'"><i class="fas fa-clipboard-list"></i><span>Talleres</span></button>
+                <button class="option-content" onclick="location.href='{% url 'equipos' %}'"><i class="fas fa-clipboard-list"></i><span>Equipos</span></button>
                 <!-- BECARIOS -->
                 <button class="option-content" onclick="location.href='{% url 'registrarBecario' %}'"><i class="fas fa-user"></i><span>Registrar Becario</span></button>
 
@@ -58,6 +59,7 @@
                     <a class="option-menu option-content" href="{% url 'seleccionarTallerPaseDeLista' %}"><i class="fas fa-clipboard-list">x</i><span>Taller</span></a>
                     <a class="option-menu option-content" href="{% url 'seleccionarEquipoPaseDeLista' %}"><i class="fas fa-clipboard-list">x</i><span>Equipo</span></a>
                 </div>
+                <button class="option-content" onclick="location.href='{% url 'registrarPartido' %}'"><i class="fas fa-user"></i><span>Registrar Partido</span></button>
             {% endif %}
             {% if user.userType == 'AD' %}
                 <!-- DOCENTES -->
