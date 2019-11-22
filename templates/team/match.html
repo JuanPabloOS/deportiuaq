@@ -4,21 +4,38 @@
 <div class="base-container flex-container center-content">
     <div class="form-right flex-container column-container center-content" style="margin-right: 10px;">
         <h1>Registrar partido</h1>
-            <form method="POST" class="form-group">
+            <div method="POST" class="form-group">
                 {% csrf_token %}
-                {{ form.as_p }}
+                <p>
+                    <label for="id_idTeam">{{ form.idTeam.label }}:</label>
+                    {{ form.idTeam }}
+                </p>
+                <p>
+                    <label for="rival">{{ form.rival.label }}:</label>
+                    {{ form.rival }}
+                </p>
+                <p>
+                    <label for="teamScore">{{ form.teamScore.label }}:</label>
+                    {{ form.teamScore }}
+                </p>
+                <p>
+                    <label for="rivalScore">{{ form.rivalScore.label }}:</label>
+                    {{ form.rivalScore }}
+                </p>
                 <input type="submit" value="Registrar" style="width: 250px !important;">
                 {% if messages %}
                     {% for message in messages %}
                         {{ message }}
                     {% endfor %}
                 {% endif %}
-            </form>
+            </div>
         </div>
-        <div class="table-left flex-container" style="margin-right: 0px; !important">
+        <div class="table-left flex-container column-container" style="margin-right: 0px; !important">
             <h2>¿Quién jugó?</h2>
-            <table id="jugadores">
+            <table>
+                <tbody id="jugadores">
 
+                </tbody>
             </table>
         </div>
     </div>
@@ -35,13 +52,22 @@
                 var miembros = JSON.parse(response.miembros)
                 console.log(miembros)
                 
-                // var jugadores = document.getElementById("jugadores");
-                // miembros.forEach(element=>{
-                //     console.log(element)
-                //     var row = document.createElement("tr");
-                //     var nombre = document.createElement("td");
-
-                // })
+                var jugadores = document.getElementById("jugadores");
+                miembros.forEach(element=>{
+                    var datos = element.fields
+                    var row = document.createElement("tr");
+                    var columnName = document.createElement("td");
+                    var nombre = document.createTextNode(datos.first_name +" "+datos.last_name);
+                    columnName.appendChild(nombre);
+                    var inputCheck = document.createElement("input");
+                    inputCheck.type = "checkbox";
+                    inputCheck.setAttribute("name",element.pk)
+                    var columnCheck = document.createElement("td");
+                    columnCheck.appendChild(inputCheck); 
+                    row.appendChild(columnCheck);
+                    row.appendChild(columnName);
+                    jugadores.appendChild(row);
+                })
             }
             };
             xmlhttp.open("POST", "{% url 'getMiembrosTeam' %}", true);
