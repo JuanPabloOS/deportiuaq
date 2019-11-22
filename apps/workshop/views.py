@@ -11,13 +11,13 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth.decorators import login_required       #pedir una sesión activa
 from django.contrib.auth.decorators import user_passes_test     #Comprobar los permisos de usuario
 from django.views.decorators.http import require_http_methods   #admitir determinados tipos de petición
-#modelos
+#Modelos
 from .models import Workshop
 from .models import WsMember
 from .models import CallTheRollWs
 from .models import Sesion
 from apps.core.models import User
-#formularios
+#Formularios
 from .forms import createWorkshopForm
 from .forms import deleteWorkshopForm
 from .forms import deleteMemberToWorkshopForm
