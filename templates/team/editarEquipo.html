@@ -91,7 +91,7 @@ Ver equipo
 <div class="modal-background flex-container" id="modal-addmember">
     <div class="modal-content flex-container p-top2">
             <h2>Editar equipo</h2>
-        <form action="{% url 'registrarAlumnoT' %}" class="form-group-modal center-content" method='POST'>
+        <form action="{% url 'registrarAlumnoE' %}" class="form-group-modal center-content" method='POST'>
             {% csrf_token %}
             {{ addMemberForm.as_p }}
             <input type="hidden" name="next" value="{{ request.path }}">

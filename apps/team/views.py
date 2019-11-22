@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
@@ -78,7 +78,7 @@ def verAlumnosEquipo_view(request, idTeam):
     try:
         taller = Team.objects.get(id=idTaller)
         miembros = TeamMember.objects.filter(idWs=idTaller)
-        return render(request, 'workshop/verAlumnos.html', {'taller':taller,'miembros':miembros})
+        return render(request, 'team/verAlumnos.html', {'taller':taller,'miembros':miembros})
     except:
         return redirect('talleres')
 
@@ -149,7 +149,6 @@ def updateTeam(request, idTeam):
         equipo.responsible=form.cleaned_data['responsible']
         scheduleStr=form.cleaned_data['schedule']
         equipo.schedule=scheduleStr
-        equipo.maxMembers=form.cleaned_data['maxMembers']
         equipo.save()
         messages.success(request, 'Se actualizó el equipo')
         return redirect('verEquipo', idTeam)
@@ -167,12 +166,19 @@ def addMemberToTeam(request):
     if request.method == 'POST':
         form = addMemberToTeamForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request,'Registro completado')
-            return redirect('addMemberToTeam')
+            try:
+                isAlreadyIn = TeamMember.objects.get(expediente=form.cleaned_data['expediente'], idTeam__period=setPeriod())
+                messages.error(request, 'El alumno ya está registrado en otro Equipo')
+            except:
+                form.save()
+                messages.success(request,'Registro completado')
+            next = request.POST.get('next', '/')
+            return HttpResponseRedirect(next)
         else:
             messages.error(request,'Error: revisa que los datos sean correctos')
-            return render(request,'team/addMemberToTeam.html',{'form':form})
+            # return render(request,'team/addMemberToTeam.html',{'form':form})
+            next = request.POST.get('next', '/')
+            return HttpResponseRedirect(next)
     else:
         form = addMemberToTeamForm()
         return render(request,'team/addMemberToTeam.html',{'form':form})
@@ -209,6 +215,22 @@ def deleteTeamMember(request):
 def seleccionarEquipo(request):
     equipos = Team.objects.filter(responsible=request.user, period=setPeriod())
     return render(request, 'team/seleccionarEquipo.html',{'equipos':equipos})
+
+@require_http_methods(['GET'])
+def getMiembrosTeam(request, idTeam):
+    try:
+        miembros = TeamMember.objects.filter(idTeam=idTeam)
+        return JsonResponse({
+            'status':1,
+            'msg':'Integrantes recuperados con éxito',
+            'miembros':miembros})
+    except:
+        return JsonResponse({
+            'status':0,
+            'msg':'El equipo no tiene integrantes aún.',
+            'miembros':''
+        })
+
 
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')
