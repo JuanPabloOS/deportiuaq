@@ -13,7 +13,7 @@ class Team(models.Model):
     ESPORTS='eSports'
     FUTBOL='Futbol'
     HANDBALL='Handball'
-    TENNIS='Tennis'
+    TENIS='Tenis'
     PINGPONG='Ping-Pong'
     TIROCONARCO='Tiro con arco'
     TOCHITO='Tochito'
@@ -24,7 +24,7 @@ class Team(models.Model):
         (ESPORTS,'ESports'),
         (FUTBOL,'Futbol'),
         (HANDBALL,'Handball'),
-        (TENNIS,'Tennis'),
+        (TENIS,'Tenis'),
         (PINGPONG,'Ping pong'),
         (TIROCONARCO,'Tiro con arco'),
         (TOCHITO,'Tochito'),

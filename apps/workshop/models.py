@@ -17,7 +17,7 @@ class Workshop(models.Model):
     ESPORTS='eSports'
     FUTBOL='Futbol'
     HANDBALL='Handball'
-    TENNIS='Tennis'
+    TENIS='Tenis'
     PINGPONG='Ping-Pong'
     TIROCONARCO='Tiro con arco'
     TOCHITO='Tochito'
@@ -28,7 +28,7 @@ class Workshop(models.Model):
         (ESPORTS,'ESports'),
         (FUTBOL,'Futbol'),
         (HANDBALL,'Handball'),
-        (TENNIS,'Tennis'),
+        (TENIS,'Tenis'),
         (PINGPONG,'Ping pong'),
         (TIROCONARCO,'Tiro con arco'),
         (TOCHITO,'Tochito'),
