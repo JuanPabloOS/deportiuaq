@@ -155,7 +155,7 @@ def deleteAdmin(request):
         currentPassword=request.user.password #obtener la contraseña de loggeo
         matchcheck=check_password(passwordToVerify,currentPassword) #comparar ambas contraseñas
         if(matchcheck): #realizar la acción
-            usernameTeacher=request.POST['username']
+            usernameAdmin=request.POST['username']
             try:
                 administrador = User.objects.get(username=usernameAdmin, userType='AD')
                 administrador.is_active = 0
