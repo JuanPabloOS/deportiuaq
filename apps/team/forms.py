@@ -22,10 +22,13 @@ class createTeamForm(ModelForm):
     """
     Crear un equipo representativo
     """
+    responsible=forms.ModelChoiceField(
+        queryset=User.objects.filter(userType='DC')
+    )
     schedule=forms.CharField(label='Horario', widget=forms.TextInput(attrs={'type':'datetime-local'}))
     class Meta:
         model=Team
-        exclude=('schedule','totalAttendances','period')
+        exclude=('schedule','totalAttendances','period','responsible')
 
 class updateTeamForm(forms.Form):
     """
@@ -60,9 +63,14 @@ class deleteTeamMemberForm(forms.Form):
     pass
 
 class registerMatchForm(ModelForm):
+    idTeam= forms.ModelChoiceField(queryset=Team.objects.all(),label="Equipo representativo")
     class Meta:
         model = Match
-        exclude=('winned', 'period')
+        exclude=('winned', 'period','idTeam')
+
+        labels={
+            'idTeam':'Equipo'
+        }
 # class callTheRollWsForm(ModelForm):
 #     class Meta:
 #         model=Team
