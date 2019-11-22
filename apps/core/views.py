@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import redirect
 #from django.http import HttpResponse
@@ -76,3 +77,6 @@ def changePassword(request):
     else:
         form = PasswordChangeForm(request.user)
         return render(request, 'core/changePassword.html', {'form': form })
+
+
+

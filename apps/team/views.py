@@ -98,6 +98,7 @@ def createTeam(request):
             if form.is_valid():
                 team=form.save(commit=False)
                 team.period = setPeriod()
+                team.responsible=form.cleaned_data['responsible']
                 team.save()
                 messages.success(request,'Registro completado')
                 return render(request, 'team/createTeam.html',{'form':form})
