@@ -13,7 +13,7 @@ Eliminar Admin
                 {% csrf_token %}
                 {{ form.as_p }}
             </form>
-            <button class="btn-generic" id="delete-admin">Eliminar</button>
+            <button class="btn-generic" id="delete-admin" onclick="validar()">Eliminar</button>
                 {% if messages %}
                     {% for message in messages %}
                         {{ message }}
@@ -22,7 +22,7 @@ Eliminar Admin
     </div>
 </div>
 <!-- MODAL CONTRASEÑA -->
-<div class="modal-background flex-container" id="modal-admin" style="display: flex;">
+<div class="modal-background flex-container" id="modal-admin">
         <div class="modal-content flex-container">
             <div class="alert-title flex-container">
                 <div class="alert-icon flex-container m-bottom-1"><i class="fas fa-exclamation-triangle"></i></div>
@@ -31,7 +31,7 @@ Eliminar Admin
             <div class="alert-content flex-container m-top-1 form-group ">
                 <p class="m-bottom-1">El usuario se eliminará permanentemente.</p>
                 <label for="">Ingrese su contraseña</label>
-                <input type="password" class="modal-password" name="password" id="" required>
+                <input type="password" class="modal-password" name="password" id="password" required>
             </div>
             <div class="alert-button flex-container m-top-1">
                 <button class="btn-option-cancel" id="cancel-delete-admin">Cancelar</button>
@@ -44,15 +44,21 @@ Eliminar Admin
     </div>
 
     <script>
-            // MODAL ELIMINAR ADMINISTRADOR
-            // ABRIR
-            document.getElementById("delete-admin").addEventListener("click",()=>{
-            let modal1 = document.getElementById("modal-admin").style.display="flex";
-            });
-            // CERRAR
+            // CERRAR MODAL
             document.getElementById("cancel-delete-admin").addEventListener("click",()=>{
             let modal = document.getElementById("modal-admin").style.display="none";
             });
+            function validar() {
+                //obteniendo el valor que se puso en campo text del formulario
+                miCampoTexto = document.getElementById("id_username").value;
+                //la condición
+                if (miCampoTexto.length == 0) {
+                    
+                }else{
+                    // ABRIR MODAL
+                    document.getElementById("modal-admin").style.display="flex";
+                }
+            }
 
             function eliminarAdministrador(){
                 var xhttp;
@@ -68,9 +74,12 @@ Eliminar Admin
                         console.log(this.responseText);
                         switch (respuesta.status) {
                             case 0:
-                                retroalimentacion.innerHTML = respuesta.msg;
+                                document.getElementById("modal-admin").style.display="none";
+                                document.getElementById("password").value = "";
+                                document.getElementById("id_username").value ="";
                                 break;
                             case 1:
+                            alert("hechoooo")
                                 location.reload();
                                 break;
                             default:
@@ -81,7 +90,7 @@ Eliminar Admin
                 xhttp.open("POST", "{% url 'eliminarAdmin' %}", true);
                 xhttp.setRequestHeader("X-CSRFToken", csrftoken);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhttp.send('password='+password+'&expediente='+expediente);
+                xhttp.send('password='+password+'&username='+expediente);
             }
 
     </script>

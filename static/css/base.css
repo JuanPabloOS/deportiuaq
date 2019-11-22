@@ -1075,3 +1075,22 @@ h2 {
   border: 2px solid var(--light-green) !important;
   box-sizing: border-box;
 }
+
+tbody tr:nth-child(even) {
+  padding: 1rem;
+}
+
+tbody tr {
+  border: none;
+  background: var(--white);
+}
+
+table {
+  background: var(--light-grey);
+  border-radius: 10px 10px 0px 0px;
+  border-spacing: 0px;
+}
+th{
+  padding: .3rem;
+  margin-bottom: 9px;
+}

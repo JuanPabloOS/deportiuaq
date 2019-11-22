@@ -11,10 +11,8 @@ Eliminar Docente
                 <form method="POST" class="form-group">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <label for="">Ingrese su contraseña</label>
-                    <input type="password" name="password" id="" required>
                 </form>
-                <button class="btn-generic" id="delete-Docente">Eliminar</button>
+                <button class="btn-generic" id="delete-docente" onclick="validar()">Eliminar</button>
                     {% if messages %}
                         {% for message in messages %}
                             {{ message }}
@@ -23,65 +21,76 @@ Eliminar Docente
         </div>
     </div>
     <!-- MODAL CONTRASEÑA -->
-    <div class="modal-background flex-container" id="modal-Docente">
-            <div class="modal-content flex-container">
-                <div class="alert-title flex-container">
-                    <div class="alert-icon flex-container m-bottom-1"><i class="fas fa-exclamation-triangle"></i></div>
-                    <p class="m-bottom-1">Advertencia!</p>
-                </div>
-                <div class="alert-content flex-container m-top-1 form-group ">
-                    <p class="m-bottom-1">El usuario se eliminará permanentemente.</p>
-                </div>
-                <div class="alert-button flex-container m-top-1">
-                    <button class="btn-option-cancel" id="cancel-delete-Docente">Cancelar</button>
-                    <button class="btn-option light-green greenHover" onclick="eliminarDocente()">Continuar</button>
-                </div>
-                <div>
-        
-                </div>
+    <div class="modal-background flex-container" id="modal-docente">
+        <div class="modal-content flex-container">
+            <div class="alert-title flex-container">
+                <div class="alert-icon flex-container m-bottom-1"><i class="fas fa-exclamation-triangle"></i></div>
+                <p class="m-bottom-1">Advertencia!</p>
+            </div>
+            <div class="alert-content flex-container m-top-1 form-group ">
+                <p class="m-bottom-1">El usuario se eliminará permanentemente.</p>
+                <label for="">Ingrese su contraseña</label>
+                <input type="password" class="modal-password" name="password" id="password" required>
+            </div>
+            <div class="alert-button flex-container m-top-1">
+                <button class="btn-option-cancel" id="cancel-delete-docente">Cancelar</button>
+                <button class="btn-option light-green greenHover" onclick="eliminarDocente()">Continuar</button>
+            </div>
+            <div>
+    
             </div>
         </div>
+    </div>
     
-        <script>
-                // MODAL ELIMINAR DOCENTE
-                // ABRIR
-                document.getElementById("delete-Docente").addEventListener("click",()=>{
-                let modal1 = document.getElementById("modal-Docente").style.display="flex";
-                });
-                // CERRAR
-                document.getElementById("cancel-delete-Docente").addEventListener("click",()=>{
-                let modal = document.getElementById("modal-Docente").style.display="none";
-                });
-    
-                function eliminarDocente(){
-                    var xhttp;
-                    var csrftoken = '{{ csrf_token }}';
-                    var password = document.getElementById("password").value;
-                    var expediente = document.getElementById("id_username").value;
-                    console.log(password)
-                    console.log(expediente)
-                    xhttp = new XMLHttpRequest();
-                    xhttp.onreadystatechange = function() {
-                        if (this.readyState == 4 && this.status == 200) {
-                            respuesta=JSON.parse(this.responseText);
-                            console.log(this.responseText);
-                            switch (respuesta.status) {
-                                case 0:
-                                    retroalimentacion.innerHTML = respuesta.msg;
-                                    break;
-                                case 1:
-                                    location.reload();
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    };
-                    xhttp.open("POST", "{% url 'eliminarDocente' %}", true);
-                    xhttp.setRequestHeader("X-CSRFToken", csrftoken);
-                    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    xhttp.send('password='+password+'&expediente='+expediente);
+    <script>
+        // CERRAR MODAL
+        document.getElementById("cancel-delete-docente").addEventListener("click",()=>{
+            let modal = document.getElementById("modal-becario").style.display="none";
+        });
+        function validar() {
+            //obteniendo el valor que se puso en campo text del formulario
+            miCampoTexto = document.getElementById("id_username").value;
+            //la condición
+            if (miCampoTexto.length == 0) {
+                
+            }else{
+                // ABRIR MODAL
+                document.getElementById("modal-docente").style.display="flex";
+            }
+        }
+
+        function eliminarDocente(){
+            var xhttp;
+            var csrftoken = '{{ csrf_token }}';
+            var password = document.getElementById("password").value;
+            var expediente = document.getElementById("id_username").value;
+            console.log(password)
+            console.log(expediente)
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    respuesta=JSON.parse(this.responseText);
+                    console.log(this.responseText);
+                    switch (respuesta.status) {
+                        case 0:
+                            document.getElementById("modal-docente").style.display="none";
+                            document.getElementById("password").value = "";
+                            document.getElementById("id_username").value ="";
+                            alert(respuesta.msg)
+                            break;
+                        case 1:
+                            alert("hechoooo")
+                            location.reload();
+                            break;
+                        default:
+                            break;
+                    }
                 }
-    
-        </script>
+            };
+            xhttp.open("POST", "{% url 'eliminarDocente' %}", true);
+            xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send('password='+password+'&username='+expediente);
+        }
+</script>
 {% endblock %}
