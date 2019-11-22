@@ -28,7 +28,7 @@
             <div class="menu-container">
             <!-- MENUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU -->
             <!-- INICIO -->
-            <button class="option-content option-active"><i class="fas fa-home"></i><span><a href="{% url 'home' %}">Inicio</a></span></button>
+            <button class="option-content option-active" onclick="location.href='{% url 'home' %}'"><i class="fas fa-home"></i><span>Inicio</span></button>
             <!-- MULTIPLES -->
             <button class="option option-content"><i class="fas fa-clipboard-list">x</i><span>Múltiples</span></button>
             <div class="option-list">
@@ -39,12 +39,12 @@
             </div>
             <!-- TALLERES -->
             {% if user.userType == 'DC' or user.userType == 'AD' %}
-                <button class="option option-content"><i class="fas fa-clipboard-list">x</i><span>Eliminar usuario</span></button>
+                <button class="option option-content"><i class="fas fa-user-times"></i><span>Eliminar usuario</span></button>
                 <div class="option-list">
-                    {% if user.userType == 'DC' or user.userType == 'AD' %}<a class="option-menu option-content" href="{% url 'eliminarBecario' %}"><i class="fas fa-clipboard-list">x</i><span>Becario</span></a>{% endif %}
+                    {% if user.userType == 'DC' or user.userType == 'AD' %}<a class="option-menu option-content" href="{% url 'eliminarBecario' %}"><i class="fas fa-trash"></i><span>Becario</span></a>{% endif %}
                     {% if user.userType == 'AD' %}
-                    <a class="option-menu option-content" href="{% url 'eliminarDocente' %}"><i class="fas fa-clipboard-list">x</i><span>Docente</span></a>
-                    <a class="option-menu option-content" href="{% url 'eliminarAdmin' %}"><i class="fas fa-clipboard-list">x</i><span>Administrador</span></a>
+                    <a class="option-menu option-content" href="{% url 'eliminarDocente' %}"><i class="fas fa-trash"></i><span>Docente</span></a>
+                    <a class="option-menu option-content" href="{% url 'eliminarAdmin' %}"><i class="fas fa-trash"></i><span>Administrador</span></a>
                     {% endif %}
                 </div>
             {% endif %}
@@ -54,7 +54,7 @@
                 <!-- BECARIOS -->
                 <button class="option-content" onclick="location.href='{% url 'registrarBecario' %}'"><i class="fas fa-user"></i><span>Registrar Becario</span></button>
 
-                <button class="option option-content"><i class="fas fa-clipboard-list">x</i><span>Pasar Lista</span></button>
+                <button class="option option-content"><i class="fas fa-clipboard-check"></i><span>Pasar Lista</span></button>
                 <div class="option-list">
                     <a class="option-menu option-content" href="{% url 'seleccionarTallerPaseDeLista' %}"><i class="fas fa-clipboard-list">x</i><span>Taller</span></a>
                     <a class="option-menu option-content" href="{% url 'seleccionarEquipoPaseDeLista' %}"><i class="fas fa-clipboard-list">x</i><span>Equipo</span></a>
@@ -63,16 +63,16 @@
             {% endif %}
             {% if user.userType == 'AD' %}
                 <!-- DOCENTES -->
-                <button class="option option-content"><i class="fas fa-clipboard-list">x</i><span>Talleres</span></button>
+                <button class="option option-content"><i class="fas fa-th"></i><span>Talleres</span></button>
                 <div class="option-list">
-                    <a class="option-menu option-content" href="{% url 'crearTaller' %}"><i class="fas fa-clipboard-list">x</i><span>Registrar</span></a>
-                    <a class="option-menu option-content" href="{% url 'eliminarTaller' %}"><i class="fas fa-clipboard-list">x</i><span>Eliminar</span></a>
+                    <a class="option-menu option-content" href="{% url 'crearTaller' %}"><i class="fas fa-plus-square"></i><span>Registrar</span></a>
+                    <a class="option-menu option-content" href="{% url 'eliminarTaller' %}"><i class="fas fa-trash"></i><span>Eliminar</span></a>
                 </div>
 
-                <button class="option option-content"><i class="fas fa-clipboard-list">x</i><span>Equipos</span></button>
+                <button class="option option-content"><i class="fas fa-users"></i><span>Equipos</span></button>
                 <div class="option-list">
-                    <a class="option-menu option-content" href="{% url 'crearEquipo' %}"><i class="fas fa-clipboard-list">x</i><span>Registrar</span></a>
-                    <a class="option-menu option-content" href="{% url 'eliminarEquipo' %}"><i class="fas fa-clipboard-list">x</i><span>Eliminar</span></a>
+                    <a class="option-menu option-content" href="{% url 'crearEquipo' %}"><i class="fas fa-plus-square"></i><span>Registrar</span></a>
+                    <a class="option-menu option-content" href="{% url 'eliminarEquipo' %}"><i class="fas fa-trash"></i><span>Eliminar</span></a>
                 </div>
 
                 <button class="option-content" onclick="location.href='{% url 'registrarAdmin' %}'"><i class="fas fa-user-tie"></i><span>Registrar Administrador</span></button>
