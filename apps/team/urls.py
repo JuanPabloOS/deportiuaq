@@ -15,6 +15,6 @@ urlpatterns=[
     path('eliminarAlumnoE/',views.deleteTeamMember,name='eliminarAlumnoE'),
     path('estadisticosAsistencia/',views.statisticsAttendance,name='estadisticosAsistencia'),
     path('registrarPartido/', views.registerMatch_view, name='registrarPartido'),
-    path('getMiembrosTeam/<int:idTeam>/', views.getMiembrosTeam, name='getMiembrosTeam')
+    path('getMiembrosTeam/', views.getMiembrosTeam, name='getMiembrosTeam')
     
 ]

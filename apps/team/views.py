@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.hashers import check_password
+from django.core import serializers
 #modelos
 from .models import Team
 from .models import TeamMember
@@ -22,8 +23,8 @@ from .forms import registerMatchForm
  #decorador
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
-from django.views.decorators.http import require_http_methods   #admitir determinados tipos de petición
-
+from django.views.decorators.http import require_http_methods   
+#admitir determinados tipos de petición
 import datetime
 # Create your views here.
 def setPeriod():
@@ -216,22 +217,22 @@ def seleccionarEquipo(request):
     equipos = Team.objects.filter(responsible=request.user, period=setPeriod())
     return render(request, 'team/seleccionarEquipo.html',{'equipos':equipos})
 
-@require_http_methods(['GET'])
-def getMiembrosTeam(request, idTeam):
+@require_http_methods(['POST'])
+def getMiembrosTeam(request):
     try:
-        miembros = TeamMember.objects.filter(idTeam=idTeam)
-        return JsonResponse({
-            'status':1,
-            'msg':'Integrantes recuperados con éxito',
-            'miembros':miembros})
-    except:
+        id=request.POST['idTeam']
+        miembros = serializers.serialize('json', TeamMember.objects.filter(idTeam=id))
+        print(miembros)
+        return JsonResponse({'status':1,'msg':'Integrantes recuperados con éxito','miembros':miembros})
+    except Exception as e:
+        print (str(e))
         return JsonResponse({
             'status':0,
             'msg':'El equipo no tiene integrantes aún.',
             'miembros':''
         })
 
-
+    
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')
 def callTheRollTeam(request, idTeam):
