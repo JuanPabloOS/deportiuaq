@@ -17,26 +17,37 @@
         </div>
         <div class="table-left flex-container" style="margin-right: 0px; !important">
             <h2>¿Quién jugó?</h2>
-    
+            <table id="jugadores">
+
+            </table>
         </div>
     </div>
     <script defer>
     document.getElementById("id_idTeam").addEventListener("change", getTeam);
-
+    var response;
     function getTeam() {
-        var x = document.getElementById("id_idTeam").value;
-        alert(x)
+        var token = "{{ csrf_token }}"
+        var idTeam=document.getElementById("id_idTeam").value;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                response=JSON.parse(this.responseText)
+                var miembros = JSON.parse(response.miembros)
+                console.log(miembros)
+                
+                // var jugadores = document.getElementById("jugadores");
+                // miembros.forEach(element=>{
+                //     console.log(element)
+                //     var row = document.createElement("tr");
+                //     var nombre = document.createElement("td");
 
-        var xhr = new XMLHttpRequest();
- 
-        xhr.open("POST","URL",true);
-        xhr.send();
-    
-        xhr.onreadystatechange = function(){
-            if(xhr.readyState == 4 && xhr.status == 200){
-                // document.getElementById("ID").innerHTML = xhr.responseText;
+                // })
             }
-        }
+            };
+            xmlhttp.open("POST", "{% url 'getMiembrosTeam' %}", true);
+            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xmlhttp.setRequestHeader("X-CSRFToken", token );
+            xmlhttp.send("idTeam="+idTeam);
     }
     </script>
 
