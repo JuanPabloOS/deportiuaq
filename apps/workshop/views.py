@@ -11,13 +11,13 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth.decorators import login_required       #pedir una sesión activa
 from django.contrib.auth.decorators import user_passes_test     #Comprobar los permisos de usuario
 from django.views.decorators.http import require_http_methods   #admitir determinados tipos de petición
-#modelos
+#Modelos
 from .models import Workshop
 from .models import WsMember
 from .models import CallTheRollWs
 from .models import Sesion
 from apps.core.models import User
-#formularios
+#Formularios
 from .forms import createWorkshopForm
 from .forms import deleteWorkshopForm
 from .forms import deleteMemberToWorkshopForm
@@ -80,7 +80,7 @@ def verTaller_view(request, idTaller):
     except ObjectDoesNotExist:
         return redirect('talleres')
 
-
+@login_required
 def verAlumnosTaller_view(request, idTaller):
     try:
         taller = Workshop.objects.get(id=idTaller)
@@ -176,20 +176,12 @@ def addMemberToWs(request):
     if form.is_valid():
         try:
             isAlreadyIn = WsMember.objects.get(expediente=form.cleaned_data["expediente"], idWs__period=setPeriod())
-            # print("<--------->")
-            # print(isAlreadyIn)
-            # print("<--------->")
             messages.error(request, 'El alumno ya está registrado en otro taller')
-            
         except:
             form.save()
             messages.success(request,'Registro completado')
         next = request.POST.get('next', '/')
         return HttpResponseRedirect(next)
-        
-def match(request):
-    return render(request, 'workshop/createMatch.html')
-
 
 @login_required
 @user_passes_test(lambda user: user.userType=='DC' or user.userType=='BC')
@@ -218,7 +210,6 @@ def deleteWsMember(request):
     else:
             form=deleteMemberToWorkshopForm()
             return render(request,'workshop/deleteMemberToWs.html',{'form':form})
-
 
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')
@@ -259,33 +250,54 @@ def callTheRollWs(request, idTaller):
         asistencias = dict()                                     #Declarar el conjunto de todas las asistencias por alumno
         sesiones = Sesion.objects.filter(idWs=idTaller).values() #Obtener las sesiones del taller corresóndiente
         miembros = WsMember.objects.filter(idWs=idTaller).order_by('last_name') #Buscar los miembros inscritos en el taller
-        return render(request,'workshop/callTheRoll.html',{'sesiones':sesiones,'asistencias':asistencias, 'miembros':miembros})
+        return render(request,'core/callTheRoll.html',{'sesiones':sesiones,'asistencias':asistencias, 'miembros':miembros})
 
-# @login_required
-# @user_passes_test(lambda user: user.userType=='DC')
+@require_http_methods(['GET'])
+def seleccionarEquipo(request):
+    equipos = Workshop.objects.filter(responsible=request.user, period=setPeriod())
+    return render(request, 'workshop/seleccionarEquipo.html',{'equipos':equipos})
+
+@login_required
+@user_passes_test(lambda user: user.userType=='DC')
 def absolveWs(request):
     alumnos = list(WsMember.objects.all())
     w, h = A4
     buffer = io.BytesIO()
     p = canvas.Canvas(buffer, pagesize=A4)
-    p.setFont("Times-Roman", 20)
+    
     while(len(alumnos)>0):
+        p.setFont("Times-Roman", 20)
         p.drawString(150,h-150,'FACULTAD DE INFORMÁTICA')
         p.setFont("Times-Roman", 18)
         p.drawString(155,h-180,'COORDINACIÓN DE DEPORTES')
         p.setFont("Times-Roman", 12)
         p.drawString(175,h-200,'TALLERES DE DESARROLLO HUMANO')
         p.setFont("Times-Roman", 14)
-        p.drawString(215,h-230,'FORMATO DE LIBERACIÓN')
-
-        p.drawString(100,h-300,'Disciplina de taller: Basquetbol')
-        p.drawString(100,h-316,'Nombre: '+alumnos[0].first_name)
-        p.drawString(100,h-332,'Carrera: %s Grupo: %s Matrícula: %s' %(alumnos[0].plan, alumnos[0].group, alumnos[0].expediente))
+        p.drawString(200,h-230,'FORMATO DE LIBERACIÓN')
+        
+        # Escibir los campos
+        p.drawString(100,h-300,'Disciplina de taller:')
+        p.drawString(100,h-316,'Nombre:')
+        p.drawString(100,h-332,'Carrera:')
+        p.drawString(210,h-332,'Grupo:')
+        p.drawString(290,h-332,'Matrícula:')
         p.drawString(100,h-348,'Por medio de la presente, se hace la notificación de manera oficial, que el')
         p.drawString(100,h-364,'alumno cumplió satisfactoriamente su estadía participando en el Taller')
         p.drawString(100,h-380,'Deportivo de:')
-        p.drawString(100,h-396,'Tiro con arco')
+        
         p.drawString(100,h-412,'en el período comprendido de agosto-diciembre 2019.')
+        p.drawString(250,h-550,'ATENTAMENTE')
+        p.line(200, h-630, 400, h-630)
+        p.drawString(170,h-645,'Coordinador de deportes Facultad de Informática')
+        # Escribir los valores
+        p.setFont("Times-Bold", 14)
+        p.drawString(220,h-300,str(alumnos[0].idWs))
+        p.drawString(155,h-316,alumnos[0].first_name)
+        p.drawString(150,h-332,str(alumnos[0].plan))
+        p.drawString(250,h-332,str(alumnos[0].group))
+        p.drawString(350,h-332,str(alumnos[0].expediente))
+        p.drawString(100,h-396,str(alumnos[0].idWs))
+        p.setFont("Times-Roman", 14)
         p.drawString(100,h-450,'Se extiende la presente para los efectos que al interesado convengan.')
         alumnos.pop(0)
         p.showPage()

@@ -18,7 +18,7 @@ class createWorkshopForm(ModelForm):
         exclude=['totalAttendances','period','responsible','totalMembers']
 
         labels={
-            'maxMembers':'Especifique un máximo de integrantes si es el caso'
+            'maxMembers':'Máximo de integrantes:'
         }
 
 class deleteWorkshopForm(forms.Form):
@@ -31,7 +31,7 @@ class addMemberToWorkshopForm(ModelForm):
     
     class Meta:
         model=WsMember
-        exclude=('totalAssists','absolved')
+        exclude=('totalAttendances','absolved')
         labels={
             'idWS':''
         }
@@ -51,7 +51,7 @@ class updateWorkshopForm(forms.Form):
         queryset=User.objects.filter(userType='DC')
     )
     schedule=forms.CharField(label='Horario', widget=forms.TextInput(attrs={'type':'text'}))
-    maxMembers=forms.IntegerField(label='Especifique un máximo de integrantes si es el caso')
+    maxMembers=forms.IntegerField(label='Máximo de integrantes:')
     # class Meta:
     #     model=Workshop
     #     fields=['workshop_id','responsible', 'schedule','maxMembers']

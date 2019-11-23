@@ -53,7 +53,7 @@ def resetPassword(request):
                 matchcheck=check_password(passwordAdmnistrador, currentpassword)    
                 # si la contraseña del staff es correcta
                 if matchcheck:
-                    new_password=make_password('b'+form.cleaned_data.get('username'))          
+                    new_password=make_password('d'+form.cleaned_data.get('username'))          
                     usuario.password=new_password # reestablecer la contraseña
                     usuario.save()
                     messages.success(request, 'Contraseña restablecida')
@@ -155,7 +155,7 @@ def deleteAdmin(request):
         currentPassword=request.user.password #obtener la contraseña de loggeo
         matchcheck=check_password(passwordToVerify,currentPassword) #comparar ambas contraseñas
         if(matchcheck): #realizar la acción
-            usernameTeacher=request.POST['username']
+            usernameAdmin=request.POST['username']
             try:
                 administrador = User.objects.get(username=usernameAdmin, userType='AD')
                 administrador.is_active = 0

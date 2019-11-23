@@ -11,6 +11,6 @@ urlpatterns=[
     path('registrarAlumnoT/',views.addMemberToWs,name='registrarAlumnoT'),
     path('eliminarAlumnoT/',views.deleteWsMember,name='eliminarAlumnoT'),
     path('callTheRollWs/<int:idTaller>/',views.callTheRollWs,name='callTheRollWs'),
+    path('seleccionar-Taller-Pase-De-Lista/', views.seleccionarEquipo, name="seleccionarTallerPaseDeLista"),
     path('absolveWs/',views.absolveWs,name='absolveWs'),
-    path('match/', views.match,name="match"),
 ]

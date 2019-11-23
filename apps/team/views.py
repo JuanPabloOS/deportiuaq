@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.hashers import check_password
+from django.core import serializers
 #modelos
 from .models import Team
 from .models import TeamMember
@@ -17,12 +18,13 @@ from .forms import createTeamForm
 from .forms import deleteTeamForm
 from .forms import addMemberToTeamForm
 from .forms import deleteMemberToTeamForm
-
+from .forms import updateTeamForm
+from .forms import registerMatchForm
  #decorador
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
-from django.views.decorators.http import require_http_methods   #admitir determinados tipos de petición
-
+from django.views.decorators.http import require_http_methods   
+#admitir determinados tipos de petición
 import datetime
 # Create your views here.
 def setPeriod():
@@ -40,12 +42,46 @@ def setPeriod():
     return period
 
 @login_required
-def talleres_view(request):
+def equipos_view(request):
     """
     Lista todos los equipos
     """
     equipos = Team.objects.all()
-    return render(request, 'workshop/equipos.html', {'equipos':equipos})
+    return render(request, 'team/equipos.html', {'equipos':equipos})
+
+@login_required
+def verEquipo_view(request, idTeam):
+    """
+        Ver un taller en específico
+    """
+    # print("===================")
+    # print(request.user)
+    # print("===================")
+    try:
+        periodo=setPeriod()
+        equipo=Team.objects.get(id=idTeam)
+        miembros = TeamMember.objects.filter(idTeam=idTeam)
+        updateForm = updateTeamForm(initial={
+                'id':equipo.id,
+                'responsible':equipo.responsible,
+                'schedule':equipo.schedule,
+        })
+        
+        addMemberForm=addMemberToTeamForm(initial={
+            'idTeam':equipo.id
+        })
+        return render(request,'team/editarEquipo.html',{'miembros':miembros,'equipo':equipo,'updateForm':updateForm, 'addMemberForm':addMemberForm})
+    except ObjectDoesNotExist:
+        return redirect('equipos')
+
+@login_required
+def verAlumnosEquipo_view(request, idTeam):
+    try:
+        taller = Team.objects.get(id=idTaller)
+        miembros = TeamMember.objects.filter(idWs=idTaller)
+        return render(request, 'team/verAlumnos.html', {'taller':taller,'miembros':miembros})
+    except:
+        return redirect('talleres')
 
 @login_required
 @user_passes_test(lambda user: user.userType=='AD')
@@ -63,6 +99,7 @@ def createTeam(request):
             if form.is_valid():
                 team=form.save(commit=False)
                 team.period = setPeriod()
+                team.responsible=form.cleaned_data['responsible']
                 team.save()
                 messages.success(request,'Registro completado')
                 return render(request, 'team/createTeam.html',{'form':form})
@@ -103,11 +140,23 @@ def deleteTeam(request):
 
 @login_required
 @user_passes_test(lambda user: user.userType=='DC' or user.userType=='BC')
-def updateTeam(request):
+def updateTeam(request, idTeam):
     """
-    Editarequipo representativo
+    Editar equipo representativo
     """
-    pass
+    form = updateTeamForm(request.POST)
+    if form.is_valid():
+        equipo=Team.objects.get(id=form.cleaned_data['id'])
+        equipo.responsible=form.cleaned_data['responsible']
+        scheduleStr=form.cleaned_data['schedule']
+        equipo.schedule=scheduleStr
+        equipo.save()
+        messages.success(request, 'Se actualizó el equipo')
+        return redirect('verEquipo', idTeam)
+    else:
+        print('No se pudo actualizar')
+        messages.error(request,'No se pudo actualizar el taller')
+        return redirect('verTaller', idTaller)
 
 @login_required
 @user_passes_test(lambda user: user.userType=='DC' or user.userType=='BC')
@@ -118,12 +167,19 @@ def addMemberToTeam(request):
     if request.method == 'POST':
         form = addMemberToTeamForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request,'Registro completado')
-            return redirect('addMemberToTeam')
+            try:
+                isAlreadyIn = TeamMember.objects.get(expediente=form.cleaned_data['expediente'], idTeam__period=setPeriod())
+                messages.error(request, 'El alumno ya está registrado en otro Equipo')
+            except:
+                form.save()
+                messages.success(request,'Registro completado')
+            next = request.POST.get('next', '/')
+            return HttpResponseRedirect(next)
         else:
             messages.error(request,'Error: revisa que los datos sean correctos')
-            return render(request,'team/addMemberToTeam.html',{'form':form})
+            # return render(request,'team/addMemberToTeam.html',{'form':form})
+            next = request.POST.get('next', '/')
+            return HttpResponseRedirect(next)
     else:
         form = addMemberToTeamForm()
         return render(request,'team/addMemberToTeam.html',{'form':form})
@@ -156,7 +212,27 @@ def deleteTeamMember(request):
             form=deleteMemberToTeamForm()
             return render(request,'team/deleteMemberToTeam.html',{'form':form})
 
+@require_http_methods(['GET'])
+def seleccionarEquipo(request):
+    equipos = Team.objects.filter(responsible=request.user, period=setPeriod())
+    return render(request, 'team/seleccionarEquipo.html',{'equipos':equipos})
 
+@require_http_methods(['POST'])
+def getMiembrosTeam(request):
+    try:
+        id=request.POST['idTeam']
+        miembros = serializers.serialize('json', TeamMember.objects.filter(idTeam=id))
+        print(miembros)
+        return JsonResponse({'status':1,'msg':'Integrantes recuperados con éxito','miembros':miembros})
+    except Exception as e:
+        print (str(e))
+        return JsonResponse({
+            'status':0,
+            'msg':'El equipo no tiene integrantes aún.',
+            'miembros':''
+        })
+
+    
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')
 def callTheRollTeam(request, idTeam):
@@ -198,6 +274,10 @@ def callTheRollTeam(request, idTeam):
         miembros = TeamMember.objects.filter(idTeam=idTeam).order_by('last_name') #Buscar los miembros inscritos en el taller
         return render(request,'team/callTheRoll.html',{'sesiones':sesiones,'asistencias':asistencias, 'miembros':miembros})
 
+
+def registerMatch_view(request):
+    form = registerMatchForm()
+    return render(request, 'team/match.html', {'form':form})
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')
 def statisticsMatches(request):

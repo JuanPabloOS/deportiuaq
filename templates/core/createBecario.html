@@ -17,6 +17,9 @@
                 {% if messages %}
                     {% for message in messages %}
                         {{ message }}
+                        <script defer>
+                           launch_toast()
+                        </script>
                     {% endfor %}
                 {% endif %}
             </form>
