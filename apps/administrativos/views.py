@@ -89,10 +89,12 @@ def createTeacher(request):
             return redirect('registrarDocente')
         else:
             messages.error(request,'Error: Registro no completado')
-            return render(request, 'core/createTeacher.html',{'form':form})
+            docentes = User.objects.filter(userType='DC')
+            return render(request, 'core/createTeacher.html',{'form':form, 'docentes':docentes})
     else:
-        form=createUserForm()        
-        return render(request, 'core/createTeacher.html',{'form':form})
+        form=createUserForm()
+        docentes = User.objects.filter(userType='DC')
+        return render(request, 'core/createTeacher.html',{'form':form, 'docentes':docentes})
 
 @login_required
 @user_passes_test(lambda user: user.userType=='AD' or user.userType=='DC')
@@ -111,11 +113,14 @@ def createBecario(request):
             messages.success(request, 'Registro completado')
             return redirect('registrarBecario')
         else:
+            becarios = User.objects.filter(userType='BC')
             messages.error(request,'Error: Registro no completado')
-            return render(request, 'core/createBecario.html',{'form':form})
+            return render(request, 'core/createBecario.html',{'form':form, 'becarios':becarios})
     else:
-        form=createUserForm()        
-        return render(request, 'core/createBecario.html',{'form':form})
+        form=createUserForm()
+        becarios = User.objects.filter(userType='BC')
+        print(str(becarios))
+        return render(request, 'core/createBecario.html',{'form':form, 'becarios':becarios})
 
 @login_required
 @user_passes_test(lambda user: user.userType=='AD')

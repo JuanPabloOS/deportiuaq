@@ -4,9 +4,19 @@
 
 {% block content %}
 <div class="base-container flex-container center-content">
-    <div class="table-left flex-container">
+    <div class="table-left flex-container column-container">
         <h2>Docentes</h2>
-
+        <table>
+            <tbody class="flex-container column-container">
+                {% for docente in docentes %}
+                <tr>
+                    <td>
+                        {{ docente.last_name }} {{ docente.first_name }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
     <div class="form-right flex-container column-container center-content">
         <h1>Registrar docente</h1>
