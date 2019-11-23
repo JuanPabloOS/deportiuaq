@@ -272,12 +272,13 @@ def callTheRollTeam(request, idTeam):
         asistencias = dict()                                     #Declarar el conjunto de todas las asistencias por alumno
         sesiones = Sesion.objects.filter(idTeam=idTeam).values() #Obtener las sesiones del taller corresóndiente
         miembros = TeamMember.objects.filter(idTeam=idTeam).order_by('last_name') #Buscar los miembros inscritos en el taller
-        return render(request,'team/callTheRoll.html',{'sesiones':sesiones,'asistencias':asistencias, 'miembros':miembros})
+        return render(request,'core/callTheRoll.html',{'sesiones':sesiones,'asistencias':asistencias, 'miembros':miembros})
 
 
 def registerMatch_view(request):
     form = registerMatchForm()
     return render(request, 'team/match.html', {'form':form})
+
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')
 def statisticsMatches(request):
