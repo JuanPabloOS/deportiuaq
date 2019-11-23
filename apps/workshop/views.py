@@ -182,6 +182,9 @@ def addMemberToWs(request):
             messages.success(request,'Registro completado')
         next = request.POST.get('next', '/')
         return HttpResponseRedirect(next)
+    else:
+        next = request.POST.get('next', '/')
+        return HttpResponseRedirect(next)
 
 @login_required
 @user_passes_test(lambda user: user.userType=='DC' or user.userType=='BC')

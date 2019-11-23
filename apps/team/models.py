@@ -56,19 +56,22 @@ class TeamMember(models.Model):
         verbose_name='Miembro de equipo'
         verbose_name_plural='Miembros de equipo'
 
+    def __str__(self):
+        return '%s %s' %(self.last_name, self.first_name)
+
 class Match(models.Model):
     RIVAL_OPTIONS=(
         ('FBA','Bellas Artes'),
         ('FCP','Ciencias Políticas y Sociales'),
         ('FCA','Contaduría y Administración'),
         ('FDE','Derecho'),
-        ('FEN','Enfermería'),    
+        ('FEN','Enfermería'),
         ('FFI','Filosofía'),
         ('FIN','Ingeniería'),
         ('FLL','Lenguas y Letras'),
         ('FME','Medicina'),
-        ('FPS','Psicología'),                        
-        ('FQU','Química'),                
+        ('FPS','Psicología'),
+        ('FQU','Química'),
     )
     idTeam=models.ForeignKey('Team', on_delete=models.CASCADE)
     rival=models.CharField(verbose_name='Rival',max_length=3, choices=RIVAL_OPTIONS)
