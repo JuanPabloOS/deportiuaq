@@ -73,9 +73,10 @@ class Match(models.Model):
         ('FPS','Psicología'),
         ('FQU','Química'),
     )
+    
     idTeam=models.ForeignKey('Team', on_delete=models.CASCADE)
     rival=models.CharField(verbose_name='Rival',max_length=3, choices=RIVAL_OPTIONS)
-    winned=models.BooleanField(verbose_name='¿Se ganó?',default=False)
+    winned=models.BooleanField(verbose_name='¿Se ganó?',default=False, null=True)
     teamScore=models.SmallIntegerField(verbose_name='Puntos a favor')
     rivalScore=models.SmallIntegerField(verbose_name='Puntos en contra')
     period=models.CharField(verbose_name='Periodo', max_length=6, blank=True, null=True) # 2019-1
