@@ -33,15 +33,20 @@ Ver taller
                     <div class="workshop-edit-part2 flex-container column-container form-edit" style="width: 45%;">
                         <div class="workshop-edit-title flex-container">
                         </div>
-                        <div class="workshop-column flex-container form-edit" style="padding: 0rem !important;">
+                        <div class="workshop-column flex-container form-edit"    style="padding: 0rem !important;">
                             <label for="">Responsable:</label> 
                             <input type="text" name="" style="width: auto;" value="{{ taller.responsible }}" disabled>
                         </div>
                     </div>
                     <div class="workshop-edit-part3 flex-container center-content column-container">
-                        <h2>Acciones:</h2>
-                        <input type="button" class="dark-green greenHover" id="btn-edit" value="Editar taller">
-                        <input type="button" class="light-red redHover" value="Eliminar taller">
+                        
+                            <h2>Acciones:</h2>
+                            {% if user.userType == 'DC' or user.userType == 'AD' %}
+                            <input type="button" class="dark-green greenHover" id="btn-edit" value="Editar taller">
+                            {% endif %}
+                            {% if user.userType == 'AD' %}
+                                <input type="button" class="light-red redHover" id="btn-workshop-delete" value="Eliminar taller">
+                            {% endif %}
                     </div>
                 </div>
             </div>          
@@ -60,24 +65,7 @@ Ver taller
                     </div>
                 </div>
                 <style>
-                tbody tr:nth-child(even) {
-                    padding: 1rem;
-                }
-
-                tbody tr {
-                    border: none;
-                    background: var(--white);
-                }
-
-                table {
-                    background: var(--light-grey);
-                    border-radius: 10px 10px 0px 0px;
-                    border-spacing: 0px;
-                }
-                th{
-                    padding: .3rem;
-                    margin-bottom: 9px;
-                }
+                
                 </style>
                     <div style="overflow-y: scroll;"></div>
                         <table style="text-align: center;">
@@ -88,7 +76,9 @@ Ver taller
                                     <th>Correo</th>
                                     <th>Asistencias</th>
                                     <th>Absuelto</th>
-                                    <th>Acciones</th>
+                                    {% if user.userType == 'DC' or user.userType == 'AD' %}
+                                        <th>Acciones</th>
+                                    {% endif %}
                                 </tr>
                             </thead>
                         {% for miembro in miembros %}
@@ -99,7 +89,9 @@ Ver taller
                                     <td>{{ miembro.mail }}</td>
                                     <td>{{ miembro.totalAssists }}</td>
                                     <td>{% if miembro.absolved %} Si {% else %} No {% endif %}</td>
-                                    <td><Button class="btn-trash" onclick="modalJuan({{ miembro.expediente }})"><i class="fas fa-trash-alt"></i></Button></td>
+                                    {% if user.userType == 'DC' or user.userType == 'AD' %}
+                                        <td><Button class="btn-trash" onclick="modalJuan({{ miembro.expediente }})"><i class="fas fa-trash-alt"></i></Button></td>
+                                    {% endif %}
                                 </tr>
                             </tbody>
                         {% endfor %}
@@ -163,12 +155,105 @@ Ver taller
     </div>
 </div>
 
+<!-- MODAL ELIMINAR WORKSHOP -->
+<div class="modal-background flex-container" id="workshop-delete">
+        <div class="modal-content flex-container">
+            <div class="alert-title flex-container">
+                <div class="alert-icon flex-container m-bottom-1"><i class="fas fa-exclamation-triangle"></i></div>
+                <p class="m-bottom-1">Advertencia!</p>
+            </div>
+            <div class="alert-content flex-container m-top-1 form-group">
+                <p>Se eliminará de forma permanente.</p>
+                {% csrf_token %}
+                <input type="number" name="expediente" id="expediente" hidden>
+           
+                <label class="m-top-1" for="">Ingrese su contraseña para confirmar:</label>
+                <input type="password" class="m-bottom-1 white" name="password" id="password_user" required>
+            </div>
+            <div class="alert-button flex-container m-top-1">
+                <button class="btn-option-cancel" id="cancel-delete" onclick="">Cancelar</button>
+                <button class="btn-option light-green greenHover" onclick="eliminarTaller()">Continuar</button>
+                
+            </div>
+            <div>
+    
+            </div>
+        </div>
+    </div>
+
 <script>
+    // MODAL EDITAR TALLER
+    document.getElementById("btn-edit").addEventListener("click",()=>{
+    let modal1 = document.getElementById("modal-workshop").style.display="flex";
+    });
+    // CERRAR MODAL DE EDITAR TALLER
+    document.getElementById("modal-btn2").addEventListener("click",()=>{
+    var modal = document.getElementById("modal-workshop").style.display="none";
+    });
+
+    // MODAL AGREGAR ALUMNO
+    document.getElementById("addmember").addEventListener("click",()=>{
+    let modal1 = document.getElementById("modal-addmember").style.display="flex";
+    });
+
+    // CERRAR MODAL DE EDITAR TALLER
+    document.getElementById("closeadd").addEventListener("click",()=>{
+    var modal = document.getElementById("modal-addmember").style.display="none";
+    });
+
+    // CERRAR MODAL DE ELIMINAR ALUMNO DE TALLER
+    document.getElementById("alert-cancel-delete").addEventListener("click",()=>{
+    var modal = document.getElementById("alert-delete").style.display="none";
+    });
+
+    //MODAL ELIMINAR TALLER
+    document.getElementById('cancel-delete').addEventListener("click",()=>{
+        var modal = document.getElementById("workshop-delete").style.display="none";
+    });
+    //MODAL  ELIMINAR TALLER
+    document.getElementById('btn-workshop-delete').addEventListener("click",()=>{
+        var modal = document.getElementById("workshop-delete").style.display="flex";
+    });
+
     function modalJuan(expediente){
         var modal = document.getElementById("alert-delete").style.display="flex";
         document.getElementById("expediente").value = expediente;
     }
-    
+
+    function eliminarTaller(){
+        var xhttp;
+        var csrftoken = '{{ csrf_token }}';
+        var password = document.getElementById("password_user").value;
+        var workshop_id = '{{ taller.id }}';
+        console.log(password)
+        console.log(workshop_id)
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
+                respuesta=JSON.parse(this.responseText);
+                switch (respuesta.status) {
+                    case 0:
+                        document.getElementById("workshop-delete").style.display="none";
+                        document.getElementById("password").value = "";
+                        alert(respuesta.msg)
+                        break;
+                    case 1:
+                        alert("hechoooo")
+                        location.reload();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+        xhttp.open("POST", "{% url 'eliminarTaller' %}", true);
+        xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send('password='+password+'&workshop_id='+workshop_id);
+        
+    }   
+
     function eliminarAlumno(){
         var xhttp;
         var csrftoken = '{{ csrf_token }}';
