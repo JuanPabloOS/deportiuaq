@@ -25,23 +25,28 @@ Ver equipo
                             <label for="">Horario:</label> 
                             <input type="text" name="" id="" value="{{ equipo.schedule }}" disabled>
                         </div>
-                        <!-- <div class="workshop-column flex-container form-edit">
+                        <div class="workshop-column flex-container form-edit">
                             <label for="">Cupo máximo:</label> 
                             <input type="text" name="" id="" value="{{ equipo.maxMembers }}" disabled>
-                        </div> -->
+                        </div>
                     </div>
                     <div class="workshop-edit-part2 flex-container column-container form-edit" style="width: 45%;">
                         <div class="workshop-edit-title flex-container">
                         </div>
-                        <div class="workshop-column flex-container form-edit" style="padding: 0rem !important;">
+                        <div class="workshop-column flex-container form-edit"    style="padding: 0rem !important;">
                             <label for="">Responsable:</label> 
                             <input type="text" name="" style="width: auto;" value="{{ equipo.responsible }}" disabled>
                         </div>
                     </div>
                     <div class="workshop-edit-part3 flex-container center-content column-container">
-                        <h2>Acciones:</h2>
-                        <input type="button" class="dark-green greenHover" id="btn-edit" value="Editar equipo">
-                        <input type="button" class="light-red redHover" value="Eliminar equipo">
+                        
+                            <h2>Acciones:</h2>
+                            {% if user.userType == 'DC' or user.userType == 'AD' %}
+                            <input type="button" class="dark-green greenHover" id="btn-edit" value="Editar equipo">
+                            {% endif %}
+                            {% if user.userType == 'AD' %}
+                                <input type="button" class="light-red redHover" id="btn-workshop-delete" value="Eliminar Equipo">
+                            {% endif %}
                     </div>
                 </div>
             </div>          
@@ -59,27 +64,37 @@ Ver equipo
                         <button class="btn-option dark-green" id="addmember">Agregar alumno</button>
                     </div>
                 </div>
+                <style>
+                
+                </style>
                     <div style="overflow-y: scroll;"></div>
                         <table style="text-align: center;">
-                            
+                            <thead>
                                 <tr>
                                     <th>Expediente</th>
                                     <th>Nombre</th>
                                     <th>Correo</th>
                                     <th>Asistencias</th>
                                     <th>Absuelto</th>
-                                    <th>Acciones</th>
+                                    {% if user.userType == 'DC' %}
+                                        <th>Acciones</th>
+                                    {% endif %}
                                 </tr>
-                                {% for miembro in miembros %}
+                            </thead>
+                        {% for miembro in miembros %}
+                            <tbody>
                                 <tr>
-                                    <td>{{ miembro.expediente }}</td>
+                                    <td style="border:hidden;">{{ miembro.expediente }}</td>
                                     <td>{{ miembro.first_name }} {{ miembro.last_name }}</td>
                                     <td>{{ miembro.mail }}</td>
                                     <td>{{ miembro.totalAssists }}</td>
                                     <td>{% if miembro.absolved %} Si {% else %} No {% endif %}</td>
-                                    <td><Button class="btn-trash" onclick="modalJuan({{ miembro.expediente }})"><i class="fas fa-trash-alt"></i></Button></td>
+                                    {% if user.userType == 'DC' %}
+                                        <td><Button class="btn-trash" onclick="modalJuan({{ miembro.expediente }})"><i class="fas fa-trash-alt"></i></Button></td>
+                                    {% endif %}
                                 </tr>
-                                {% endfor %}
+                            </tbody>
+                        {% endfor %}
                             </table>
                     </div>
             </div>
@@ -87,11 +102,11 @@ Ver equipo
     </div>
 </div>
     
-<!-- MODAL -->
+<!-- MODAL REGISTRAR -->
 <div class="modal-background flex-container" id="modal-addmember">
     <div class="modal-content flex-container p-top2">
-            <h2>Editar equipo</h2>
-        <form action="{% url 'registrarAlumnoE' %}" class="form-group-modal center-content" method='POST'>
+            <h2>Editar Equipo</h2>
+        <form action="{% url 'registrarAlumnoT' %}" class="form-group-modal center-content" method='POST'>
             {% csrf_token %}
             {{ addMemberForm.as_p }}
             <input type="hidden" name="next" value="{{ request.path }}">
@@ -102,10 +117,10 @@ Ver equipo
     </div>
 </div>
 
-<!-- MODAL -->
+<!-- MODAL MODIFICAR Equipo -->
 <div class="modal-background flex-container" id="modal-workshop">
     <div class="modal-content flex-container p-top2">
-            <h2>Editar equipo</h2>
+            <h2>Editar Equipo</h2>
         <form action="{% url 'actualizarEquipo' equipo.id%}" class="form-group" method="POST">
             {% csrf_token %}
             {{ updateForm.as_p }}
@@ -114,6 +129,162 @@ Ver equipo
         <button id="modal-btn2">Cancelar</button>
     </div>
 </div>
+<!-- MODAL ELIMINAR ALUMNO -->
+<div class="modal-background flex-container" id="alert-delete">
+    <div class="modal-content flex-container">
+        <div class="alert-title flex-container">
+            <div class="alert-icon flex-container m-bottom-1"><i class="fas fa-exclamation-triangle"></i></div>
+            <p class="m-bottom-1">Advertencia!</p>
+        </div>
+        <div class="alert-content flex-container m-top-1 form-group">
+            <p>El alumno se eliminará de forma permanente.</p>
+            {% csrf_token %}
+            <input type="number" name="expediente" id="expediente" hidden>
+       
+            <label class="m-top-1" for="">Ingrese su contraseña para confirmar:</label>
+            <input type="password" class="m-bottom-1 white" name="password" id="password" required>
+        </div>
+        <div class="alert-button flex-container m-top-1">
+            <button class="btn-option-cancel" id="alert-cancel-delete" onclick="">Cancelar</button>
+            <button class="btn-option light-green greenHover" onclick="eliminarAlumno()">Continuar</button>
+            
+        </div>
+        <div>
+
+        </div>
+    </div>
+</div>
+
+<!-- MODAL ELIMINAR WORKSHOP -->
+<div class="modal-background flex-container" id="workshop-delete">
+        <div class="modal-content flex-container">
+            <div class="alert-title flex-container">
+                <div class="alert-icon flex-container m-bottom-1"><i class="fas fa-exclamation-triangle"></i></div>
+                <p class="m-bottom-1">Advertencia!</p>
+            </div>
+            <div class="alert-content flex-container m-top-1 form-group">
+                <p>Se eliminará de forma permanente.</p>
+                {% csrf_token %}
+                <input type="number" name="expediente" id="expediente" hidden>
+           
+                <label class="m-top-1" for="">Ingrese su contraseña para confirmar:</label>
+                <input type="password" class="m-bottom-1 white" name="password" id="password_user" required>
+            </div>
+            <div class="alert-button flex-container m-top-1">
+                <button class="btn-option-cancel" id="cancel-delete" onclick="">Cancelar</button>
+                <button class="btn-option light-green greenHover" onclick="eliminarEquipo()">Continuar</button>
+                
+            </div>
+            <div>
     
+            </div>
+        </div>
+    </div>
+
+<script>
+    // MODAL EDITAR Equipo
+    document.getElementById("btn-edit").addEventListener("click",()=>{
+    let modal1 = document.getElementById("modal-workshop").style.display="flex";
+    });
+    // CERRAR MODAL DE EDITAR Equipo
+    document.getElementById("modal-btn2").addEventListener("click",()=>{
+    var modal = document.getElementById("modal-workshop").style.display="none";
+    });
+
+    // MODAL AGREGAR ALUMNO
+    document.getElementById("addmember").addEventListener("click",()=>{
+    let modal1 = document.getElementById("modal-addmember").style.display="flex";
+    });
+
+    // CERRAR MODAL DE EDITAR Equipo
+    document.getElementById("closeadd").addEventListener("click",()=>{
+    var modal = document.getElementById("modal-addmember").style.display="none";
+    });
+
+    // CERRAR MODAL DE ELIMINAR ALUMNO DE Equipo
+    document.getElementById("alert-cancel-delete").addEventListener("click",()=>{
+    var modal = document.getElementById("alert-delete").style.display="none";
+    });
+
+    //MODAL ELIMINAR Equipo
+    document.getElementById('cancel-delete').addEventListener("click",()=>{
+        var modal = document.getElementById("workshop-delete").style.display="none";
+    });
+    //MODAL  ELIMINAR Equipo
+    document.getElementById('btn-workshop-delete').addEventListener("click",()=>{
+        var modal = document.getElementById("workshop-delete").style.display="flex";
+    });
+
+    function modalJuan(expediente){
+        var modal = document.getElementById("alert-delete").style.display="flex";
+        document.getElementById("expediente").value = expediente;
+    }
+
+    function eliminarEquipo(){
+        var xhttp;
+        var csrftoken = '{{ csrf_token }}';
+        var password = document.getElementById("password_user").value;
+        var team_id = '{{ equipo.id }}';
+        console.log(password)
+        console.log(team_id)
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
+                respuesta=JSON.parse(this.responseText);
+                switch (respuesta.status) {
+                    case 0:
+                        document.getElementById("workshop-delete").style.display="none";
+                        document.getElementById("password").value = "";
+                        alert(respuesta.msg)
+                        break;
+                    case 1:
+                        alert("hechoooo")
+                        location.reload();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+        xhttp.open("POST", "{% url 'eliminarEquipo' %}", true);
+        xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send('password='+password+'&team_id='+team_id);
+        
+    }   
+
+    function eliminarAlumno(){
+        var xhttp;
+        var csrftoken = '{{ csrf_token }}';
+        var idTeam = '{{ equipo.id }}';
+        var password = document.getElementById("password").value;
+        var expediente = document.getElementById("expediente").value;
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            var retroalimentacion = document.getElementById("retroalimentacion");
+            if (this.readyState == 4 && this.status == 200) {
+                respuesta=JSON.parse(this.responseText);
+                console.log(this.responseText);
+                
+                switch (respuesta.status) {
+                    case 0:
+                        alert(respuesta.msg);
+                        break;
+                    case 1:
+                        location.reload();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+        xhttp.open("POST", "{% url 'eliminarAlumnoE' %}", true);
+        xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        
+        xhttp.send('password='+password+'&expediente='+expediente+'&idTeam='+idTeam);
+    }
+</script>
 {% endblock %}
 
