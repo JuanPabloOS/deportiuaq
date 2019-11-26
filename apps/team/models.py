@@ -84,6 +84,9 @@ class Match(models.Model):
     class Meta:
         verbose_name='Partido'
         verbose_name_plural='Partidos'
+    
+    def __str__(self):
+        return '%s vs %s' %(self.idTeam, self.rival)
 
 class Player(models.Model):
     idMatch=models.ForeignKey('Match', on_delete=models.CASCADE)
@@ -92,6 +95,9 @@ class Player(models.Model):
     class Meta:
         verbose_name='Jugador'
         verbose_name_plural='Jugadores'
+    
+    def __str__(self):
+        return '%s' %(self.idTeamMember)
 
 class Sesion(models.Model):
     idTeam=models.ForeignKey('Team', on_delete=models.CASCADE)
@@ -113,9 +119,9 @@ class CallTheRollTeam(models.Model):
     idSesion=models.ForeignKey('Sesion',on_delete=models.CASCADE, related_name="get_sesion")
     attended=models.BooleanField(verbose_name='Asistió',default=False)
     
-    def __str__(self):
-        return '%s %s' %(self.attended, self.idTeamMember)
-
     class Meta:
         verbose_name='Asistencia'
         verbose_name_plural='Asistencias'
+
+    def __str__(self):
+        return '%s %s' %(self.attended, self.idTeamMember)

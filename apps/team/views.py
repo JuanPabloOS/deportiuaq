@@ -223,7 +223,7 @@ def getMiembrosTeam(request):
     try:
         id=request.POST['idTeam']
         miembros = serializers.serialize('json', TeamMember.objects.filter(idTeam=id))
-        print(miembros)
+        # print(miembros)
         return JsonResponse({'status':1,'msg':'Integrantes recuperados con éxito','miembros':miembros})
     except Exception as e:
         print (str(e))
@@ -281,12 +281,13 @@ def registerMatch_view(request):
     if request.method == 'POST':
         try:
             idTeamInstance=get_object_or_404(Team, id=request.POST['idTeam'])
+            
             teamScore=int(request.POST['teamScore'], base=10)
             rivalScore=int(request.POST['rivalScore'], base=10)
             winned=None
             if teamScore>rivalScore:
                 winned=True
-            elif teamScore <rivalScore:
+            elif teamScore<rivalScore:
                 winned=False
             form = registerMatchForm({
                 'idTeam':int(request.POST['idTeam'], base=10),
@@ -299,16 +300,22 @@ def registerMatch_view(request):
             if form.is_valid():
                 print("==================")
                 print("El formulario es válido")
-                match=form.save(commit=False)
-                match.save()
-                alumnos = TeamMember.objects.filter(idTeam=request.POST['idTeam'])
-                for alumno in alumnos:
-                    if str(alumno.id) in request.POST['jugadores']:
-                        Player(idMatch=match, idTeamMember=alumno).save()
-                return JsonResponse({ 'status':1,'msg':'Petición completada'})
+                try:
+                    match=form.save(commit=False)
+                    match.idTeam_id = idTeamInstance.id
+                    match.save()
+                    print(match)
+                    alumnos = TeamMember.objects.filter(idTeam=request.POST['idTeam'])
+                    for alumno in alumnos:
+                        if str(alumno.id) in request.POST['jugadores']:
+                            Player(idMatch=match, idTeamMember=alumno).save()
+                    return JsonResponse({ 'status':1,'msg':'Petición completada'})
+                except Exception as e:
+                    print(str(e))
+                    return JsonResponse({ 'status':0,'msg':'Petición no completada'})
             else:
                 print("==================")
-                print("else")
+                print("El formulario no es válido")
                 print(form.errors.as_data())
                 print("==================")
                 return JsonResponse({ 'status':0,'msg':'Petición completada'})
