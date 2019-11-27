@@ -126,7 +126,8 @@ def deleteWorkshop(request):
         passwordToVerify=''
         try: #Verificar que efectivamente se haya resibido una contraseña
             passwordToVerify=request.POST['password']
-        except:
+        except Exception as e:
+            print(str(e))
             return JsonResponse({'status':0,'msg':'Ingresa tu contraseña'})
         currentPassword=request.user.password #obtener la contraseña de loggeo
         matchcheck=check_password(passwordToVerify,currentPassword) #comparar ambas contraseñas
@@ -134,8 +135,13 @@ def deleteWorkshop(request):
             workshopId=request.POST['workshop_id']
             try:
                 objects, dictionary = Workshop.objects.get(id=workshopId).delete()
+                print("=================")
+                print(str(objects))
+                print(str(dictionary))
+                print("=================")
                 return JsonResponse({'status':1,'msg':'Taller eliminado','objects':objects,'dictionary':dictionary})
-            except ObjectDoesNotExist:
+            except Exception as e:
+                print(str(e))
                 return JsonResponse({'status':0,'msg':'El taller no existe o ya ha sido eliminado'})
         else:
             return JsonResponse({'status':0,'msg':'La contraseña no coincide'})
