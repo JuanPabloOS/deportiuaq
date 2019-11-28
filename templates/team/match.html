@@ -4,7 +4,7 @@
 <div class="base-container flex-container center-content">
     <div class="form-right flex-container column-container center-content" style="margin-right: 10px;">
         <h1>Registrar partido</h1>
-            <div method="POST" class="form-group">
+            <div class="form-group">
                 {% csrf_token %}
                 <p>
                     <label for="id_idTeam">{{ form.idTeam.label }}:</label>
@@ -22,19 +22,16 @@
                     <label for="rivalScore">{{ form.rivalScore.label }}:</label>
                     {{ form.rivalScore }}
                 </p>
-                <input type="submit" value="Registrar" style="width: 250px !important;">
-                {% if messages %}
-                    {% for message in messages %}
-                        {{ message }}
-                    {% endfor %}
-                {% endif %}
+                <p id="msg"></p>
+                <input type="submit" value="Registrar" id="registrarPartido" style="width: 250px !important;">
+                
             </div>
         </div>
         <div class="table-left flex-container column-container" style="margin-right: 0px; !important">
             <h2>¿Quién jugó?</h2>
             <table>
                 <tbody id="jugadores">
-
+                    
                 </tbody>
             </table>
         </div>
@@ -74,6 +71,72 @@
             xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xmlhttp.setRequestHeader("X-CSRFToken", token );
             xmlhttp.send("idTeam="+idTeam);
+    }
+    
+    document.getElementById("registrarPartido").addEventListener("click", registrarPartido);
+    function registrarPartido(){
+        var msg=document.getElementById("msg");
+        var isValid=false;
+        console.log("=================");
+        console.log(isValid);
+        console.log("=================");
+        // Token
+        var token = "{{ csrf_token }}"
+        // Datos del formulario
+        var idTeam=document.getElementById("id_idTeam").value; //por id
+        console.log(`idTeam ${idTeam}`)
+        var rival = document.getElementById("id_rival").value; //por id
+        console.log(`rival ${rival}`)
+        var teamScore = document.getElementById("id_teamScore").value; //por id
+        console.log(`teamScore ${teamScore}`)
+        var rivalScore =document.getElementById("id_rivalScore").value; //por id
+        console.log(`rivalScore ${rivalScore}`)
+        if(!idTeam.isNaN && idTeam>0 && idTeam!=""){
+            if(rival.length===3 && rival!=""){
+                if(!teamScore.isNaN && teamScore>=0 && teamScore!=""){
+                    if(!rivalScore.isNaN && rivalScore>=0 && rivalScore!=""){
+                        isValid=true;
+                        msg.innerHTML="";
+                        console.log("=================");
+                        console.log(isValid);
+                        console.log("=================");
+                    }else{
+                        msg.innerHTML="Todos los campos son obligatorios";
+                        console.log("=================");
+                        console.log(isValid);
+                        console.log("=================");
+                    }
+                }else{
+                    msg.innerHTML="Todos los campos son obligatorios";
+                }
+            }else{
+                msg.innerHTML="Todos los campos son obligatorios";
+            }
+        }else{
+            msg.innerHTML="Todos los campos son obligatorios";
+        }
+
+        // Jugadores
+        var jugadoresNodes = document.querySelectorAll("input[type=checkbox]:checked")
+        console.log(jugadoresNodes);
+        var jugadores = [];
+        jugadoresNodes.forEach((x)=>{
+            jugadores.push(x.getAttribute("name"));
+        })
+        console.log(jugadores);
+        // Petición ajax
+        if(isValid){
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+            console.log(JSON.parse(this.responseText))
+            }
+            };
+            xmlhttp.open("POST", "{% url 'registrarPartido' %}", true);
+            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xmlhttp.setRequestHeader("X-CSRFToken", token );
+            xmlhttp.send("idTeam="+idTeam+"&rival="+rival+"&teamScore="+teamScore+"&rivalScore="+rivalScore+"&jugadores="+jugadores);
+        }
     }
     </script>
 

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
 from django.contrib import messages
@@ -52,7 +53,7 @@ def equipos_view(request):
 @login_required
 def verEquipo_view(request, idTeam):
     """
-        Ver un taller en específico
+        Ver un equipo en específico
     """
     # print("===================")
     # print(request.user)
@@ -74,14 +75,14 @@ def verEquipo_view(request, idTeam):
     except ObjectDoesNotExist:
         return redirect('equipos')
 
-@login_required
-def verAlumnosEquipo_view(request, idTeam):
-    try:
-        taller = Team.objects.get(id=idTaller)
-        miembros = TeamMember.objects.filter(idWs=idTaller)
-        return render(request, 'team/verAlumnos.html', {'taller':taller,'miembros':miembros})
-    except:
-        return redirect('talleres')
+# @login_required
+# def verAlumnosEquipo_view(request, idTeam):
+#     try:
+#         taller = Team.objects.get(id=idTeam)
+#         miembros = TeamMember.objects.filter(idTeam=idTeam)
+#         return render(request, 'team/verAlumnos.html', {'taller':taller,'miembros':miembros})
+#     except:
+#         return redirect('talleres')
 
 @login_required
 @user_passes_test(lambda user: user.userType=='AD')
@@ -155,8 +156,8 @@ def updateTeam(request, idTeam):
         return redirect('verEquipo', idTeam)
     else:
         print('No se pudo actualizar')
-        messages.error(request,'No se pudo actualizar el taller')
-        return redirect('verTaller', idTaller)
+        messages.error(request,'No se pudo actualizar el equipo')
+        return redirect('verEquipo', idTeam)
 
 @login_required
 @user_passes_test(lambda user: user.userType=='DC' or user.userType=='BC')
@@ -202,7 +203,7 @@ def deleteTeamMember(request):
             expedienteMember=request.POST['expediente']
             idTeam=request.POST['idTeam']
             try:
-                member = WsMember.objects.get(expediente=expedienteMember, idTeam=idTeam).delete()
+                member = TeamMember.objects.get(expediente=expedienteMember, idTeam=idTeam).delete()
                 return JsonResponse({'status':1,'msg':'Usuario dado de baja'})
             except ObjectDoesNotExist:
                 return JsonResponse({'status': 0, 'msg':'El usuario no existe'})
@@ -222,7 +223,7 @@ def getMiembrosTeam(request):
     try:
         id=request.POST['idTeam']
         miembros = serializers.serialize('json', TeamMember.objects.filter(idTeam=id))
-        print(miembros)
+        # print(miembros)
         return JsonResponse({'status':1,'msg':'Integrantes recuperados con éxito','miembros':miembros})
     except Exception as e:
         print (str(e))
@@ -246,7 +247,7 @@ def callTheRollTeam(request, idTeam):
                 sesionExistente = Sesion.objects.get(idTeam=idTeam,date=datetime.date.today())
                 asistencias = CallTheRollTeam.objects.filter(idSesion=sesionExistente) #recuperar las asistencias de la sesion
                 for asistencia in asistencias:
-                    if str(asistencia.idWsMember_id) in request.POST['attendances']:
+                    if str(asistencia.idTeamMember_id) in request.POST['attendances']:
                         asistencia.attended = True
                         asistencia.save()
                     else:
@@ -256,8 +257,8 @@ def callTheRollTeam(request, idTeam):
                 return JsonResponse({'status':1, 'msg':'Pase de lista actualizado'})
             except ObjectDoesNotExist:
                 # No existe una sesión para el día de hoy, por lo tanto se crea
-                idTeamInstance = get_object_or_404(Workshop, id=idTeam)
-                todaySesion = Sesion(idWs=idTeamInstance, date=datetime.date.today())
+                idTeamInstance = get_object_or_404(Team, id=idTeam)
+                todaySesion = Sesion(idTeam=idTeamInstance, date=datetime.date.today())
                 todaySesion.save()
                 alumnos = TeamMember.objects.filter(idTeam=idTeam)
                 for alumno in alumnos:
@@ -267,17 +268,63 @@ def callTheRollTeam(request, idTeam):
                         CallTheRollTeam(idTeamMember=alumno, idSesion=todaySesion, attended=False).save()
                 return JsonResponse({'status':1, 'msg':'Se ha tomado el pase de lista'})
         except Exception as e:
+            print(str(e))
             return JsonResponse({'status':0,'msg':'No se ha podido pasar lista, intenta de nuevo'})
     else: #El request tipo GET regresa un
         asistencias = dict()                                     #Declarar el conjunto de todas las asistencias por alumno
-        sesiones = Sesion.objects.filter(idTeam=idTeam).values() #Obtener las sesiones del taller corresóndiente
-        miembros = TeamMember.objects.filter(idTeam=idTeam).order_by('last_name') #Buscar los miembros inscritos en el taller
+        sesiones = Sesion.objects.filter(idTeam=idTeam).values() #Obtener las sesiones del equipo corresóndiente
+        miembros = TeamMember.objects.filter(idTeam=idTeam).order_by('last_name') #Buscar los miembros inscritos en el equipo
         return render(request,'core/callTheRoll.html',{'sesiones':sesiones,'asistencias':asistencias, 'miembros':miembros})
 
-
+@login_required
 def registerMatch_view(request):
-    form = registerMatchForm()
-    return render(request, 'team/match.html', {'form':form})
+    if request.method == 'POST':
+        try:
+            idTeamInstance=get_object_or_404(Team, id=request.POST['idTeam'])
+            
+            teamScore=int(request.POST['teamScore'], base=10)
+            rivalScore=int(request.POST['rivalScore'], base=10)
+            winned=None
+            if teamScore>rivalScore:
+                winned=True
+            elif teamScore<rivalScore:
+                winned=False
+            form = registerMatchForm({
+                'idTeam':int(request.POST['idTeam'], base=10),
+                'rival':request.POST['rival'],
+                'winned':winned,
+                'teamScore':teamScore,
+                'rivalScore':rivalScore,
+                'period':setPeriod()
+            })
+            if form.is_valid():
+                print("==================")
+                print("El formulario es válido")
+                try:
+                    match=form.save(commit=False)
+                    match.idTeam_id = idTeamInstance.id
+                    match.save()
+                    print(match)
+                    alumnos = TeamMember.objects.filter(idTeam=request.POST['idTeam'])
+                    for alumno in alumnos:
+                        if str(alumno.id) in request.POST['jugadores']:
+                            Player(idMatch=match, idTeamMember=alumno).save()
+                    return JsonResponse({ 'status':1,'msg':'Petición completada'})
+                except Exception as e:
+                    print(str(e))
+                    return JsonResponse({ 'status':0,'msg':'Petición no completada'})
+            else:
+                print("==================")
+                print("El formulario no es válido")
+                print(form.errors.as_data())
+                print("==================")
+                return JsonResponse({ 'status':0,'msg':'Petición completada'})
+        except Exception as e:
+            print(str(e))
+            return JsonResponse({ 'status':0,'msg':'Petición completada'})
+    else:
+        form = registerMatchForm()
+        return render(request, 'team/match.html', {'form':form})
 
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')
