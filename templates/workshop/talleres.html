@@ -25,9 +25,11 @@ Talleres Deportivos
                         <div class="workshop-option flex-container" onclick="location.href='{% url 'verTaller' taller.id %}'">
                             Editar taller
                         </div>
+                        {% if user.userType == 'DC' %}
                         <div class="workshop-option flex-container" onclick="location.href='{% url 'verAlumnosTaller' taller.id %}'">
                             Liberaciones
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

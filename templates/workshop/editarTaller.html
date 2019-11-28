@@ -41,7 +41,7 @@ Ver taller
                     <div class="workshop-edit-part3 flex-container center-content column-container">
                         
                             <h2>Acciones:</h2>
-                            {% if user.userType == 'DC' or user.userType == 'AD' %}
+                            {% if user.userType == 'DC' %}
                             <input type="button" class="dark-green greenHover" id="btn-edit" value="Editar taller">
                             {% endif %}
                             {% if user.userType == 'AD' %}
@@ -61,7 +61,9 @@ Ver taller
                         <h2 style="font-weight: 500;">Alumnos inscritos:</h2>
                     </div>
                     <div class="width-50 flex-container right-content">
+                        {% if user.userType == 'DC' or user.userType == 'BC' %}
                         <button class="btn-option dark-green" id="addmember">Agregar alumno</button>
+                        {% endif %}
                     </div>
                 </div>
                 <style>
