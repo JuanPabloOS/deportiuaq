@@ -81,12 +81,13 @@ def verTaller_view(request, idTaller):
         return redirect('talleres')
 
 @login_required
-def verAlumnosTaller_view(request, idTaller):
+def liberaciones_view(request, idTaller):
     try:
         taller = Workshop.objects.get(id=idTaller)
         miembros = WsMember.objects.filter(idWs=idTaller)
-        return render(request, 'workshop/verAlumnos.html', {'taller':taller,'miembros':miembros})
-    except:
+        return render(request, 'workshop/liberaciones.html', {'taller':taller,'miembros':miembros})
+    except Exception as e:
+        print(str(e))
         return redirect('talleres')
 
 @login_required

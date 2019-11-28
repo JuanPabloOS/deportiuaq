@@ -4,7 +4,7 @@ from . import views
 urlpatterns=[
     path('',views.talleres_view, name='talleres'),
     path('verTaller/<int:idTaller>/', views.verTaller_view , name='verTaller'),
-    path('verAlumnosTaller/<int:idTaller>/', views.verAlumnosTaller_view,name='verAlumnosTaller'),
+    
     path('crearTaller/',views.createWorkshop, name='crearTaller'),
     path('eliminarTaller/', views.deleteWorkshop, name='eliminarTaller'),
     path('actualizarTaller/<int:idTaller>/',views.updateWorkshop,name='actualizarTaller'),
@@ -12,5 +12,6 @@ urlpatterns=[
     path('eliminarAlumnoT/',views.deleteWsMember,name='eliminarAlumnoT'),
     path('callTheRollWs/<int:idTaller>/',views.callTheRollWs,name='callTheRollWs'),
     path('seleccionar-Taller-Pase-De-Lista/', views.seleccionarEquipo, name="seleccionarTallerPaseDeLista"),
+    path('liberaciones/<int:idTaller>/', views.liberaciones_view,name='liberaciones'),
     path('absolveWs/',views.absolveWs,name='absolveWs'),
 ]

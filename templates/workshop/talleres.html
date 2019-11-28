@@ -26,23 +26,14 @@ Talleres Deportivos
                             Editar taller
                         </div>
                         {% if user.userType == 'DC' %}
-                        <div class="workshop-option flex-container" onclick="location.href='{% url 'verAlumnosTaller' taller.id %}'">
+                        <div class="workshop-option flex-container" onclick="location.href='{% url 'liberaciones' taller.id %}'">
                             Liberaciones
                         </div>
                         {% endif %}
                     </div>
                 </div>
             </div>
-        <!-- <tr>
-            <td>
-                    <a href="{% url 'verTaller' taller.id %}">{{ taller.sport }} {{ taller.branch }}</a>
-            </td>
-            <td>
-                <a href="{% url 'verTaller' taller.id %}">Editar taller</a>
-                <button><a href="{% url 'verAlumnosTaller' taller.id %}">Ver integrantes</a></button>
-            </td>
-            
-        </tr> -->
+        
         {% endfor %}
 <script>
 // function eliminarTaller(idTaller){
