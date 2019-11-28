@@ -1,0 +1,55 @@
+.workshop-list{
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+@media (min-width: 320px) and (max-width: 767px) {
+    .left-container{
+        display: none;
+    }
+    .right-container{
+        width: 100%;
+    }
+    .workshop-icon{
+        display: none;
+    }
+    .workshop-content{
+        width: 100%;
+    }
+    .workshop-space{
+        padding: 0;
+    }
+    .form-container{
+        width: 80%;
+    }
+    .form-responsive{
+        width: 100% !important;
+    }
+    .body-container{
+        height: 100%;
+    }
+
+
+    .workshop-icon-edit{
+        display: none;
+    }
+    .workshop-edit{
+        height: auto !important;
+    }
+    .workshop-edit-info{
+        flex-flow: column !important;
+        padding: 0 !important;
+    }
+    .workshop-edit-part1{
+        flex-flow: column;
+    }
+
+
+
+    #link-logout{
+        display: none;
+    }
+    #img-home{
+        height: 50% !important;
+    }
+}
+

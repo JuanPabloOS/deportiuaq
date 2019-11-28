@@ -41,7 +41,7 @@ Ver equipo
                     <div class="workshop-edit-part3 flex-container center-content column-container">
                         
                             <h2>Acciones:</h2>
-                            {% if user.userType == 'DC' or user.userType == 'AD' %}
+                            {% if user.userType == 'DC' %}
                             <input type="button" class="dark-green greenHover" id="btn-edit" value="Editar equipo">
                             {% endif %}
                             {% if user.userType == 'AD' %}
@@ -106,7 +106,7 @@ Ver equipo
 <div class="modal-background flex-container" id="modal-addmember">
     <div class="modal-content flex-container p-top2">
             <h2>Editar Equipo</h2>
-        <form action="{% url 'registrarAlumnoT' %}" class="form-group-modal center-content" method='POST'>
+        <form action="{% url 'registrarAlumnoE' %}" class="form-group-modal center-content" method='POST'>
             {% csrf_token %}
             {{ addMemberForm.as_p }}
             <input type="hidden" name="next" value="{{ request.path }}">
@@ -182,10 +182,7 @@ Ver equipo
     </div>
 
 <script>
-    // MODAL EDITAR Equipo
-    document.getElementById("btn-edit").addEventListener("click",()=>{
-    let modal1 = document.getElementById("modal-workshop").style.display="flex";
-    });
+    
     // CERRAR MODAL DE EDITAR Equipo
     document.getElementById("modal-btn2").addEventListener("click",()=>{
     var modal = document.getElementById("modal-workshop").style.display="none";
@@ -214,7 +211,10 @@ Ver equipo
     document.getElementById('btn-workshop-delete').addEventListener("click",()=>{
         var modal = document.getElementById("workshop-delete").style.display="flex";
     });
-
+    // MODAL EDITAR Equipo
+    document.getElementById("btn-edit").addEventListener("click",()=>{
+    let modal1 = document.getElementById("modal-workshop").style.display="flex";
+    });
     function modalJuan(expediente){
         var modal = document.getElementById("alert-delete").style.display="flex";
         document.getElementById("expediente").value = expediente;
