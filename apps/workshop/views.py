@@ -226,13 +226,17 @@ def deleteWsMember(request):
 def callTheRollWs(request, idTaller):
     #El request tipo POST regresa un JSON
     if request.method == 'POST':
-        # Registrar las asistencias o retardos por POST
+        print("Pase de lista taller")
         try:
             try: 
                 # Ya existe una sesión para el día de hoy
                 #Recuperar la sesión
                 sesionExistente = Sesion.objects.get(idWs=idTaller,date=datetime.date.today())
+                print("----- sesión existente")
+                print(str(sesionExistente))
                 asistencias = CallTheRollWs.objects.filter(idSesion=sesionExistente) #recuperar las asistencias de la sesion
+                print("-- asistencias")
+                print(str(asistencias))
                 for asistencia in asistencias:
                     if str(asistencia.idWsMember_id) in request.POST['attendances']:
                         asistencia.attended = True
@@ -242,11 +246,22 @@ def callTheRollWs(request, idTaller):
                         asistencia.attended = False
                         asistencia.save()
                 return JsonResponse({'status':1, 'msg':'Pase de lista actualizado'})
-            except ObjectDoesNotExist:
+            except Exception as e:
+                print(str(e))
                 # No existe una sesión para el día de hoy, por lo tanto se crea
-                idWsInstance = get_object_or_404(Workshop, id=idTaller)
-                todaySesion = Sesion(idWs=idWsInstance, date=datetime.date.today())
-                todaySesion.save()
+                idWsInstance = Workshop.objects.get(id=idTaller)
+                todaySesion=''
+                try:
+                    todaySesion = Sesion(idWs=idWsInstance)
+                    todaySesion.save()
+                    print("--------- try create sesion")
+                    print(str(todaySesion))
+                    # return JsonResponse({'status':1,'id':todaySesion.id})
+                except Exception as e:
+                    print("------------- no crear")
+                    print(str(e))
+                    return JsonResponse({'status':0,'msg':str(e)})
+                    # 
                 alumnos = WsMember.objects.filter(idWs=idTaller)
                 for alumno in alumnos:
                     if str(alumno.id) in request.POST['attendances']:
@@ -255,7 +270,41 @@ def callTheRollWs(request, idTaller):
                         CallTheRollWs(idWsMember=alumno, idSesion=todaySesion, attended=False).save()
                 return JsonResponse({'status':1, 'msg':'Se ha tomado el pase de lista'})
         except Exception as e:
+            print(str(e))
             return JsonResponse({'status':0,'msg':'No se ha podido pasar lista, intenta de nuevo'})
+        # Registrar las asistencias o retardos por POST
+        # try:
+        #     try: 
+        #         # Ya existe una sesión para el día de hoy
+        #         #Recuperar la sesión
+        #         sesionExistente = Sesion.objects.get(idWs=idTaller,date=datetime.date.today())
+        #         asistencias = CallTheRollWs.objects.filter(idSesion=sesionExistente) #recuperar las asistencias de la sesion
+        #         for asistencia in asistencias:
+        #             if str(asistencia.idWsMember_id) in request.POST['attendances']:
+        #                 asistencia.attended = True
+        #                 asistencia.save()
+        #             else:
+        #                 print("inasistencia")
+        #                 asistencia.attended = False
+        #                 asistencia.save()
+        #         return JsonResponse({'status':1, 'msg':'Pase de lista actualizado'})
+        #     except Exception as e:
+        #         print(str(e))
+        #         # No existe una sesión para el día de hoy, por lo tanto se crea
+        #         idWsInstance = get_object_or_404(Workshop, id=idTaller)
+        #         todaySesion = Sesion(idWs=idWsInstance, date=datetime.date.today())
+        #         todaySesion.save(commit=False)
+        #         todaySesion.save()
+        #         alumnos = WsMember.objects.filter(idWs=idTaller)
+        #         for alumno in alumnos:
+        #             if str(alumno.id) in request.POST['attendances']:
+        #                 CallTheRollWs(idWsMember=alumno, idSesion=todaySesion, attended=True).save()
+        #             else:
+        #                 CallTheRollWs(idWsMember=alumno, idSesion=todaySesion, attended=False).save()
+        #         return JsonResponse({'status':1, 'msg':'Se ha tomado el pase de lista'})
+        # except Exception as e:
+        #     print(str(e))
+        #     return JsonResponse({'status':0,'msg':'No se ha podido pasar lista, intenta de nuevo'})
     else: #El request tipo GET regresa un
         asistencias = dict()                                     #Declarar el conjunto de todas las asistencias por alumno
         sesiones = Sesion.objects.filter(idWs=idTaller).values() #Obtener las sesiones del taller corresóndiente

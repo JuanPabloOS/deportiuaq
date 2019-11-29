@@ -239,6 +239,7 @@ def getMiembrosTeam(request):
 def callTheRollTeam(request, idTeam):
     #El request tipo POST regresa un JSON
     if request.method == 'POST':
+        print("Pase de lista equipo")
         # Registrar las asistencias o retardos por POST
         try:
             try: 
@@ -255,11 +256,17 @@ def callTheRollTeam(request, idTeam):
                         asistencia.attended = False
                         asistencia.save()
                 return JsonResponse({'status':1, 'msg':'Pase de lista actualizado'})
-            except ObjectDoesNotExist:
+            except Exception as e:
+                print(str(e))
                 # No existe una sesión para el día de hoy, por lo tanto se crea
-                idTeamInstance = get_object_or_404(Team, id=idTeam)
-                todaySesion = Sesion(idTeam=idTeamInstance, date=datetime.date.today())
-                todaySesion.save()
+                idTeamInstance = Team.objects.get(id=idTeam)
+                todaySesion=''
+                try:
+                    todaySesion = Sesion(idTeam=idTeamInstance)
+                    todaySesion.save()
+                except Exception as e:
+                    print(str(e))
+                    return JsonResponse({'status':0,'msg':str(e)})
                 alumnos = TeamMember.objects.filter(idTeam=idTeam)
                 for alumno in alumnos:
                     if str(alumno.id) in request.POST['attendances']:

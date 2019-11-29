@@ -101,7 +101,7 @@ class Player(models.Model):
 
 class Sesion(models.Model):
     idTeam=models.ForeignKey('Team', on_delete=models.CASCADE)
-    date=models.DateField(verbose_name='Día')
+    date=models.DateField(verbose_name='Día', auto_now_add=True)
 
     def __str__(self):
         return '%s %s' %(self.idTeam, self.date)

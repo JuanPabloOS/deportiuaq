@@ -5,19 +5,32 @@ Ver alumnos
 {% endblock %}
 
 {% block content %}
+<div class="flex-container column-container workshop-section">
+
     {{ taller.sport }}
-    Integrantes
+    <div class="flex-container width-100 m-botton-20">
+            <div class="width-50 flex-container">
+                <h2 style="font-weight: 500;">Integrantes</h2>
+            </div>
+            <div class="width-50 flex-container right-content">
+                <button class="btn-option dark-green" >Generar cartas</button>
+                <button class="btn-option dark-green" id="">Editar taller</button>
+                
+            </div>
+        </div>
+    
     <br>
-    Ordenar por <select name="" id=""><option value="">Selecciona una opción</option></select>
-    <button><a href="{% url 'verTaller' taller.id %}">Editar Taller</a></button>
-    <section style="background-color:bisque">
+    
+    
+    <section>
             <table>
                 <tr>
                     <th>Expediente</th>
                     <th>Nombre</th>
                     <th>Correo</th>
                     <th>Asistencias</th>
-                    <th>Absuelto</th>
+                    <th>Faltas</th>
+                    <th>Carta</th>
                     
                 </tr>
                 {% for miembro in miembros %}
@@ -25,11 +38,13 @@ Ver alumnos
                     <td>{{ miembro.expediente }}</td>
                     <td>{{ miembro.first_name }} {{ miembro.last_name }}</td>
                     <td>{{ miembro.mail }}</td>
-                    <td>{{ miembro.totalAssists }}</td>
-                    <td>{% if miembro.absolved %} Si {% else %} No {% endif %}</td>
+                    <td>{{ miembro.totalAssists.get_attendances.attended|length }}</td>
+                    <td></td>
+                    <td><input type="checkbox" name="" id=""></td>
                 </tr>
                 {% endfor %}
             </table>
-    
-
+            
+            
+</div>
 {% endblock%}

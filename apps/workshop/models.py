@@ -101,7 +101,7 @@ class WsMember(models.Model):
 
 class Sesion(models.Model):
     idWs=models.ForeignKey('Workshop', on_delete=models.CASCADE)
-    date=models.DateField(verbose_name='Día')
+    date=models.DateField(verbose_name='Día', auto_now_add=True)
 
     def __str__(self):
         return '%s %s' %(self.idWs, self.date)
