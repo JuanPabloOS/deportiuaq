@@ -65,21 +65,3 @@ class registerMatchForm(ModelForm):
         labels={
             'idTeam':'Equipo'
         }
-# class callTheRollWsForm(ModelForm):
-#     class Meta:
-#         model=Team
-#         fields=['idUser', 'attended']
-
-# class callTheRollTeamForm(ModelForm):
-#     class Meta:
-#         model=TeamMember
-#         fields=['idUser', 'attended']
-
-# class absolveWsForm(ModelForm):
-#     class Meta:
-#         model=WsMember
-#         fields=['idUser','absolved']
-
-#Pendiente:
-#statisticsAttendance
-#statisticsMatches
