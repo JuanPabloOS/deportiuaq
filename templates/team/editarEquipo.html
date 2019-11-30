@@ -45,7 +45,7 @@ Ver equipo
                             <input type="button" class="dark-green greenHover" id="btn-edit" value="Editar equipo">
                             {% endif %}
                             {% if user.userType == 'AD' %}
-                                <input type="button" class="light-red redHover" id="btn-workshop-delete" value="Eliminar Equipo">
+                                <input type="button" class="light-red redHover" id="btn-workshop-delete" value="Eliminar Equipo" onclick="openDeleteTeamModal()">
                             {% endif %}
                     </div>
                 </div>
@@ -173,7 +173,7 @@ Ver equipo
                 <input type="password" class="m-bottom-1 white" name="password" id="password_user" required>
             </div>
             <div class="alert-button flex-container m-top-1">
-                <button class="btn-option-cancel" id="cancel-delete" onclick="">Cancelar</button>
+                <button class="btn-option-cancel" id="cancel-delete" onclick="closeDeleteTeamModal()">Cancelar</button>
                 <button class="btn-option light-green greenHover" onclick="eliminarEquipo()">Continuar</button>
                 
             </div>
@@ -206,13 +206,15 @@ Ver equipo
     });
 
     //MODAL ELIMINAR Equipo
-    document.getElementById('cancel-delete').addEventListener("click",()=>{
+    // document.getElementById('cancel-delete').addEventListener("click",()=>{
+    function closeDeleteTeamModal(){
         var modal = document.getElementById("workshop-delete").style.display="none";
-    });
+    };
     //MODAL  ELIMINAR Equipo
-    document.getElementById('btn-workshop-delete').addEventListener("click",()=>{
+    // document.getElementById('btn-workshop-delete').addEventListener("click",()=>{
+    function openDeleteTeamModal(){
         var modal = document.getElementById("workshop-delete").style.display="flex";
-    });
+    };
     // MODAL EDITAR Equipo
     document.getElementById("btn-edit").addEventListener("click",()=>{
     let modal1 = document.getElementById("modal-workshop").style.display="flex";
