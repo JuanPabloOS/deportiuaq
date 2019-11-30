@@ -76,7 +76,6 @@ Ver taller
                                     <th>Expediente</th>
                                     <th>Nombre</th>
                                     <th>Correo</th>
-                                    <th>Asistencias</th>
                                     <th>Absuelto</th>
                                     {% if user.userType == 'DC'%}
                                         <th>Acciones</th>
@@ -89,7 +88,6 @@ Ver taller
                                     <td style="border:hidden;">{{ miembro.expediente }}</td>
                                     <td>{{ miembro.first_name }} {{ miembro.last_name }}</td>
                                     <td>{{ miembro.mail }}</td>
-                                    <td>{{ miembro.totalAssists }}</td>
                                     <td>{% if miembro.absolved %} Si {% else %} No {% endif %}</td>
                                     {% if user.userType == 'DC'%}
                                         <td><Button class="btn-trash" onclick="modalJuan({{ miembro.expediente }})"><i class="fas fa-trash-alt"></i></Button></td>

@@ -85,6 +85,8 @@ def liberaciones_view(request, idTaller):
     try:
         taller = Workshop.objects.get(id=idTaller)
         miembros = WsMember.objects.filter(idWs=idTaller)
+        for miembro in miembros:
+            miembro.totalAttendances=len(CallTheRollWs.objects.filter(idWsMember=miembro.id, attended=True))
         return render(request, 'workshop/liberaciones.html', {'taller':taller,'miembros':miembros})
     except Exception as e:
         print(str(e))
@@ -136,10 +138,10 @@ def deleteWorkshop(request):
             workshopId=request.POST['workshop_id']
             try:
                 objects, dictionary = Workshop.objects.get(id=workshopId).delete()
-                print("=================")
-                print(str(objects))
-                print(str(dictionary))
-                print("=================")
+                # print("=================")
+                # print(str(objects))
+                # print(str(dictionary))
+                # print("=================")
                 return JsonResponse({'status':1,'msg':'Taller eliminado','objects':objects,'dictionary':dictionary})
             except Exception as e:
                 print(str(e))
@@ -232,11 +234,11 @@ def callTheRollWs(request, idTaller):
                 # Ya existe una sesión para el día de hoy
                 #Recuperar la sesión
                 sesionExistente = Sesion.objects.get(idWs=idTaller,date=datetime.date.today())
-                print("----- sesión existente")
-                print(str(sesionExistente))
+                # print("----- sesión existente")
+                # print(str(sesionExistente))
                 asistencias = CallTheRollWs.objects.filter(idSesion=sesionExistente) #recuperar las asistencias de la sesion
-                print("-- asistencias")
-                print(str(asistencias))
+                # print("-- asistencias")
+                # print(str(asistencias))
                 for asistencia in asistencias:
                     if str(asistencia.idWsMember_id) in request.POST['attendances']:
                         asistencia.attended = True
@@ -316,10 +318,30 @@ def seleccionarEquipo(request):
     equipos = Workshop.objects.filter(responsible=request.user, period=setPeriod())
     return render(request, 'workshop/seleccionarEquipo.html',{'equipos':equipos})
 
+
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')
-def absolveWs(request):
-    alumnos = list(WsMember.objects.all())
+@require_http_methods(['POST'])
+def absolverAlumnos(request, idTaller):
+    try:
+        liberaciones= request.POST['liberaciones'].split(',')
+        print(liberaciones)
+        alumnos = WsMember.objects.filter(idWs=idTaller)
+        for alumno in alumnos:
+            if str(alumno.id) in liberaciones:
+                alumno.absolved = True
+                alumno.save()
+            
+        return JsonResponse({'status':1,'msg':'Listo'})
+    except Exception as e:
+        print(str(e))
+        return JsonResponse({'status':0,'msg':str(e)})
+
+@login_required
+@user_passes_test(lambda user: user.userType=='DC')
+def showPdf(request, idTaller):
+    
+    alumnos=list(WsMember.objects.filter(idWs=idTaller, absolved=True))
     w, h = A4
     buffer = io.BytesIO()
     p = canvas.Canvas(buffer, pagesize=A4)
@@ -366,3 +388,4 @@ def absolveWs(request):
     # present the option to save the file.
     buffer.seek(0)
     return FileResponse(buffer, as_attachment=False, filename='Liberación de talleres.pdf')
+   
