@@ -14,7 +14,20 @@
                 <input type="submit" value="Registrar">
                 {% if messages %}
                     {% for message in messages %}
-                        {{ message }}
+                    
+                    {% if message.tags == "success" %}
+                        {{message.tags}}
+                        <script>
+                                launch_toast("okkkkkk");
+                            
+                        </script>
+                        {% endif %}
+                        {% if message.tags == "error" %}
+                        <script>
+                            launch_toast("errooor");
+                        </script>
+                        {% endif %}
+
                     {% endfor %}
                 {% endif %}
                 {% if form.errors %}
