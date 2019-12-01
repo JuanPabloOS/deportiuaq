@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,8 +6,122 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+
+    <!-- Foundation framework -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/foundation.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/app.css' %}" />
+    <script defer src="{% static 'js/vendor/jquery.js' %}"></script>
+    <script def-er src="{% static 'js/vendor/what-input.js' %}"></script>
+    <script defer src="{% static 'js/vendor/foundation.js' %}"></script>
+    <script defer src="{% static 'js/vendor/app.js' %}"></script>
+
 </head>
 <body>
-    Principal
+    <div class="sticky sticky-topbar is-stuck" >
+        <div class="top-bar bar sticky" style="box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.65) !important; background: #fff;">
+            <div class="top-bar-left"></div>
+                <div class="top-bar-right">
+                <ul class="menu align-center" style="background: #fff;">
+                    <li>
+                        <a href="#section1">Inicio</a>
+                    </li>
+                    <li>
+                        <a href="#section2">Talleres</a>
+                    </li>
+                    <li>
+                        <a href="#section3">Copa Autonomía</a>
+                    </li>
+                    <li>
+                        <a href="#section4">Copa Valores</a>
+                    </li>
+                </ul>
+                </div>
+        </div>
+    </div>
+    <!-- PRINCIPAL -->
+    <section id="homeSection">
+        <div class="row">
+            <div class="column margin-vertical-3"></div>
+        </div>
+        
+        <div class="row">
+            <div class="column large-12 small-12" style="">
+                <h1>Deportiuaq</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column large-12 small-12 sub-title">
+                <p>Coordinación de deportes</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column large-12 small-12" id="homeFacultad" style="margin-top: 24.5rem;">
+                <p>Facultad de Informática</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="margin-vertical-3">
+        <div class="row margin-top-3 align-center">
+            <div class="column large-12 small-12 text-center margin-top-3">
+                <h3>Talleres deportivos</h3>
+            </div>
+            <div class="column large-2 medium-4 small-6 margin-vertical-1 text-center">
+                <img src="{% static 'img/archer.svg' %}" alt="" class="icon-workshop">
+                <p class="margin-top-1 icon-title">Tiro con Arco</p>
+            </div>
+            <div class="column large-2 medium-4 small-6 margin-vertical-1 text-center">
+                <img src="{% static 'img/futbol.svg' %}" alt="" class="icon-workshop">
+                <p class="margin-top-1 icon-title">Fútbol</p>
+            </div>
+            <div class="column large-2 medium-4 small-6 margin-vertical-1 text-center">
+                <img src="{% static 'img/basketball.svg' %}" alt="" class="icon-workshop">
+                <p class="margin-top-1 icon-title">Basketball</p>
+            </div>
+            <div class="column large-2 medium-4 small-6 margin-vertical-1 text-center">
+                <img src="{% static 'img/volley.svg' %}" alt="" class="icon-workshop">
+                <p class="margin-top-1 icon-title">Volley</p>
+            </div>
+            <div class="column large-2 medium-4 small-6 margin-vertical-1 text-center">
+                <img src="{% static 'img/ping.svg' %}" alt="" class="icon-workshop">
+                <p class="margin-top-1 icon-title">Ping-Pong</p>
+            </div>
+            <div class="column large-2 medium-4 small-6 margin-vertical-1 text-center">
+                <img src="{% static 'img/archer.svg' %}" alt="" class="icon-workshop">
+                <p class="margin-top-1 icon-title">Tiro con Arco</p>
+            </div>
+        </div>
+        <div class="row align-center">
+            <div class="column large-2 medium-4 small-6 margin-vertical-1 text-center">
+                <img src="{% static 'img/tenis.svg' %}" alt="" class="icon-workshop">
+                <p class="margin-top-1 icon-title">Tenis</p>
+            </div>
+            <div class="column large-2 medium-4 small-6 margin-vertical-1 text-center">
+                <img src="{% static 'img/atletic.svg' %}" alt="" class="icon-workshop">
+                <p class="margin-top-1 icon-title">Atletismo</p>
+            </div>
+            <div class="column large-2 medium-4 small-6 margin-vertical-1 text-center">
+                <img src="{% static 'img/archer.svg' %}" alt="" class="icon-workshop">
+                <p class="margin-top-1 icon-title">Tiro con Arco</p>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="row margin-vertical-3">
+            <div class="column large-12 small-12 text-center">
+                <h3>Horario de los talleres</h3>
+            </div>
+            <div style="height: 500px;"></div>
+        </div>
+    </section>
+
+    <section>
+        <div class="row margin-vertical-3 align-center">
+            <div class="column large-12 small-12 text-center">
+                <h3>Copa Autonomía</h3>
+            </div>
+        </div>
+    </section>
 </body>
 </html>

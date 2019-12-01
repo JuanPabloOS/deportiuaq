@@ -1,0 +1,31 @@
+*{
+    font-family: 'Poppins' !important;
+}
+.sub-title{
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+.icon-workshop{
+    height: 10rem;
+}
+.icon-title{
+    color: #444 !important;
+}
+#homeSection{
+    background-image: url('../img/football.svg');
+    background-size: 44rem;
+    background-repeat: no-repeat;
+    background-position-x: 100%;
+    background-position-x: 100%;
+}
+#homeFacultad{
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+.menu >li >a{
+    color: #2e2e2e;
+}
+.menu >li >a:hover{
+    color: #2dd4bf;
+    font-weight: 500;
+}
