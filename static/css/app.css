@@ -37,3 +37,24 @@
     color: #2dd4bf;
     font-weight: 500;
 }
+.menu-resp{
+    display: none;
+    z-index: 3;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: white;
+    align-items: center; 
+    justify-content: center;
+    flex-flow: column;
+}
+.menu-resp > h3 >a{
+    color: #2dd4bf !important;
+    font-weight: 500;
+}
+.show-menu{
+    display: flex;
+}
