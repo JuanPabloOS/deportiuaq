@@ -11,6 +11,14 @@
 .icon-title{
     color: #444 !important;
 }
+.darkGreen{
+    background: #268a7e;
+    color: white;
+}
+.lightGreen{
+    background: #1ed1bb;
+    color: white;
+}
 #homeSection{
     background-image: url('../img/football.svg');
     background-size: 44rem;
