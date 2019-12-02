@@ -75,6 +75,7 @@
     
     document.getElementById("registrarPartido").addEventListener("click", registrarPartido);
     function registrarPartido(){
+        var alertMessage = "<p><label>Todos los campos son obligatorios</label></p>"
         var msg=document.getElementById("msg");
         var isValid=false;
         console.log("=================");
@@ -101,19 +102,19 @@
                         console.log(isValid);
                         console.log("=================");
                     }else{
-                        msg.innerHTML="Todos los campos son obligatorios";
+                        msg.innerHTML=alertMessage;
                         console.log("=================");
                         console.log(isValid);
                         console.log("=================");
                     }
                 }else{
-                    msg.innerHTML="Todos los campos son obligatorios";
+                    msg.innerHTML=alertMessage;
                 }
             }else{
-                msg.innerHTML="Todos los campos son obligatorios";
+                msg.innerHTML=alertMessage;
             }
         }else{
-            msg.innerHTML="Todos los campos son obligatorios";
+            msg.innerHTML=alertMessage;
         }
 
         // Jugadores
@@ -124,12 +125,22 @@
             jugadores.push(x.getAttribute("name"));
         })
         console.log(jugadores);
+
+        if(jugadoresNodes.length===0){
+            isValid=false;
+            alert("No ha jugado nadie")
+        }
         // Petición ajax
         if(isValid){
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-            console.log(JSON.parse(this.responseText))
+            respuesta=JSON.parse(this.responseText)
+                alert(respuesta.status)
+                console.log(respuesta)
+                jugadoresNodes.forEach((x)=>{
+                    x.click();
+                })
             }
             };
             xmlhttp.open("POST", "{% url 'registrarPartido' %}", true);

@@ -288,28 +288,25 @@ def registerMatch_view(request):
     if request.method == 'POST':
         try:
             idTeamInstance=get_object_or_404(Team, id=request.POST['idTeam'])
-            
             teamScore=int(request.POST['teamScore'], base=10)
             rivalScore=int(request.POST['rivalScore'], base=10)
-            winned=None
+            winned=int('2', base=10)
             if teamScore>rivalScore:
-                winned=True
+                winned=int('1', base=10)
             elif teamScore<rivalScore:
-                winned=False
+                winned=int('0', base=10)
             form = registerMatchForm({
                 'idTeam':int(request.POST['idTeam'], base=10),
                 'rival':request.POST['rival'],
-                'winned':winned,
                 'teamScore':teamScore,
                 'rivalScore':rivalScore,
                 'period':setPeriod()
             })
             if form.is_valid():
-                print("==================")
-                print("El formulario es válido")
                 try:
                     match=form.save(commit=False)
                     match.idTeam_id = idTeamInstance.id
+                    match.winned=winned
                     match.save()
                     print(match)
                     alumnos = TeamMember.objects.filter(idTeam=request.POST['idTeam'])
@@ -321,14 +318,11 @@ def registerMatch_view(request):
                     print(str(e))
                     return JsonResponse({ 'status':0,'msg':'Petición no completada'})
             else:
-                print("==================")
-                print("El formulario no es válido")
                 print(form.errors.as_data())
-                print("==================")
-                return JsonResponse({ 'status':0,'msg':'Petición completada'})
+                return JsonResponse({ 'status':0,'msg':'Petición no completada'})
         except Exception as e:
             print(str(e))
-            return JsonResponse({ 'status':0,'msg':'Petición completada'})
+            return JsonResponse({ 'status':0,'msg':'Petición no completada'})
     else:
         form = registerMatchForm()
         return render(request, 'team/match.html', {'form':form})
