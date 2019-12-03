@@ -5,33 +5,72 @@ Estadísticos
 {% endblock %}
 
 {% block content %}
+<style>
+.padding-1{
+  padding: 1rem;
+}
+.padding-2{
+  padding: 2rem;
+  box-sizing: border-box;
+}
+.result-container{
+  background: var(--light-grey);
+}
+.result-base{
+  justify-content: space-evenly;
+  align-items: flex-end;
+  flex-flow: row wrap;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  padding-top: 1rem;
+  box-sizing: border-box;
+  overflow-y: scroll;
+}
+.result-more{
+  background: var(--dark-green);
+  border-radius: 0px 10px 10px 0px;
+  cursor: pointer;
+}
+.result-score{
+  width: 40%;
+  align-items: center;
+  justify-content: center;
+}
 
-<div class="base-container flex-container form-container form-responsive padding-2 result-base">
-    {% for partido in partidos %}
+</style>
 
-    <div class="shortcut-body flex-container result-container">
-        <div class="shortcut-half flex-container column-container">
-         <div class="flex-container" style="margin-top: .6rem;">
-           <p style="margin-left: 1rem; font-weight: 500;">{{ partido }}</p>
-         </div>
-         <div class="flex-container shortcut-text">
-             <div class="result-score flex-container">
-                <p>{{ partido.teamScore }}</p>
-             </div>
-            <div class="result-score flex-container">
-                <p>{{ partido.rivalScore }}</p>
-            </div>
-         </div>   
+<div class="base-container flex-container center-content">
+        <div class="form-right flex-container column-container" style="margin-right: 10px; align-items: center;">
+            <h3 style="margin-top: 1rem; margin-bottom: 1rem;">Partidos</h3>
+            <div class="scroll-y">
+                    {% for partido in partidos %}
+
+                    <div class="shortcut-body flex-container result-container">
+                        <div class="shortcut-half flex-container column-container">
+                         <div class="flex-container" style="margin-top: .6rem;">
+                           <p style="margin-left: 1rem; font-weight: 500;">{{ partido }}</p>
+                         </div>
+                         <div class="flex-container shortcut-text">
+                             <div class="result-score flex-container">
+                                <p>{{ partido.teamScore }}</p>
+                             </div>
+                            <div class="result-score flex-container">
+                                <p>{{ partido.rivalScore }}</p>
+                            </div>
+                         </div>   
+                        </div>
+                        <div class="shortcut-right flex-container result-more center-content">
+                             Ver más
+                        </div>
+                      </div> 
+                    {% endfor %}
+            </div>                
         </div>
-        <div class="shortcut-right flex-container result-more center-content">
-             Ver más
+        <div class="table-left flex-container column-container" style="margin-right: 0px; !important">
+            CONTENIDOOOOOO 
+                
         </div>
-      </div> 
-
-    {% endfor %}
-
-        
-</div>
+        </div>
 
 <script>
     //Obtener os jugadores de los partidos separados por partidos en formato JSON
