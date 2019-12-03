@@ -7,12 +7,6 @@ from .models import Player
 from apps.core.models import User
 
 
-    
-class addMemberToTeamForm(ModelForm):
-    class Meta:
-        model=TeamMember
-        exclude=('totalAttendances',)
-
 class deleteMemberToTeamForm(ModelForm):
     class Meta:
         model=TeamMember
@@ -54,7 +48,7 @@ class addMemberToTeamForm(ModelForm):
             'idTeam':''
         }
         widgets={
-            'idTeams':forms.NumberInput(attrs={'hidden':True})
+            'idTeam':forms.NumberInput(attrs={'hidden':True})
         }
 
 class deleteTeamMemberForm(forms.Form):
@@ -71,21 +65,3 @@ class registerMatchForm(ModelForm):
         labels={
             'idTeam':'Equipo'
         }
-# class callTheRollWsForm(ModelForm):
-#     class Meta:
-#         model=Team
-#         fields=['idUser', 'attended']
-
-# class callTheRollTeamForm(ModelForm):
-#     class Meta:
-#         model=TeamMember
-#         fields=['idUser', 'attended']
-
-# class absolveWsForm(ModelForm):
-#     class Meta:
-#         model=WsMember
-#         fields=['idUser','absolved']
-
-#Pendiente:
-#statisticsAttendance
-#statisticsMatches

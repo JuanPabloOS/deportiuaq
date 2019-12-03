@@ -13,5 +13,6 @@ urlpatterns=[
     path('callTheRollWs/<int:idTaller>/',views.callTheRollWs,name='callTheRollWs'),
     path('seleccionar-Taller-Pase-De-Lista/', views.seleccionarEquipo, name="seleccionarTallerPaseDeLista"),
     path('liberaciones/<int:idTaller>/', views.liberaciones_view,name='liberaciones'),
-    path('absolveWs/',views.absolveWs,name='absolveWs'),
+    path('absolverAlumnos/<int:idTaller>/',views.absolverAlumnos,name='absolverAlumnos'),
+    path('showPdf/<int:idTaller>/',views.showPdf,name='showPdf'),
 ]

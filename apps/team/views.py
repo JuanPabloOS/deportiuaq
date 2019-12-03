@@ -239,6 +239,7 @@ def getMiembrosTeam(request):
 def callTheRollTeam(request, idTeam):
     #El request tipo POST regresa un JSON
     if request.method == 'POST':
+        print("Pase de lista equipo")
         # Registrar las asistencias o retardos por POST
         try:
             try: 
@@ -255,11 +256,17 @@ def callTheRollTeam(request, idTeam):
                         asistencia.attended = False
                         asistencia.save()
                 return JsonResponse({'status':1, 'msg':'Pase de lista actualizado'})
-            except ObjectDoesNotExist:
+            except Exception as e:
+                print(str(e))
                 # No existe una sesión para el día de hoy, por lo tanto se crea
-                idTeamInstance = get_object_or_404(Team, id=idTeam)
-                todaySesion = Sesion(idTeam=idTeamInstance, date=datetime.date.today())
-                todaySesion.save()
+                idTeamInstance = Team.objects.get(id=idTeam)
+                todaySesion=''
+                try:
+                    todaySesion = Sesion(idTeam=idTeamInstance)
+                    todaySesion.save()
+                except Exception as e:
+                    print(str(e))
+                    return JsonResponse({'status':0,'msg':str(e)})
                 alumnos = TeamMember.objects.filter(idTeam=idTeam)
                 for alumno in alumnos:
                     if str(alumno.id) in request.POST['attendances']:
@@ -281,28 +288,25 @@ def registerMatch_view(request):
     if request.method == 'POST':
         try:
             idTeamInstance=get_object_or_404(Team, id=request.POST['idTeam'])
-            
             teamScore=int(request.POST['teamScore'], base=10)
             rivalScore=int(request.POST['rivalScore'], base=10)
-            winned=None
+            winned=int('2', base=10)
             if teamScore>rivalScore:
-                winned=True
+                winned=int('1', base=10)
             elif teamScore<rivalScore:
-                winned=False
+                winned=int('0', base=10)
             form = registerMatchForm({
                 'idTeam':int(request.POST['idTeam'], base=10),
                 'rival':request.POST['rival'],
-                'winned':winned,
                 'teamScore':teamScore,
                 'rivalScore':rivalScore,
                 'period':setPeriod()
             })
             if form.is_valid():
-                print("==================")
-                print("El formulario es válido")
                 try:
                     match=form.save(commit=False)
                     match.idTeam_id = idTeamInstance.id
+                    match.winned=winned
                     match.save()
                     print(match)
                     alumnos = TeamMember.objects.filter(idTeam=request.POST['idTeam'])
@@ -314,14 +318,11 @@ def registerMatch_view(request):
                     print(str(e))
                     return JsonResponse({ 'status':0,'msg':'Petición no completada'})
             else:
-                print("==================")
-                print("El formulario no es válido")
                 print(form.errors.as_data())
-                print("==================")
-                return JsonResponse({ 'status':0,'msg':'Petición completada'})
+                return JsonResponse({ 'status':0,'msg':'Petición no completada'})
         except Exception as e:
             print(str(e))
-            return JsonResponse({ 'status':0,'msg':'Petición completada'})
+            return JsonResponse({ 'status':0,'msg':'Petición no completada'})
     else:
         form = registerMatchForm()
         return render(request, 'team/match.html', {'form':form})
