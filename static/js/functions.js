@@ -12,15 +12,5 @@ for (i = 0; i < coll.length; i++) {
     } 
   });
 }
-function launch_toast(e){
-	var x = document.getElementById("toast");
-	console.log("====");
-	console.log(x);
-  x.className = "show";
-  document.getElementById('desc').innerHTML = e;
-	setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
-}
-function hi(){
-	alert("adad");
-}
+
 

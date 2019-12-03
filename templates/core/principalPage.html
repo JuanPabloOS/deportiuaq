@@ -1,12 +1,334 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Deportiuaq - Facultad de informática</title>
+
+    <!-- Foundation framework -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/foundation.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/app.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/hamburgers.min.css' %}" />
+    <script defer src="{% static 'js/vendor/jquery.js' %}"></script>
+    <script defer src="{% static 'js/vendor/what-input.js' %}"></script>
+    <script defer src="{% static 'js/vendor/foundation.js' %}"></script>
+    <script defer src="{% static 'js/app.js' %}"></script>
+
+    <!-- Fontawesome -->
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.8.1/js/all.js"
+      integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ"
+      crossorigin="anonymous"></script>
+
 </head>
 <body>
-    Principal
+    <div class="sticky sticky-topbar is-stuck" >
+        <div class="top-bar bar sticky" style="box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.65) !important; background: #fff;">
+            <div class="top-bar-left hide-for-small-only">
+                <img src="{% static 'img/logo.png' %}" alt="" style="height: 2.5rem;">
+            </div>
+                <div class="top-bar-right text-right">
+                <ul class="menu align-center hide-for-small-only" style="background: #fff;">
+                    <li>
+                        <a href="#section1">Inicio</a>
+                    </li>
+                    <li>
+                        <a href="#section2">Talleres</a>
+                    </li>
+                    <li>
+                        <a href="#section3">Copa Autonomía</a>
+                    </li>
+                    <li>
+                        <a href="#section4">Copa Valores</a>
+                    </li>
+                </ul>             
+
+                    <div class="hamburger hamburger--spring show-for-small-only">
+                        <div class="hamburger-box">
+                        <div class="hamburger-inner"></div>
+                        </div>
+                    </div>
+
+                </div>
+        </div>
+    </div>
+    <div class="menu-resp text-center" id="menu-resp">
+        <h3 class="margin-top-1"><a href="#section1">Inicio</a></h3>
+        <h3 class="margin-top-1"><a href="#section2">Talleres</a></h3>
+        <h3 class="margin-top-1"><a href="#section3">Copa Autonomía</a></h3>
+        <h3 class="margin-top-1"><a href="#section4">Copa Valores</a></h3>
+    </div>
+    <!-- PRINCIPAL -->
+    <section id="homeSection" style="padding:2rem;">
+        <div class="row">
+            <div class="column margin-vertical-3"></div>
+        </div>
+        
+        <div class="row">
+            <div class="column large-12 small-12" style="">
+                <h1>Deportiuaq</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column large-12 small-12 sub-title">
+                <p>Coordinación de deportes</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column large-12 small-12" id="homeFacultad" style="margin-top: 24.5rem;">
+                <p style="font-size: 1rem;">Facultad de Informática</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="margin-vertical-3" style="padding:2rem;">
+        <div class="row margin-top-3 align-center">
+            <div class="column large-12 small-12 text-center margin-top-3">
+                <h3>Talleres deportivos</h3>
+            </div>
+            <div class="column large-2 medium-4 small-6 margin-vertical-1 text-center">
+                <img src="{% static 'img/archer.svg' %}" alt="" class="icon-workshop">
+                <p class="margin-top-1 icon-title">Tiro con Arco</p>
+            </div>
+            <div class="column large-2 medium-4 small-6 margin-vertical-1 text-center">
+                <img src="{% static 'img/futbol.svg' %}" alt="" class="icon-workshop">
+                <p class="margin-top-1 icon-title">Fútbol</p>
+            </div>
+            <div class="column large-2 medium-4 small-6 margin-vertical-1 text-center">
+                <img src="{% static 'img/basketball.svg' %}" alt="" class="icon-workshop">
+                <p class="margin-top-1 icon-title">Basketball</p>
+            </div>
+            <div class="column large-2 medium-4 small-6 margin-vertical-1 text-center">
+                <img src="{% static 'img/volley.svg' %}" alt="" class="icon-workshop">
+                <p class="margin-top-1 icon-title">Volley</p>
+            </div>
+            <div class="column large-2 medium-4 small-6 margin-vertical-1 text-center">
+                <img src="{% static 'img/ping.svg' %}" alt="" class="icon-workshop">
+                <p class="margin-top-1 icon-title">Ping-Pong</p>
+            </div>
+            <div class="column large-2 medium-4 small-6 margin-vertical-1 text-center">
+                <img src="{% static 'img/archer.svg' %}" alt="" class="icon-workshop">
+                <p class="margin-top-1 icon-title">Tiro con Arco</p>
+            </div>
+        </div>
+        <div class="row align-center">
+            <div class="column large-2 medium-4 small-6 margin-vertical-1 text-center">
+                <img src="{% static 'img/tenis.svg' %}" alt="" class="icon-workshop">
+                <p class="margin-top-1 icon-title">Tenis</p>
+            </div>
+            <div class="column large-2 medium-4 small-6 margin-vertical-1 text-center">
+                <img src="{% static 'img/atletic.svg' %}" alt="" class="icon-workshop">
+                <p class="margin-top-1 icon-title">Atletismo</p>
+            </div>
+            <div class="column large-2 medium-4 small-6 margin-vertical-1 text-center">
+                <img src="{% static 'img/archer.svg' %}" alt="" class="icon-workshop">
+                <p class="margin-top-1 icon-title">Tiro con Arco</p>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="row margin-vertical-3">
+            <div class="column large-12 small-12 text-center">
+                <h3>Horario de los talleres</h3>
+            </div>
+            <div style="height: 500px;"></div>
+        </div>
+    </section>
+
+    <section style="padding:2rem;">
+        <div class="row margin-vertical-3 align-center" style="margin-bottom: 15rem !important; ">
+            <div class="column large-12 small-12 text-center">
+                <h3>Copa Autonomía</h3>
+                <p>El propósito inicial de este taller es mejorar la calidad de vida de las personas con discapacidad a través del deporte. Con este taller podemos conseguir conservar y mejorar la salud física y psíquica de nuestros usuarios, mejorar la relación social, contribuir a que nuestros usuarios experimenten capacidades aún no descubiertas, vivir la competitividad.</p>
+            </div>
+            <!-- Ubicación -->
+            <div class="column large-4 medium-6 small-12 darkGreen">
+                <div class="row margin-top-1">
+                    <div class="column large-10"><p>Ubicación</p></div>
+                    <div class="column large-2"><i class="fas fa-map-marker-alt"></i></div>
+                </div>
+                <div class="row">
+                    <div class="column large-12">
+                        <h4>Av. de las Ciencias S/N
+                            Juriquilla
+                        </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column large-12">
+                        <p>Querétaro, Qro.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Fecha -->
+            <div class="column large-4 medium-6 small-12 lightGreen">
+                <div class="row margin-top-1">
+                    <div class="column large-10"><p>Fecha</p></div>
+                    <div class="column large-2"><i class="fas fa-map-marker-alt"></i></div>
+                </div>
+                <div class="row">
+                    <div class="column large-12">
+                        <h4>Av. de las Ciencias S/N
+                            Juriquilla
+                        </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column large-12">
+                        <p>Querétaro, Qro.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Hora -->
+            <div class="column large-4 medium-6 small-12 darkGreen">
+                <div class="row margin-top-1">
+                    <div class="column large-10"><p>Hora</p></div>
+                    <div class="column large-2"><i class="fas fa-map-marker-alt"></i></div>
+                </div>
+                <div class="row">
+                    <div class="column large-12">
+                        <h4>Av. de las Ciencias S/N
+                            Juriquilla
+                        </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column large-12">
+                        <p>Querétaro, Qro.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="padding:2rem;">
+        <div class="row margin-vertical-3 align-center" style="margin-bottom: 15rem !important;">
+            <div class="column large-12 small-12 text-center">
+                <h3>Copa Valores</h3>
+                <p>El propósito inicial de este taller es mejorar la calidad de vida de las personas con discapacidad a través del deporte. Con este taller podemos conseguir conservar y mejorar la salud física y psíquica de nuestros usuarios, mejorar la relación social, contribuir a que nuestros usuarios experimenten capacidades aún no descubiertas, vivir la competitividad.</p>
+            </div>
+            <!-- Ubicación -->
+            <div class="column large-4 medium-6 small-12 darkGreen">
+                <div class="row margin-top-1">
+                    <div class="column large-10"><p>Ubicación</p></div>
+                    <div class="column large-2"><i class="fas fa-map-marker-alt"></i></div>
+                </div>
+                <div class="row">
+                    <div class="column large-12">
+                        <h4>Av. de las Ciencias S/N
+                            Juriquilla
+                        </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column large-12">
+                        <p>Querétaro, Qro.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Fecha -->
+            <div class="column large-4 medium-6 small-12 lightGreen">
+                <div class="row margin-top-1">
+                    <div class="column large-10"><p>Fecha</p></div>
+                    <div class="column large-2"><i class="fas fa-map-marker-alt"></i></div>
+                </div>
+                <div class="row">
+                    <div class="column large-12">
+                        <h4>Av. de las Ciencias S/N
+                            Juriquilla
+                        </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column large-12">
+                        <p>Querétaro, Qro.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Hora -->
+            <div class="column large-4 medium-6 small-12 darkGreen">
+                <div class="row margin-top-1">
+                    <div class="column large-10"><p>Hora</p></div>
+                    <div class="column large-2"><i class="fas fa-map-marker-alt"></i></div>
+                </div>
+                <div class="row">
+                    <div class="column large-12">
+                        <h4>Av. de las Ciencias S/N
+                            Juriquilla
+                        </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column large-12">
+                        <p>Querétaro, Qro.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="row">
+            <div class="column large-4 small-6">
+                <h3>Ubicación</h3>
+            </div>
+        </div>
+        <div class="row margin-vertical-3">
+            <div class="column large-6 small-6">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7471.393568229663!2d-100.4179552761119!3d20.559583584308452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d3456cfa15993b%3A0x191095e906525da7!2sUnidad%20Deportiva%20Universidad%20Aut%C3%B3noma%20de%20Quer%C3%A9taro!5e0!3m2!1ses!2smx!4v1575320566628!5m2!1ses!2smx" width="400" height="300" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+            </div>
+            <div class="column large-4 small-6">
+                <p style="font-weight: 500; margin-top: 2rem;">Unidad Deportiva Universidad Autónoma de Querétaro</p>
+                <p>Carretera a Celaya Km. 3, Corregidora 5, Emiliano Zapata, 76900 El Pueblito, Qro.</p>
+            </div>
+        </div>
+    </section>
+    <section class="darkGreen" style="padding:2rem;">
+        <div class="row margin-top-1">
+            <div class="column large-2 small-12">
+                
+            </div>
+        </div>
+
+        <div class="row margin-top-1 align-center">
+            <div class="column large-2 small-12 align-center text-center">
+                <img src="{% static 'img/uaqFIF.png' %}" alt="">
+            </div>
+            <div class="column large-10 small-12 text-right">
+               
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column large-4 small-12">
+                <p style="font-weight: 500;">Deportiuaq</p>
+                <p style="font-size: .7rem;">Av. De las Ciencias S/N, Juriquilla. Querétaro, Qro.</p>
+                <p style="font-size: .7rem;"><i class="fas fa-phone-alt"></i>&nbsp Tel. 2101616 Ext. 4042</p>
+            </div>
+            <div class="column large-8 small-12 text-right">
+                    <p style="font-size: .9rem; font-weight: 500;">Coordinación de deporte</p>
+                <p style="font-size: .7rem;"><i class="fas fa-phone-alt"></i>&nbsp Tel. 2101616 Ext. 3476</p>
+            </div>
+        </div>
+    </section>
+    <section style="background: #2d2d2d; color: white;">
+        <div class="row align-center text-center">
+            <div class="column margin-top-1">
+                <p style="font-size: .7rem;"> <i class="fas fa-info-circle"></i>&nbsp Ingeniería de Software - 2019-2</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        var hamburger = document.querySelector(".hamburger");
+        hamburger.addEventListener("click", function() {
+            hamburger.classList.toggle("is-active");
+            var e = document.getElementById("menu-resp");
+            e.classList.toggle("show-menu");
+        });
+    </script>
 </body>
 </html>

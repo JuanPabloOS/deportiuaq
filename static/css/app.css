@@ -1,0 +1,60 @@
+*{
+    font-family: 'Poppins' !important;
+}
+.sub-title{
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+.icon-workshop{
+    height: 10rem;
+}
+.icon-title{
+    color: #444 !important;
+}
+.darkGreen{
+    background: #268a7e;
+    color: white;
+}
+.lightGreen{
+    background: #1ed1bb;
+    color: white;
+}
+#homeSection{
+    background-image: url('../img/football.svg');
+    background-size: 44rem;
+    background-repeat: no-repeat;
+    background-position-x: 100%;
+    background-position-x: 100%;
+}
+#homeFacultad{
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+.menu >li >a{
+    color: #2e2e2e;
+}
+.menu >li >a:hover{
+    color: #2dd4bf;
+    font-weight: 500;
+}
+.menu-resp{
+    display: none;
+    z-index: 3;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: white;
+    align-items: center; 
+    justify-content: center;
+    flex-flow: column;
+}
+.menu-resp > h3 >a{
+    color: #2dd4bf !important;
+    font-weight: 500;
+}
+.show-menu{
+    display: flex;
+}

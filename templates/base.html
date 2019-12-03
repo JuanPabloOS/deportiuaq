@@ -15,9 +15,10 @@
       integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ"
       crossorigin="anonymous"></script>
     <script defer src="{% static 'js/functions.js' %}"></script>
+    <script src="{% static 'js/toast.js' %}"></script>
 </head>
 <body>
-    <div id="toast"><div id="img">UPSS!</div><div id="desc"></div></div>
+    <div id="toast"><div id="img"><i class="fas fa-check"></i></div><div id="desc"></div></div>
     <div class="absolute-container flex-container light-grey">
         <div class="left-container flex-container column-container">
             <div class="top-container flex-container center-content">
@@ -94,6 +95,28 @@
             </div>
         </div>
     </div>
+
+    {% if messages %}
+        {% for message in messages %}
+        
+        {% if message.tags == "success" %}
+            <script>
+                launch_toast("{{ message }}");
+            </script>
+            {% endif %}
+            {% if message.tags == "error" %}
+            <script>
+                launch_toast("{{ message }}");
+            </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    
+    {% if form.errors %}
+        {% for error in form.errors %}
+        {{ error }}
+        {% endfor %}
+    {% endif %}
     
 </body>
 </html>

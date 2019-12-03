@@ -12,16 +12,6 @@
                         {{ field.label_tag }}{{ field }}     
                     {% endfor %} 
                 <input type="submit" value="Registrar">
-                {% if messages %}
-                    {% for message in messages %}
-                        {{ message }}
-                    {% endfor %}
-                {% endif %}
-                {% if form.errors %}
-                    {% for error in form.errors %}
-                    {{ error }}
-                    {% endfor %}
-                {% endif %}
             </form>
     </div>
 </div>
