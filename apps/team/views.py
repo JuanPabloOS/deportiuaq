@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.hashers import check_password
 from django.core import serializers
+import json
 #modelos
 from .models import Team
 from .models import TeamMember
@@ -329,11 +330,104 @@ def registerMatch_view(request):
 
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')
-def statisticsMatches(request):
+def statisticsAttendance(request):
     pass
-
+    
 # Create your views here.
 @login_required
 @user_passes_test(lambda user: user.userType=='DC' or user.userType=='BC')
-def statisticsAttendance(request):
-    pass
+@require_http_methods(['GET'])
+def statisticsMatches(request, idTeam):
+    partidos=Match.objects.filter(idTeam_id=idTeam)
+    ganados = Player.objects.filter(idMatch__idTeam=idTeam, idMatch__winned=1)
+    perdidos = Player.objects.filter(idMatch__idTeam=idTeam, idMatch__winned=0)
+    empatados = Player.objects.filter(idMatch__idTeam=idTeam, idMatch__winned=2)
+
+    ganadoSet = dict()
+    for ganado in ganados:
+        ganadoSet[str(ganado.idMatch_id)]=list()
+    for ganado in ganados:
+        ganadoSet[str(ganado.idMatch_id)].append(ganado.idTeamMember_id)
+    
+    perdidoSet = dict()
+    for perdido in perdidos:
+        perdidoSet[str(perdido.idMatch_id)]=list()
+    for perdido in perdidos:
+        perdidoSet[str(perdido.idMatch_id)].append(perdido.idTeamMember_id)
+
+    empatadoSet = dict()
+    for empatado in empatados:
+        empatadoSet[str(empatado.idMatch_id)]=list()
+    for empatado in empatados:
+        empatadoSet[str(empatado.idMatch_id)].append(empatado.idTeamMember_id)
+
+    ganadoJSON=json.dumps(ganadoSet)
+    perdidoJSON=json.dumps(perdidoSet)
+    empatadoJSON=json.dumps(empatadoSet)
+    print(ganadoJSON)
+    print(empatadoJSON)
+    print(perdidoJSON)
+    return render(request, 'team/estadisticos.html',{
+        'partidos':partidos,
+        'ganadoJSON':ganadoJSON,
+        'perdidoJSON':perdidoJSON,
+        'empatadoJSON':empatadoJSON
+    })
+
+# ganados = Match.objects.filter(idTeam = 2, winned=1)
+# perdidos = Match.objects.filter(idTeam = 2, winned=0)
+# empatados = Match.objects.filter(idTeam = 2, winned=2)
+# ganados = Player.objects.filter(idMatch__idTeam=2, idMatch__winned=1)
+# perdidos = Player.objects.filter(idMatch__idTeam=2, idMatch__winned=0)
+# empatados = Player.objects.filter(idMatch__idTeam=2, idMatch__winned=2)
+# perdidos = Player.objects.filter(idMatch__idTeam=2, idMatch__winned=0)
+# empatados = Player.objects.filter(idMatch__idTeam=2, idMatch__winned=2)
+
+# ganados = list(map(lambda x: x.idTeamMember_id , ganados))
+# perdidos = list(map(lambda x: x.idTeamMember_id , perdidos))
+# empatados = list(map(lambda x: x.idTeamMember_id , empatados))
+# ganadoSet = dict()
+# for ganado in ganados:
+#     ganadoSet[ganado.idMatch_id]=set()
+
+# for ganado in ganados:
+#     ganadoSet[ganado.idMatch_id].add(ganado.idTeamMember_id)
+# print("===========")
+# for key in ganadoSet:
+#     print(ganadoSet[key])
+
+
+# perdidoSet = dict()
+# for perdido in perdidos:
+#     perdidoSet[perdido.idMatch_id]=set()
+
+# for perdido in perdidos:
+#     perdidoSet[perdido.idMatch_id].add(perdido.idTeamMember_id)
+# print("===========")
+# for key in perdidoSet:
+#     print(perdidoSet[key])
+
+# empatadoSet = dict()
+# for empatado in empatados:
+#     empatadoSet[empatado.idMatch_id]=set()
+
+# for empatado in empatados:
+#     empatadoSet[empatado.idMatch_id].add(empatado.idTeamMember_id)
+# print("===========")
+# for key in empatadoSet:
+#     print(empatadoSet[key])
+
+
+# print(ganados)
+# print(perdidos)
+# print(empatados)
+# ganadosSet = serializers.serialize('json', list(ganados))
+# perdidosSet = serializers.serialize('json', list(perdidos))
+# empatadosSet = serializers.serialize('json', list(empatados))
+# print("=========================")
+# print(ganadosSet)
+# print("=========================")
+# print(perdidosSet)
+# print("=========================")
+# print(empatadosSet)
+# print("=========================")
