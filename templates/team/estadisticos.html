@@ -6,22 +6,7 @@ Estadísticos
 
 {% block content %}
 
-<style>
-.result-container{
-    background: var(--light-grey);
-}
-.result-more{
-    background: var(--dark-green);
-    border-radius: 0px 10px 10px 0px;
-    cursor: pointer;
-}
-.result-score{
-    width: 40%;
-    align-items: center;
-    justify-content: center;
-}
-</style>
-<div class="base-container flex-container form-container form-responsive padding-2">
+<div class="base-container flex-container form-container form-responsive padding-2 result-base">
     {% for partido in partidos %}
 
     <div class="shortcut-body flex-container result-container">
