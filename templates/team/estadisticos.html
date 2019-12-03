@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Estadísticos
+{% endblock %}
+
+{% block content %}
+
+
+{% for partido in partidos %}
+<b>{{ partido}}</b>
+<p>{{ partido.teamScore }}</p>
+<br>
+<p>{{ partido.rivalScore }}</p>
+{% endfor %}
+<script>
+    //Obtener os jugadores de los partidos separados por partidos en formato JSON
+    const ganadoJSON = [{{ ganadoJSON| safe }}];
+    const perdidoJSON = [{{ perdidoJSON| safe }}];
+    const empatadoJSON = [{{ empatadoJSON| safe }}];
+
+    console.log(ganadoJSON);
+    console.log(perdidoJSON);
+    console.log(empatadoJSON);
+    
+    var ganadoSet = new Array(); // UN array que contiene un conjunto de set representando los integrantes de cada patido ganado
+    for (var i = 0; i < ganadoJSON.length; i++) {
+        var obj = ganadoJSON[i];
+        for (var key in obj) {
+            var value = new Set(obj[key]);
+            ganadoSet.push(value)
+        }
+    }
+
+    var perdidoSet = new Array();// UN array que contiene un conjunto de set representando los integrantes de cada patido perdido
+    for (var i = 0; i < perdidoJSON.length; i++) {
+        var obj = perdidoJSON[i];
+        for (var key in obj) {
+            var value = new Set(obj[key]);
+            perdidoSet.push(value)
+        }
+    }
+
+    var empatadoSet = new Array();// UN array que contiene un conjunto de set representando los integrantes de cada patido empatado
+    for (var i = 0; i < empatadoJSON.length; i++) {
+        var obj = empatadoJSON[i];
+        for (var key in obj) {
+            var value = new Set(obj[key]);
+            empatadoSet.push(value)
+        }
+    }
+
+    var intGanSet = ganadoSet[0]; //Intersección de los todos los juegos ganados
+    ganadoSet.forEach((setToPass) => {intGanSet = new Set([...intGanSet].filter(x => setToPass.has(x)));});
+
+    var intPerSet = perdidoSet[0]; //Intersección de los todos los juegos ganados
+    perdidoSet.forEach((setToPass) => {intPerSet = new Set([...intPerSet].filter(x => setToPass.has(x)));});
+
+    var intEmpSet = empatadoSet[0]; //Intersección de los todos los juegos ganados
+    empatadoSet.forEach((setToPass) => {intEmpSet = new Set([...intEmpSet].filter(x => setToPass.has(x)));});
+    
+    console.log(intGanSet);
+    console.log(intPerSet);
+    console.log(intEmpSet);
+</script>
+{% endblock %}

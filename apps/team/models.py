@@ -96,7 +96,7 @@ class Match(models.Model):
         return '%s vs %s' %(self.idTeam, self.rival)
 
 class Player(models.Model):
-    idMatch=models.ForeignKey('Match', on_delete=models.CASCADE)
+    idMatch=models.ForeignKey('Match', on_delete=models.CASCADE, related_name='get_players')
     idTeamMember=models.ForeignKey(TeamMember, on_delete=models.CASCADE)
 
     class Meta:
