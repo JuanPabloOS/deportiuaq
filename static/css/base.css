@@ -719,6 +719,7 @@ h2 {
 }
 .padding-2{
   padding: 2rem;
+  box-sizing: border-box;
 }
 
 /* TOAST STYLES */
