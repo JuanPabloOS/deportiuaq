@@ -31,14 +31,13 @@ class addMemberToWorkshopForm(ModelForm):
     
     class Meta:
         model=WsMember
-        exclude=('totalAssists','absolved')
+        exclude=('totalAttendances','absolved',)
         labels={
-            'idWS':''
+            'idWs':''
         }
         widgets={
-            'idWS':forms.NumberInput(attrs={'hidden':True})
+            'idWs':forms.NumberInput(attrs={'hidden':True})
         }
-
 
 class deleteMemberToWorkshopForm(ModelForm):
     class Meta:

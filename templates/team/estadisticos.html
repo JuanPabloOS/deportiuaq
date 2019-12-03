@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Estadísticos
+{% endblock %}
+
+{% block content %}
+
+<style>
+.result-container{
+    background: var(--light-grey);
+}
+.result-more{
+    background: var(--dark-green);
+    border-radius: 0px 10px 10px 0px;
+    cursor: pointer;
+}
+.result-score{
+    width: 40%;
+    align-items: center;
+    justify-content: center;
+}
+</style>
+<div class="base-container flex-container form-container form-responsive padding-2">
+    {% for partido in partidos %}
+
+    <div class="shortcut-body flex-container result-container">
+        <div class="shortcut-half flex-container column-container">
+         <div class="flex-container" style="margin-top: .6rem;">
+           <p style="margin-left: 1rem; font-weight: 500;">{{ partido }}</p>
+         </div>
+         <div class="flex-container shortcut-text">
+             <div class="result-score flex-container">
+                <p>{{ partido.teamScore }}</p>
+             </div>
+            <div class="result-score flex-container">
+                <p>{{ partido.rivalScore }}</p>
+            </div>
+         </div>   
+        </div>
+        <div class="shortcut-right flex-container result-more center-content">
+             Ver más
+        </div>
+      </div> 
+
+    {% endfor %}
+
+        
+</div>
+
+<script>
+    //Obtener os jugadores de los partidos separados por partidos en formato JSON
+    const ganadoJSON = [{{ ganadoJSON| safe }}];
+    const perdidoJSON = [{{ perdidoJSON| safe }}];
+    const empatadoJSON = [{{ empatadoJSON| safe }}];
+
+    console.log(ganadoJSON);
+    console.log(perdidoJSON);
+    console.log(empatadoJSON);
+    
+    var ganadoSet = new Array(); // UN array que contiene un conjunto de set representando los integrantes de cada patido ganado
+    for (var i = 0; i < ganadoJSON.length; i++) {
+        var obj = ganadoJSON[i];
+        for (var key in obj) {
+            var value = new Set(obj[key]);
+            ganadoSet.push(value)
+        }
+    }
+
+    var perdidoSet = new Array();// UN array que contiene un conjunto de set representando los integrantes de cada patido perdido
+    for (var i = 0; i < perdidoJSON.length; i++) {
+        var obj = perdidoJSON[i];
+        for (var key in obj) {
+            var value = new Set(obj[key]);
+            perdidoSet.push(value)
+        }
+    }
+
+    var empatadoSet = new Array();// UN array que contiene un conjunto de set representando los integrantes de cada patido empatado
+    for (var i = 0; i < empatadoJSON.length; i++) {
+        var obj = empatadoJSON[i];
+        for (var key in obj) {
+            var value = new Set(obj[key]);
+            empatadoSet.push(value)
+        }
+    }
+
+    var intGanSet = ganadoSet[0]; //Intersección de los todos los juegos ganados
+    ganadoSet.forEach((setToPass) => {intGanSet = new Set([...intGanSet].filter(x => setToPass.has(x)));});
+
+    var intPerSet = perdidoSet[0]; //Intersección de los todos los juegos ganados
+    perdidoSet.forEach((setToPass) => {intPerSet = new Set([...intPerSet].filter(x => setToPass.has(x)));});
+
+    var intEmpSet = empatadoSet[0]; //Intersección de los todos los juegos ganados
+    empatadoSet.forEach((setToPass) => {intEmpSet = new Set([...intEmpSet].filter(x => setToPass.has(x)));});
+    
+    console.log(intGanSet);
+    console.log(intPerSet);
+    console.log(intEmpSet);
+</script>
+{% endblock %}

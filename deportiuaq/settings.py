@@ -23,9 +23,9 @@ STATICFILES_DIRS = (os.path.join('static'),)
 SECRET_KEY = '6g3)&dzfb=+la2&2yeinfo%=r6yiahu&8qd=30uw*limgs@8y2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -84,7 +84,10 @@ DATABASES = {
         'USER':'root',
         'PASSWORD':'',
         'HOST':'localhost',
-        'PORT':'3306'
+        'PORT':'3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        }
     }
 }
 

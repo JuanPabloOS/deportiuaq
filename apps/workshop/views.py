@@ -11,13 +11,13 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth.decorators import login_required       #pedir una sesión activa
 from django.contrib.auth.decorators import user_passes_test     #Comprobar los permisos de usuario
 from django.views.decorators.http import require_http_methods   #admitir determinados tipos de petición
-#modelos
+#Modelos
 from .models import Workshop
 from .models import WsMember
 from .models import CallTheRollWs
 from .models import Sesion
 from apps.core.models import User
-#formularios
+#Formularios
 from .forms import createWorkshopForm
 from .forms import deleteWorkshopForm
 from .forms import deleteMemberToWorkshopForm
@@ -80,13 +80,16 @@ def verTaller_view(request, idTaller):
     except ObjectDoesNotExist:
         return redirect('talleres')
 
-
-def verAlumnosTaller_view(request, idTaller):
+@login_required
+def liberaciones_view(request, idTaller):
     try:
         taller = Workshop.objects.get(id=idTaller)
         miembros = WsMember.objects.filter(idWs=idTaller)
-        return render(request, 'workshop/verAlumnos.html', {'taller':taller,'miembros':miembros})
-    except:
+        for miembro in miembros:
+            miembro.totalAttendances=len(CallTheRollWs.objects.filter(idWsMember=miembro.id, attended=True))
+        return render(request, 'workshop/liberaciones.html', {'taller':taller,'miembros':miembros})
+    except Exception as e:
+        print(str(e))
         return redirect('talleres')
 
 @login_required
@@ -126,7 +129,8 @@ def deleteWorkshop(request):
         passwordToVerify=''
         try: #Verificar que efectivamente se haya resibido una contraseña
             passwordToVerify=request.POST['password']
-        except:
+        except Exception as e:
+            print(str(e))
             return JsonResponse({'status':0,'msg':'Ingresa tu contraseña'})
         currentPassword=request.user.password #obtener la contraseña de loggeo
         matchcheck=check_password(passwordToVerify,currentPassword) #comparar ambas contraseñas
@@ -134,8 +138,13 @@ def deleteWorkshop(request):
             workshopId=request.POST['workshop_id']
             try:
                 objects, dictionary = Workshop.objects.get(id=workshopId).delete()
+                # print("=================")
+                # print(str(objects))
+                # print(str(dictionary))
+                # print("=================")
                 return JsonResponse({'status':1,'msg':'Taller eliminado','objects':objects,'dictionary':dictionary})
-            except ObjectDoesNotExist:
+            except Exception as e:
+                print(str(e))
                 return JsonResponse({'status':0,'msg':'El taller no existe o ya ha sido eliminado'})
         else:
             return JsonResponse({'status':0,'msg':'La contraseña no coincide'})
@@ -176,20 +185,15 @@ def addMemberToWs(request):
     if form.is_valid():
         try:
             isAlreadyIn = WsMember.objects.get(expediente=form.cleaned_data["expediente"], idWs__period=setPeriod())
-            # print("<--------->")
-            # print(isAlreadyIn)
-            # print("<--------->")
             messages.error(request, 'El alumno ya está registrado en otro taller')
-            
         except:
             form.save()
             messages.success(request,'Registro completado')
         next = request.POST.get('next', '/')
         return HttpResponseRedirect(next)
-        
-def match(request):
-    return render(request, 'workshop/createMatch.html')
-
+    else:
+        next = request.POST.get('next', '/')
+        return HttpResponseRedirect(next)
 
 @login_required
 @user_passes_test(lambda user: user.userType=='DC' or user.userType=='BC')
@@ -219,21 +223,22 @@ def deleteWsMember(request):
             form=deleteMemberToWorkshopForm()
             return render(request,'workshop/deleteMemberToWs.html',{'form':form})
 
-from django.core import serializers
-from django.db.models import Prefetch
-from django.db.models import Count
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')
 def callTheRollWs(request, idTaller):
     #El request tipo POST regresa un JSON
     if request.method == 'POST':
-        # Registrar las asistencias o retardos por POST
+        print("Pase de lista taller")
         try:
             try: 
                 # Ya existe una sesión para el día de hoy
                 #Recuperar la sesión
                 sesionExistente = Sesion.objects.get(idWs=idTaller,date=datetime.date.today())
+                # print("----- sesión existente")
+                # print(str(sesionExistente))
                 asistencias = CallTheRollWs.objects.filter(idSesion=sesionExistente) #recuperar las asistencias de la sesion
+                # print("-- asistencias")
+                # print(str(asistencias))
                 for asistencia in asistencias:
                     if str(asistencia.idWsMember_id) in request.POST['attendances']:
                         asistencia.attended = True
@@ -243,11 +248,22 @@ def callTheRollWs(request, idTaller):
                         asistencia.attended = False
                         asistencia.save()
                 return JsonResponse({'status':1, 'msg':'Pase de lista actualizado'})
-            except ObjectDoesNotExist:
+            except Exception as e:
+                print(str(e))
                 # No existe una sesión para el día de hoy, por lo tanto se crea
-                idWsInstance = get_object_or_404(Workshop, id=idTaller)
-                todaySesion = Sesion(idWs=idWsInstance, date=datetime.date.today())
-                todaySesion.save()
+                idWsInstance = Workshop.objects.get(id=idTaller)
+                todaySesion=''
+                try:
+                    todaySesion = Sesion(idWs=idWsInstance)
+                    todaySesion.save()
+                    print("--------- try create sesion")
+                    print(str(todaySesion))
+                    # return JsonResponse({'status':1,'id':todaySesion.id})
+                except Exception as e:
+                    print("------------- no crear")
+                    print(str(e))
+                    return JsonResponse({'status':0,'msg':str(e)})
+                    # 
                 alumnos = WsMember.objects.filter(idWs=idTaller)
                 for alumno in alumnos:
                     if str(alumno.id) in request.POST['attendances']:
@@ -256,38 +272,113 @@ def callTheRollWs(request, idTaller):
                         CallTheRollWs(idWsMember=alumno, idSesion=todaySesion, attended=False).save()
                 return JsonResponse({'status':1, 'msg':'Se ha tomado el pase de lista'})
         except Exception as e:
+            print(str(e))
             return JsonResponse({'status':0,'msg':'No se ha podido pasar lista, intenta de nuevo'})
+        # Registrar las asistencias o retardos por POST
+        # try:
+        #     try: 
+        #         # Ya existe una sesión para el día de hoy
+        #         #Recuperar la sesión
+        #         sesionExistente = Sesion.objects.get(idWs=idTaller,date=datetime.date.today())
+        #         asistencias = CallTheRollWs.objects.filter(idSesion=sesionExistente) #recuperar las asistencias de la sesion
+        #         for asistencia in asistencias:
+        #             if str(asistencia.idWsMember_id) in request.POST['attendances']:
+        #                 asistencia.attended = True
+        #                 asistencia.save()
+        #             else:
+        #                 print("inasistencia")
+        #                 asistencia.attended = False
+        #                 asistencia.save()
+        #         return JsonResponse({'status':1, 'msg':'Pase de lista actualizado'})
+        #     except Exception as e:
+        #         print(str(e))
+        #         # No existe una sesión para el día de hoy, por lo tanto se crea
+        #         idWsInstance = get_object_or_404(Workshop, id=idTaller)
+        #         todaySesion = Sesion(idWs=idWsInstance, date=datetime.date.today())
+        #         todaySesion.save(commit=False)
+        #         todaySesion.save()
+        #         alumnos = WsMember.objects.filter(idWs=idTaller)
+        #         for alumno in alumnos:
+        #             if str(alumno.id) in request.POST['attendances']:
+        #                 CallTheRollWs(idWsMember=alumno, idSesion=todaySesion, attended=True).save()
+        #             else:
+        #                 CallTheRollWs(idWsMember=alumno, idSesion=todaySesion, attended=False).save()
+        #         return JsonResponse({'status':1, 'msg':'Se ha tomado el pase de lista'})
+        # except Exception as e:
+        #     print(str(e))
+        #     return JsonResponse({'status':0,'msg':'No se ha podido pasar lista, intenta de nuevo'})
     else: #El request tipo GET regresa un
         asistencias = dict()                                     #Declarar el conjunto de todas las asistencias por alumno
         sesiones = Sesion.objects.filter(idWs=idTaller).values() #Obtener las sesiones del taller corresóndiente
         miembros = WsMember.objects.filter(idWs=idTaller).order_by('last_name') #Buscar los miembros inscritos en el taller
-        return render(request,'workshop/callTheRoll.html',{'sesiones':sesiones,'asistencias':asistencias, 'miembros':miembros})
+        return render(request,'core/callTheRoll.html',{'sesiones':sesiones,'asistencias':asistencias, 'miembros':miembros})
 
-# @login_required
-# @user_passes_test(lambda user: user.userType=='DC')
-def absolveWs(request):
-    alumnos = list(WsMember.objects.all())
+@require_http_methods(['GET'])
+def seleccionarEquipo(request):
+    equipos = Workshop.objects.filter(responsible=request.user, period=setPeriod())
+    return render(request, 'workshop/seleccionarEquipo.html',{'equipos':equipos})
+
+
+@login_required
+@user_passes_test(lambda user: user.userType=='DC')
+@require_http_methods(['POST'])
+def absolverAlumnos(request, idTaller):
+    try:
+        liberaciones= request.POST['liberaciones'].split(',')
+        print(liberaciones)
+        alumnos = WsMember.objects.filter(idWs=idTaller)
+        for alumno in alumnos:
+            if str(alumno.id) in liberaciones:
+                alumno.absolved = True
+                alumno.save()
+            
+        return JsonResponse({'status':1,'msg':'Listo'})
+    except Exception as e:
+        print(str(e))
+        return JsonResponse({'status':0,'msg':str(e)})
+
+@login_required
+@user_passes_test(lambda user: user.userType=='DC')
+def showPdf(request, idTaller):
+    
+    alumnos=list(WsMember.objects.filter(idWs=idTaller, absolved=True))
     w, h = A4
     buffer = io.BytesIO()
     p = canvas.Canvas(buffer, pagesize=A4)
-    p.setFont("Times-Roman", 20)
+    
     while(len(alumnos)>0):
+        p.setFont("Times-Roman", 20)
         p.drawString(150,h-150,'FACULTAD DE INFORMÁTICA')
         p.setFont("Times-Roman", 18)
         p.drawString(155,h-180,'COORDINACIÓN DE DEPORTES')
         p.setFont("Times-Roman", 12)
         p.drawString(175,h-200,'TALLERES DE DESARROLLO HUMANO')
         p.setFont("Times-Roman", 14)
-        p.drawString(215,h-230,'FORMATO DE LIBERACIÓN')
-
-        p.drawString(100,h-300,'Disciplina de taller: Basquetbol')
-        p.drawString(100,h-316,'Nombre: '+alumnos[0].first_name)
-        p.drawString(100,h-332,'Carrera: %s Grupo: %s Matrícula: %s' %(alumnos[0].plan, alumnos[0].group, alumnos[0].expediente))
-        p.drawString(100,h-348,'Por medio de la presente, se hace la notificación de manera oficial, que el')
-        p.drawString(100,h-364,'alumno cumplió satisfactoriamente su estadía participando en el Taller')
-        p.drawString(100,h-380,'Deportivo de:')
-        p.drawString(100,h-396,'Tiro con arco')
-        p.drawString(100,h-412,'en el período comprendido de agosto-diciembre 2019.')
+        p.drawString(200,h-230,'FORMATO DE LIBERACIÓN')
+        
+        # Escibir los campos
+        p.drawString(100,h-300,'Disciplina de taller:')
+        p.drawString(100,h-316,'Nombre:')
+        p.drawString(100,h-332,'Carrera:')
+        p.drawString(210,h-332,'Grupo:')
+        p.drawString(290,h-332,'Matrícula:')
+        p.drawString(100,h-348,'Por medio de la presente, se hace la notificación de manera oficial, que')
+        p.drawString(100,h-364,'el alumno  cumplió satisfactoriamente  su estadía  participando durante')
+        p.drawString(100,h-380,'el período comprendido de agosto-diciembre 2019 en el taller:')
+        
+        
+        p.drawString(250,h-550,'ATENTAMENTE')
+        p.line(200, h-630, 400, h-630)
+        p.drawString(170,h-645,'Coordinador de deportes Facultad de Informática')
+        # Escribir los valores
+        p.setFont("Times-Bold", 14)
+        p.drawString(220,h-300,str(alumnos[0].idWs))
+        p.drawString(155,h-316,alumnos[0].first_name)
+        p.drawString(150,h-332,str(alumnos[0].plan))
+        p.drawString(250,h-332,str(alumnos[0].group))
+        p.drawString(350,h-332,str(alumnos[0].expediente))
+        p.drawString(100,h-413,str(alumnos[0].idWs))
+        p.setFont("Times-Roman", 14)
         p.drawString(100,h-450,'Se extiende la presente para los efectos que al interesado convengan.')
         alumnos.pop(0)
         p.showPage()
@@ -297,3 +388,4 @@ def absolveWs(request):
     # present the option to save the file.
     buffer.seek(0)
     return FileResponse(buffer, as_attachment=False, filename='Liberación de talleres.pdf')
+   

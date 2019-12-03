@@ -53,7 +53,7 @@ def resetPassword(request):
                 matchcheck=check_password(passwordAdmnistrador, currentpassword)    
                 # si la contraseña del staff es correcta
                 if matchcheck:
-                    new_password=make_password('b'+form.cleaned_data.get('username'))          
+                    new_password=make_password('d'+form.cleaned_data.get('username'))          
                     usuario.password=new_password # reestablecer la contraseña
                     usuario.save()
                     messages.success(request, 'Contraseña restablecida')
@@ -89,10 +89,12 @@ def createTeacher(request):
             return redirect('registrarDocente')
         else:
             messages.error(request,'Error: Registro no completado')
-            return render(request, 'core/createTeacher.html',{'form':form})
+            docentes = User.objects.filter(userType='DC')
+            return render(request, 'core/createTeacher.html',{'form':form, 'docentes':docentes})
     else:
-        form=createUserForm()        
-        return render(request, 'core/createTeacher.html',{'form':form})
+        form=createUserForm()
+        docentes = User.objects.filter(userType='DC')
+        return render(request, 'core/createTeacher.html',{'form':form, 'docentes':docentes})
 
 @login_required
 @user_passes_test(lambda user: user.userType=='AD' or user.userType=='DC')
@@ -111,11 +113,14 @@ def createBecario(request):
             messages.success(request, 'Registro completado')
             return redirect('registrarBecario')
         else:
+            becarios = User.objects.filter(userType='BC')
             messages.error(request,'Error: Registro no completado')
-            return render(request, 'core/createBecario.html',{'form':form})
+            return render(request, 'core/createBecario.html',{'form':form, 'becarios':becarios})
     else:
-        form=createUserForm()        
-        return render(request, 'core/createBecario.html',{'form':form})
+        form=createUserForm()
+        becarios = User.objects.filter(userType='BC')
+        print(str(becarios))
+        return render(request, 'core/createBecario.html',{'form':form, 'becarios':becarios})
 
 @login_required
 @user_passes_test(lambda user: user.userType=='AD')
@@ -155,7 +160,7 @@ def deleteAdmin(request):
         currentPassword=request.user.password #obtener la contraseña de loggeo
         matchcheck=check_password(passwordToVerify,currentPassword) #comparar ambas contraseñas
         if(matchcheck): #realizar la acción
-            usernameTeacher=request.POST['username']
+            usernameAdmin=request.POST['username']
             try:
                 administrador = User.objects.get(username=usernameAdmin, userType='AD')
                 administrador.is_active = 0

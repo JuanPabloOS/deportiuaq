@@ -3,16 +3,16 @@
 {% block title %}Registro|Admin{% endblock%}
 
 {% block content %}
-<h1>Registro de Administrador</h1>
-<form method="POST">
-
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Registrar">
-    {% if messages %}
-        {% for message in messages %}
-            {{ message }}
-        {% endfor %}
-    {% endif %}
-</form>
+<div class="base-container flex-container center-content">
+    <div class="form-container flex-container column-container center-content form-responsive">
+        <h1>Registrar Administrador</h1>
+            <form method="POST" class="form-group">
+                {% csrf_token %}                
+                    {% for field in form %}
+                        {{ field.label_tag }}{{ field }}     
+                    {% endfor %} 
+                <input type="submit" value="Registrar">
+            </form>
+    </div>
+</div>
 {% endblock %}

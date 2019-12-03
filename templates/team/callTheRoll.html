@@ -5,13 +5,13 @@ Pase de lista
 {% endblock %}
 
 {% block content %}
-
+<!-- Este es el pase de lista -->
 <table>
     <tr>
         <th>Alumno</th>
         {% for sesion in sesiones %}
             {% if forloop.last %}
-                {% load current_date %}
+                {% load customized_tags %}
                 {% if sesion.date|compare_date is True %}
                     <th>Hoy</th>
                 {% else %}
@@ -28,7 +28,7 @@ Pase de lista
             <td>{{ miembro }}</td>
             {% for asistencia in miembro.get_attendances.all %}
                 {% if forloop.last %}
-                    {% load current_date %}
+                    {% load customized_tags %}
                     
                     {% if asistencia.idSesion.date|compare_date is True %}
                         <td><input type="checkbox" class="checkAttendance" name="{{ miembro.id }}" id="{{ miembro.id }}" {% if asistencia.attended %}checked{% endif %}></td>

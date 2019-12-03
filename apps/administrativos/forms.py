@@ -41,4 +41,4 @@ class deleteUserForm(forms.Form):
     """
     Pide una clave la cual puede s
     """
-    username=forms.CharField()
+    username=forms.CharField(label='Clave/Folio')

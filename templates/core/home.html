@@ -4,15 +4,16 @@
 
 {% block content %}
 
-    {% if user.userType == 'AD' %}
-    <div class="base-container flex-container center-content form-container">
-      <embed src="http://uaqedvirtual.uaq.mx/campusvirtual/filosofia/pluginfile.php/14989/course/summary/LOGOS%20UAQ%202018%20%281%29_UAQ.png" alt="" style="height: 80%;">
+    
+    <div class="base-container flex-container center-content form-container form-responsive">
+      <embed src="http://uaqedvirtual.uaq.mx/campusvirtual/filosofia/pluginfile.php/14989/course/summary/LOGOS%20UAQ%202018%20%281%29_UAQ.png" alt="" id="img-home" style="height: 80%;">
     </div>
-    {% elif user.userType == 'DC' %}
-      <div class="shortcut-container flex-container"> 
+
+
+      <!-- <div class="shortcut-container flex-container">  -->
 
         <!-- SHORTCUT -->
-         <div class="shortcut-body flex-container column-container">
+         <!-- <div class="shortcut-body flex-container column-container">
            <div class="shortcut-half flex-container">
             <div class="shortcut-left flex-container">
               <p>Equipos Representativos</p>
@@ -24,16 +25,16 @@
             </div>
            </div>
            <div class="shortcut-half flex-container shortcut-text">
-              <p><span>Docente: </span>Pablo Samano Elton</p>
+              
             </div>
-         </div>
+         </div> -->
          <!-- END SHORTCUT -->
 
          <!-- SHORTCUT -->
-         <div class="shortcut-body flex-container column-container">
+         <!-- <div class="shortcut-body flex-container column-container">
             <div class="shortcut-half flex-container">
              <div class="shortcut-left flex-container">
-               <p>Equipos Representativos</p>
+               <p>Talleres</p>
              </div>
              <div class="shortcut-right flex-container">
                <div class="shortcut-icon flex-container">
@@ -42,16 +43,16 @@
              </div>
             </div>
             <div class="shortcut-half flex-container shortcut-text">
-               <p><span>Docente: </span>Pablo Samano Elton</p>
+               
              </div>
-          </div>
+          </div> -->
           <!-- END SHORTCUT -->
 
          <!-- SHORTCUT -->
-         <div class="shortcut-body flex-container column-container">
+         <!-- <div class="shortcut-body flex-container column-container">
             <div class="shortcut-half flex-container">
              <div class="shortcut-left flex-container">
-               <p>Equipos Representativos</p>
+               <p>Registro de Becarios</p>
              </div>
              <div class="shortcut-right flex-container">
                <div class="shortcut-icon flex-container">
@@ -60,16 +61,16 @@
              </div>
             </div>
             <div class="shortcut-half flex-container shortcut-text">
-               <p><span>Docente: </span>Pablo Samano Elton</p>
-             </div>
-          </div>
+
+            </div>
+          </div> -->
           <!-- END SHORTCUT -->
 
          <!-- SHORTCUT -->
-         <div class="shortcut-body flex-container column-container">
+         <!-- <div class="shortcut-body flex-container column-container">
             <div class="shortcut-half flex-container">
              <div class="shortcut-left flex-container">
-               <p>Equipos Representativos</p>
+               <p>Gráficos</p>
              </div>
              <div class="shortcut-right flex-container">
                <div class="shortcut-icon flex-container">
@@ -78,84 +79,21 @@
              </div>
             </div>
             <div class="shortcut-half flex-container shortcut-text">
-               <p><span>Docente: </span>Pablo Samano Elton</p>
+
              </div>
-          </div>
+          </div> -->
           <!-- END SHORTCUT -->
 
-      </div>
-      <div class="main-body flex-container center-content">
+      <!-- </div> -->
+      <!-- <div class="main-body flex-container center-content">
         <div class="main-graph flex-container">
             <script src="https://code.highcharts.com/highcharts.js"></script>
             <script src="https://code.highcharts.com/modules/data.js"></script>
             <script src="https://code.highcharts.com/modules/exporting.js"></script>
-            <script src="https://code.highcharts.com/modules/export-data.js"></script>
-  <script>
-    Highcharts.getJSON(
-    'https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json',
-    function (data) {
+            <script src="https://code.highcharts.com/modules/export-data.js"></script> -->
 
-      Highcharts.chart('container', {
-        chart: {
-          zoomType: 'x'
-        },
-        title: {
-          text: 'Asistencias'
-        },
-        subtitle: {
-          text: document.ontouchstart === undefined ?
-            'Selecciona la parte en la que quieres hacer ZOOM' : 'ZOOM'
-        },
-        xAxis: {
-          type: 'datetime'
-        },
-        yAxis: {
-          title: {
-            text: 'Exchange rate'
-          }
-        },
-        legend: {
-          enabled: false
-        },
-        plotOptions: {
-          area: {
-            fillColor: {
-              linearGradient: {
-                x1: 0,
-                y1: 0,
-                x2: 0,
-                y2: 1
-              },
-              stops: [
-                [0, Highcharts.getOptions().colors[0]],
-                [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-              ]
-            },
-            marker: {
-              radius: 2
-            },
-            lineWidth: 1,
-            states: {
-              hover: {
-                lineWidth: 1
-              }
-            },
-            threshold: null
-          }
-        },
-
-        series: [{
-          type: 'area',
-          name: 'USD to EUR',
-          data: data
-        }]
-      });
-    }
-  );
-          
-</script>
-            <div id="container" style="min-width: 1000px; height: 350px; margin-top: 50px;"></div>
+            <!-- <div id="container" style="min-width: 1000px; height: 350px; margin-top: 50px;"></div>
         </div>
-      </div>
-    {% endif %}
+      </div> -->
+    
 {% endblock %}

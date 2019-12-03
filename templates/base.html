@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'css/hamburgers.min.css' %}" />
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
     <script
       defer
@@ -14,8 +16,10 @@
       integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ"
       crossorigin="anonymous"></script>
     <script defer src="{% static 'js/functions.js' %}"></script>
+    <script src="{% static 'js/toast.js' %}"></script>
 </head>
 <body>
+    <div id="toast"><div id="img"><i class="fas fa-check"></i></div><div id="desc"></div></div>
     <div class="absolute-container flex-container light-grey">
         <div class="left-container flex-container column-container">
             <div class="top-container flex-container center-content">
@@ -28,34 +32,66 @@
             <!-- MENUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU -->
             <!-- INICIO -->
             <button class="option-content option-active" onclick="location.href='{% url 'home' %}'"><i class="fas fa-home"></i><span>Inicio</span></button>
-            <!-- MULTIPLES -->
-            <button class="option option-content"><i class="fas fa-clipboard-list">x</i><span>Múltiples</span></button>
-            <div class="option-list">
-                <a class="option-menu option-content" href="#"><i class="fas fa-clipboard-list">x</i><span>Alta</span></a>
-                <a class="option-menu option-content" href="#"><i class="fas fa-clipboard-list">x</i><span>Baja</span></a>
-                <a class="option-menu option-content" href="#"><i class="fas fa-clipboard-list">x</i><span>Cambio</span></a>
-                <a class="option-menu option-content" href="#"><i class="fas fa-clipboard-list">x</i><span>Eliminar</span></a>
-            </div>
+            
             <!-- TALLERES -->
-            <button class="option-content" onclick="location.href='{% url 'talleres' %}'"><i class="fas fa-clipboard-list"></i><span>Talleres</span></button>
-            <!-- BECARIOS -->
-            <button class="option-content" onclick="location.href='{% url 'registrarBecario' %}'"><i class="fas fa-user"></i><span>Registrar Becario</span></button>
+            {% if user.userType == 'DC' or user.userType == 'AD' %}
+                <button class="option option-content"><i class="fas fa-user-times"></i><span>Eliminar usuario</span></button>
+                <div class="option-list">
+                    {% if user.userType == 'DC' or user.userType == 'AD' %}<a class="option-menu option-content" href="{% url 'eliminarBecario' %}"><i class="fas fa-trash"></i><span>Becario</span></a>{% endif %}
+                    {% if user.userType == 'AD' %}
+                    <a class="option-menu option-content" href="{% url 'eliminarDocente' %}"><i class="fas fa-trash"></i><span>Docente</span></a>
+                    <a class="option-menu option-content" href="{% url 'eliminarAdmin' %}"><i class="fas fa-trash"></i><span>Administrador</span></a>
+                    {% endif %}
+                </div>
+            {% endif %}
+            {% if user.userType == 'DC' %}
+                <button class="option-content" onclick="location.href='{% url 'talleres' %}'"><i class="fas fa-clipboard-list"></i><span>Talleres</span></button>
+                <button class="option-content" onclick="location.href='{% url 'equipos' %}'"><i class="fas fa-clipboard-list"></i><span>Equipos</span></button>
+                <!-- BECARIOS -->
+                <button class="option-content" onclick="location.href='{% url 'registrarBecario' %}'"><i class="fas fa-user"></i><span>Registrar Becario</span></button>
 
+                <button class="option option-content"><i class="fas fa-clipboard-check"></i><span>Pasar Lista</span></button>
+                <div class="option-list">
+                    <a class="option-menu option-content" href="{% url 'seleccionarTallerPaseDeLista' %}"><i class="fas fa-clipboard-check"></i><span>Taller</span></a>
+                    <a class="option-menu option-content" href="{% url 'seleccionarEquipoPaseDeLista' %}"><i class="fas fa-clipboard-check"></i><span>Equipo</span></a>
+                </div>
+                <button class="option-content" onclick="location.href='{% url 'registrarPartido' %}'"><i class="fas fa-user"></i><span>Registrar Partido</span></button>
+            {% endif %}
             {% if user.userType == 'AD' %}
                 <!-- DOCENTES -->
+                <button class="option option-content"><i class="fas fa-th"></i><span>Talleres</span></button>
+                <div class="option-list">
+                    <a class="option-menu option-content" href="{% url 'crearTaller' %}"><i class="fas fa-plus-square"></i><span>Registrar</span></a>
+                    <a class="option-menu option-content" href="{% url 'talleres' %}"><i class="fas fa-eye"></i><span>Ver Talleres</span></a>
+                </div>
+
+                <button class="option option-content"><i class="fas fa-users"></i><span>Equipos</span></button>
+                <div class="option-list">
+                    <a class="option-menu option-content" href="{% url 'crearEquipo' %}"><i class="fas fa-plus-square"></i><span>Registrar</span></a>
+                    <a class="option-menu option-content" href="{% url 'equipos' %}"><i class="fas fa-eye"></i><span>Ver Equipos</span></a>
+                </div>
+
+                <button class="option-content" onclick="location.href='{% url 'registrarAdmin' %}'"><i class="fas fa-user-tie"></i><span>Registrar Administrador</span></button>
                 <button class="option-content" onclick="location.href='{% url 'registrarDocente' %}'"><i class="fas fa-user-tie"></i><span>Registrar Docente</span></button>
                 <!-- RESETEAR CONSTRASEÑA -->
-                <button class="option-content" onclick="location.href='{% url 'resetPassword' %}'"><i class="fas fa-lock-open"></i><span>Restablecer contraseña</span></button>
+                <button class="option-content" onclick="location.href='{% url 'resetPassword' %}'"><i class="fas fa-lock-open"></i><span>Restablecer una contraseña</span></button>
             {% endif %}
 
             <!-- CAMBIAR CONSTRASEÑA -->
-            <button class="option-content" onclick="location.href='{% url 'changePassword' %}'"><i class="fas fa-key"></i><span>Contraseña</span></button>
+            <button class="option-content" onclick="location.href='{% url 'changePassword' %}'"><i class="fas fa-key"></i><span>Mi Contraseña</span></button>
             <!-- MENUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU -->
             </div>
         </div>
         <div class="right-container flex-container column-container">
             <div class="top-container flex-container top-bar">
                 <p id="link-logout" onclick="location.href='{% url 'logout' %}'">Cerrar Sesión</p>
+                
+                <div class="hamburger hamburger--spring" id="hamburger">
+                    <div class="hamburger-box">
+                    <div class="hamburger-inner"></div>
+                    </div>
+                </div>
+
             </div>
             <div class="info-title flex-container title-menu">
                 <p>Panel de Administración</p>
@@ -67,6 +103,91 @@
             </div>
         </div>
     </div>
-    <div id="toast"><div id="img">UPSS!</div><div id="desc">Ocurrió un error.</div></div>
+    <!-- MENU RESPONSIVO -->
+    <div class="menu-resp text-center" id="menu-resp">
+        <!-- MENUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU -->
+            <!-- INICIO -->
+            <button class="option-content" onclick="location.href='{% url 'home' %}'"><i class="fas fa-home"></i><span>Inicio</span></button>
+            
+            <!-- TALLERES -->
+            {% if user.userType == 'DC' or user.userType == 'AD' %}
+                <button class="option option-content"><i class="fas fa-user-times"></i><span>Eliminar usuario</span></button>
+                <div class="option-list">
+                    {% if user.userType == 'DC' or user.userType == 'AD' %}<a class="option-menu option-content" href="{% url 'eliminarBecario' %}"><i class="fas fa-trash"></i><span>Becario</span></a>{% endif %}
+                    {% if user.userType == 'AD' %}
+                    <a class="option-menu option-content" href="{% url 'eliminarDocente' %}"><i class="fas fa-trash"></i><span>Docente</span></a>
+                    <a class="option-menu option-content" href="{% url 'eliminarAdmin' %}"><i class="fas fa-trash"></i><span>Administrador</span></a>
+                    {% endif %}
+                </div>
+            {% endif %}
+            {% if user.userType == 'DC' %}
+                <button class="option-content" onclick="location.href='{% url 'talleres' %}'"><i class="fas fa-clipboard-list"></i><span>Talleres</span></button>
+                <button class="option-content" onclick="location.href='{% url 'equipos' %}'"><i class="fas fa-clipboard-list"></i><span>Equipos</span></button>
+                <!-- BECARIOS -->
+                <button class="option-content" onclick="location.href='{% url 'registrarBecario' %}'"><i class="fas fa-user"></i><span>Registrar Becario</span></button>
+
+                <button class="option option-content"><i class="fas fa-clipboard-check"></i><span>Pasar Lista</span></button>
+                <div class="option-list">
+                    <a class="option-menu option-content" href="{% url 'seleccionarTallerPaseDeLista' %}"><i class="fas fa-clipboard-check"></i><span>Taller</span></a>
+                    <a class="option-menu option-content" href="{% url 'seleccionarEquipoPaseDeLista' %}"><i class="fas fa-clipboard-check"></i><span>Equipo</span></a>
+                </div>
+                <button class="option-content" onclick="location.href='{% url 'registrarPartido' %}'"><i class="fas fa-user"></i><span>Registrar Partido</span></button>
+            {% endif %}
+            {% if user.userType == 'AD' %}
+                <!-- DOCENTES -->
+                <button class="option option-content"><i class="fas fa-th"></i><span>Talleres</span></button>
+                <div class="option-list">
+                    <a class="option-menu option-content" href="{% url 'crearTaller' %}"><i class="fas fa-plus-square"></i><span>Registrar</span></a>
+                    <a class="option-menu option-content" href="{% url 'talleres' %}"><i class="fas fa-eye"></i><span>Ver Talleres</span></a>
+                </div>
+
+                <button class="option option-content"><i class="fas fa-users"></i><span>Equipos</span></button>
+                <div class="option-list">
+                    <a class="option-menu option-content" href="{% url 'crearEquipo' %}"><i class="fas fa-plus-square"></i><span>Registrar</span></a>
+                    <a class="option-menu option-content" href="{% url 'equipos' %}"><i class="fas fa-eye"></i><span>Ver Equipos</span></a>
+                </div>
+
+                <button class="option-content" onclick="location.href='{% url 'registrarAdmin' %}'"><i class="fas fa-user-tie"></i><span>Registrar Administrador</span></button>
+                <button class="option-content" onclick="location.href='{% url 'registrarDocente' %}'"><i class="fas fa-user-tie"></i><span>Registrar Docente</span></button>
+                <!-- RESETEAR CONSTRASEÑA -->
+                <button class="option-content" onclick="location.href='{% url 'resetPassword' %}'"><i class="fas fa-lock-open"></i><span>Restablecer una contraseña</span></button>
+            {% endif %}
+
+            <!-- CAMBIAR CONSTRASEÑA -->
+            <button class="option-content" onclick="location.href='{% url 'changePassword' %}'"><i class="fas fa-key"></i><span>Mi Contraseña</span></button>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+        
+        {% if message.tags == "success" %}
+            <script>
+                launch_toast("{{ message }}");
+            </script>
+            {% endif %}
+            {% if message.tags == "error" %}
+            <script>
+                launch_toast("{{ message }}");
+            </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    
+    {% if form.errors %}
+        {% for error in form.errors %}
+        {{ error }}
+        {% endfor %}
+    {% endif %}
+    
 </body>
+<script>
+        var hamburger = document.querySelector(".hamburger");
+        console.log(hamburger)
+            hamburger.addEventListener("click", function() {
+                console.log("aaaaaaaa")
+                hamburger.classList.toggle("is-active");
+                var e = document.getElementById("menu-resp");
+                e.classList.toggle("show-menu");
+            });
+        </script>
 </html>

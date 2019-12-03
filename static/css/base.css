@@ -60,8 +60,14 @@ h2 {
 .dark-green {
   background-color: #6ad1c7 !important;
 }
+.light-green{
+  background: var(--medium-green);
+}
 .light-red{
   background: #ff6c6c;
+}
+.white{
+  background: var(--white) !important;
 }
 .flex-container {
   position: relative;
@@ -237,27 +243,27 @@ h2 {
   border-radius: 10px;
 }
 .shortcut-half {
-  height: calc(100% / 2);
-  width: 100%;
+  height: 100%;
+  width: 70%;
 }
 .shortcut-left {
   height: 100%;
-  width: 75%;
+  width: 40%;
   padding: 0.5rem;
   padding-left: 0.8rem;
   box-sizing: border-box;
   color: var(--text);
+  font-size: 1rem;
 }
 .shortcut-right {
   height: 100%;
-  width: 25%;
-  justify-content: flex-end;
-  padding-right: 0.5rem;
-  padding-top: 0.5rem;
-  box-sizing: border-box;
+  width: 30%;
+  color: white;
+  font-size: .8rem;
+  font-weight: 500;
 }
 .shortcut-icon {
-  height: 90%;
+  height: 2.4rem;
   width: 70%;
   border-radius: 6px;
   background-color: var(--dark-green);
@@ -266,16 +272,10 @@ h2 {
   color: var(--white);
   font-weight: 500;
 }
-.shortcut-left p {
-  font-size: 0.9rem;
-}
 .shortcut-text {
-  padding-right: 0.5rem;
-  padding-bottom: 0.1rem;
-  box-sizing: border-box;
-  justify-content: flex-end;
-  align-items: flex-end;
-  font-size: 0.8rem;
+  font-size: 1.1rem;
+  align-items: center;
+  justify-content: center;
 }
 
 /* FORMS */
@@ -336,6 +336,21 @@ h2 {
   margin-bottom: 10px;
 }
 .form-group input[type="email"] {
+  height: 35px;
+  width: 250px;
+  border: none;
+  outline: none;
+  color: var(--white);
+  font-size: 0.9rem;
+  font-weight: 400;
+  border-radius: 4px;
+  background-color: var(--light-grey);
+  color: #2e2e2e;
+  padding-left: 10px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+.form-group input[type="datetime-local"] {
   height: 35px;
   width: 250px;
   border: none;
@@ -698,6 +713,15 @@ h2 {
   width: 37%;
 }
 
+/* HISTORIAL DE PARTIDOS */
+.padding-1{
+  padding: 1rem;
+}
+.padding-2{
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
 /* TOAST STYLES */
 #toast {
   visibility: hidden;
@@ -705,8 +729,8 @@ h2 {
   height: 50px;
   /*margin-left: -125px;*/
   margin: auto;
-  background-color: #333;
-  color: #fff;
+  background-color:#f3f3f3;
+  color: red !important;
   text-align: center;
   border-radius: 2px;
 
@@ -716,34 +740,33 @@ h2 {
   bottom: 30px;
   font-size: 17px;
   white-space: nowrap;
+  
+  box-shadow: 1.5px 3px #888888;
 }
 #toast #img{
-width: 50px;
-height: 50px;
-  
-  float: left;
-  
-  padding-top: 16px;
-  padding-bottom: 16px;
-  
-  box-sizing: border-box;
+    display: flex;
+    width: 50px;
+    height: 50px;
+    float: left;
+    align-items: center;
+    justify-content: center;
+    background-color: #919191;
+    color: #fff;
 
-  
-  background-color: #111;
-  color: #fff;
-}
-#toast #desc{
-
-  
-  color: #fff;
- 
-  padding: 16px;
-  
-  overflow: hidden;
-white-space: nowrap;
-}
+    box-shadow: 0px 2px #888888;
+  }
+  #toast #desc{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: red;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: center;
+  }
 
 #toast.show {
+  display: flex;
   visibility: visible;
   -webkit-animation: fadein 0.5s, expand 0.5s 0.5s,stay 3s 1s, shrink 0.5s 2s, fadeout 0.5s 2.5s;
   animation: fadein 0.5s, expand 0.5s 0.5s,stay 3s 1s, shrink 0.5s 4s, fadeout 0.5s 4.5s;
@@ -760,7 +783,7 @@ white-space: nowrap;
 }
 
 @-webkit-keyframes expand {
-  from {min-width: 50px} 
+  from {min-width: 500px} 
   to {min-width: 350px}
 }
 
@@ -949,6 +972,7 @@ white-space: nowrap;
   background: var(--light-red);
   border-radius: 4px;
   cursor: pointer;
+  margin-top: 5px;
 }
 .btn-trash:hover{
   background: red;
@@ -988,4 +1012,99 @@ white-space: nowrap;
 }
 .m-botton-20{
   margin-bottom: 20px;
+}
+/* MODAL PASSWORD */
+.alert-title{
+  width: 100%;
+  align-items: center;
+  border-bottom: 1.5px solid #cbcbcb;
+}
+.alert-title p{
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+.alert-icon{
+  height: 40px;
+  width: 40px;
+  justify-content: center;
+  align-items: center;
+  background: var(--light-red);
+  border-radius: 4px;
+  color: var(--white);
+  box-sizing: border-box;
+  font-size: 1.3rem;
+  margin-right: 1rem;
+}
+.alert-content{
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-bottom: 1.5px solid #cbcbcb;
+}
+#alert-delete{
+  margin-bottom: .9rem;
+}
+.m-bottom-1{
+  margin-bottom: .8rem;
+}
+.m-top-1{
+  margin-top: .8rem;
+}
+.alert-button{
+
+}
+.btn-option-cancel{
+  width: 8rem;
+  height: 1.6rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 4px;
+  color: var(--light-red);
+  background: rgba(0, 0, 0, 0);
+}
+.btn-option-cancel:hover{
+  color: red;
+  font-weight: 500;
+  cursor: pointer;
+}
+.btn-generic{
+  height: 35px;
+  width: 250px;
+  border: none;
+  outline: none;
+  color: var(--white);
+  font-size: 0.9rem;
+  font-weight: 400;
+  border-radius: 8px;
+  background-color: var(--medium-green);
+  cursor: pointer;
+}
+.modal-password{
+  background-color: var(--white) !important;
+  border: 2px solid var(--light-green) !important;
+  box-sizing: border-box;
+  margin-bottom: 1rem !important;
+}
+
+tbody tr:nth-child(even) {
+  padding: 1rem;
+}
+
+tbody tr {
+  border: none;
+  background: var(--white);
+  font-size: .9rem;
+}
+
+table {
+  background: var(--light-grey);
+  font-size: .9rem;
+  font-weight: 500;
+  border-radius: 10px 10px 0px 0px;
+  border-spacing: 0px;
+}
+th{
+  padding: .3rem;
+  margin-bottom: 9px;
 }

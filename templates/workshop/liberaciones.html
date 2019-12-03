@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Liberaciones
+{% endblock %}
+
+{% block content %}
+<div class="flex-container column-container workshop-section">
+
+    {{ taller.sport }}
+    <div class="flex-container width-100 m-botton-20">
+        <div class="width-50 flex-container">
+            <h2 style="font-weight: 500;">Integrantes</h2>
+        </div>
+        <div class="width-50 flex-container right-content" id="acciones">
+            <button class="btn-option dark-green" onclick="generarCartas()">Generar cartas</button>
+            <button class="btn-option dark-green" id="">Editar taller</button>
+
+        </div>
+    </div>
+
+    <br>
+
+
+    <section>
+        <table>
+            <tr>
+                <th>Expediente</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Asistencias</th>
+                <th>Absuelto</th>
+                <th>Carta</th>
+
+            </tr>
+            {% for miembro in miembros %}
+            <tr>
+                <td>{{ miembro.expediente }}</td>
+                <td>{{ miembro.first_name }} {{ miembro.last_name }}</td>
+                <td>{{ miembro.mail }}</td>
+                <td>{{ miembro.totalAttendances }}</td>
+                <td>{% if miembro.absolved %}Si{% else %}No{% endif %}</td>
+                <td><input type="checkbox" name="{{ miembro.id }}" id="{{ miembro.id }}" class=""></td>
+            </tr>
+            {% endfor %}
+        </table>
+
+
+</div>
+<script>
+    function generarCartas() {
+        const liberacionesNodes = document.querySelectorAll("input[type=checkbox]:checked");
+        var liberaciones = [];
+        liberacionesNodes.forEach((x) => {
+            liberaciones.push(x.getAttribute("name"))
+        });
+        console.log(liberaciones);
+        if (liberaciones.length > 0) {
+            var xhttp;
+            var csrftoken = '{{ csrf_token }}';
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                var retroalimentacion = document.getElementById("retroalimentacion");
+                if (this.readyState == 4 && this.status == 200) {
+                    var respuesta = JSON.parse(this.responseText);
+                    if(respuesta.status == 1){
+                        window.location = "{% url 'showPdf' taller.id %}"
+                    }else{
+                        alert('No se ha podido procesar la petición')
+                    }
+                }
+            }
+            xhttp.open("POST", "{% url 'absolverAlumnos' taller.id %}", true);
+            xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("liberaciones="+liberaciones);
+        }else{
+            alert('No hay nadie para liberar');
+        }
+    }
+        // }
+
+    
+</script>
+{% endblock%}
