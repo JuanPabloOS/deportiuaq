@@ -40,27 +40,25 @@ Estadísticos
 </style>
 
 <div class="base-container flex-container center-content">
-        <div class="form-right flex-container column-container" style="margin-right: 10px; align-items: center;">
+        <div class="form-right flex-container column-container" style="margin-right: 10px; align-items: center; padding: 1rem; box-sizing: border-box; padding-top: 0rem;">
             <h3 style="margin-top: 1rem; margin-bottom: 1rem;">Partidos</h3>
             <div class="scroll-y">
                     {% for partido in partidos %}
 
                     <div class="shortcut-body flex-container result-container">
                         <div class="shortcut-half flex-container column-container">
-                         <div class="flex-container" style="margin-top: .6rem;">
-                           <p style="margin-left: 1rem; font-weight: 500;">{{ partido }}</p>
+                         <div class="flex-container">
+                           <p style="font-size: 1.1rem; font-weight: 500 !important;">{{ partido }}</p>
                          </div>
                          <div class="flex-container shortcut-text">
                              <div class="result-score flex-container">
                                 <p>{{ partido.teamScore }}</p>
                              </div>
+                             -
                             <div class="result-score flex-container">
                                 <p>{{ partido.rivalScore }}</p>
                             </div>
                          </div>   
-                        </div>
-                        <div class="shortcut-right flex-container result-more center-content">
-                             Ver más
                         </div>
                       </div> 
                     {% endfor %}

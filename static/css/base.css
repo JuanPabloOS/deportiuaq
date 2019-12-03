@@ -231,9 +231,12 @@ h2 {
 }
 .shortcut-body {
   height: 100px;
-  width: 90%;
+  width: 100%;
   border-radius: 10px;
   background-color: white;
+  cursor: pointer;
+  padding: .5rem;
+  box-sizing: border-box;
 }
 .main-body {
   height: 80%;
@@ -247,7 +250,7 @@ h2 {
 }
 .shortcut-half {
   height: 100%;
-  width: 70%;
+  width: 100%;
 }
 .shortcut-left {
   height: 100%;
