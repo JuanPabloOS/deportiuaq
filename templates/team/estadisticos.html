@@ -69,12 +69,15 @@ Estadísticos
         </div>
         <div class="table-left flex-container column-container" style="margin-right: 0px; align-items: center;!important">
           <h1 style="margin-top: 1rem; margin-bottom: 1rem;">Análisis</h1>
-          <table>
+          <div class="scroll-y">
+
+            <table>
               <tbody id="jugadoresList">
                 
               </tbody>
             </table> 
             <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+          </div>
         </div>
         </div>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -227,16 +230,18 @@ Estadísticos
         }
     },
     series: [{
-        name: 'Brands',
+        name: 'Porcentaje',
         colorByPoint: true,
         data: [{
             name: 'Ganados',
             y: totalPartidos/ganadoSet.length,
             sliced: true,
-            selected: true
+            selected: true,
+            color: "blue"
         }, {
             name: 'Perdidos',
-            y: totalPartidos/perdidoSet.length
+            y: totalPartidos/perdidoSet.length,
+            color: "coral"
         }, {
             name: 'Empatados',
             y: totalPartidos/empatadoSet.length
