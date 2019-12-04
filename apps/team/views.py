@@ -339,6 +339,8 @@ def statisticsAttendance(request):
 @require_http_methods(['GET'])
 def statisticsMatches(request, idTeam):
     partidos=Match.objects.filter(idTeam_id=idTeam)
+    jugadores=serializers.serialize('json', list(TeamMember.objects.filter(idTeam_id=idTeam)),fields=('id','first_name','last_name'))
+    # print(jugadores)
     ganados = Player.objects.filter(idMatch__idTeam=idTeam, idMatch__winned=1)
     perdidos = Player.objects.filter(idMatch__idTeam=idTeam, idMatch__winned=0)
     empatados = Player.objects.filter(idMatch__idTeam=idTeam, idMatch__winned=2)
@@ -371,7 +373,8 @@ def statisticsMatches(request, idTeam):
         'partidos':partidos,
         'ganadoJSON':ganadoJSON,
         'perdidoJSON':perdidoJSON,
-        'empatadoJSON':empatadoJSON
+        'empatadoJSON':empatadoJSON,
+        'jugadores':jugadores
     })
 
 # ganados = Match.objects.filter(idTeam = 2, winned=1)
