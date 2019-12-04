@@ -121,6 +121,7 @@ def createWorkshop(request):
 
 @login_required
 @user_passes_test(lambda user: user.userType=='AD')
+@require_http_methods(['POST'])
 def deleteWorkshop(request):
     """
     Eliminar taller deportivo

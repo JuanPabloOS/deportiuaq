@@ -69,6 +69,7 @@ Eliminar Equipo
                             switch (respuesta.status) {
                                 case 0:
                                     retroalimentacion.innerHTML = respuesta.msg;
+                                    launch_toast(respuesta.msg, 2);
                                     break;
                                 case 1:
                                     location.reload();

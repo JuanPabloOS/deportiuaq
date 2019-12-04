@@ -47,7 +47,7 @@
             if (this.readyState == 4 && this.status == 200) {
                 response=JSON.parse(this.responseText)
                 var miembros = JSON.parse(response.miembros)
-                console.log(miembros)
+                // console.log(miembros)
                 
                 var jugadores = document.getElementById("jugadores");
                 miembros.forEach(element=>{
@@ -78,34 +78,34 @@
         var alertMessage = "<p><label>Todos los campos son obligatorios</label></p>"
         var msg=document.getElementById("msg");
         var isValid=false;
-        console.log("=================");
-        console.log(isValid);
-        console.log("=================");
+        // console.log("=================");
+        // console.log(isValid);
+        // console.log("=================");
         // Token
         var token = "{{ csrf_token }}"
         // Datos del formulario
         var idTeam=document.getElementById("id_idTeam").value; //por id
-        console.log(`idTeam ${idTeam}`)
+        // console.log(`idTeam ${idTeam}`)
         var rival = document.getElementById("id_rival").value; //por id
-        console.log(`rival ${rival}`)
+        // console.log(`rival ${rival}`)
         var teamScore = document.getElementById("id_teamScore").value; //por id
-        console.log(`teamScore ${teamScore}`)
+        // console.log(`teamScore ${teamScore}`)
         var rivalScore =document.getElementById("id_rivalScore").value; //por id
-        console.log(`rivalScore ${rivalScore}`)
+        // console.log(`rivalScore ${rivalScore}`)
         if(!idTeam.isNaN && idTeam>0 && idTeam!=""){
             if(rival.length===3 && rival!=""){
                 if(!teamScore.isNaN && teamScore>=0 && teamScore!=""){
                     if(!rivalScore.isNaN && rivalScore>=0 && rivalScore!=""){
                         isValid=true;
                         msg.innerHTML="";
-                        console.log("=================");
-                        console.log(isValid);
-                        console.log("=================");
+                        // console.log("=================");
+                        // console.log(isValid);
+                        // console.log("=================");
                     }else{
                         msg.innerHTML=alertMessage;
-                        console.log("=================");
-                        console.log(isValid);
-                        console.log("=================");
+                        // console.log("=================");
+                        // console.log(isValid);
+                        // console.log("=================");
                     }
                 }else{
                     msg.innerHTML=alertMessage;
@@ -119,12 +119,12 @@
 
         // Jugadores
         var jugadoresNodes = document.querySelectorAll("input[type=checkbox]:checked")
-        console.log(jugadoresNodes);
+        // console.log(jugadoresNodes);
         var jugadores = [];
         jugadoresNodes.forEach((x)=>{
             jugadores.push(x.getAttribute("name"));
         })
-        console.log(jugadores);
+        // console.log(jugadores);
 
         if(jugadoresNodes.length===0){
             isValid=false;
@@ -136,8 +136,9 @@
             xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
             respuesta=JSON.parse(this.responseText)
-                alert(respuesta.status)
-                console.log(respuesta)
+                // alert(respuesta.status)
+                // console.log(respuesta)
+                launch_toast(respuesta.msg, respuesta.status)
                 jugadoresNodes.forEach((x)=>{
                     x.click();
                 })

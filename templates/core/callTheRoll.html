@@ -73,19 +73,24 @@ Pase de lista
 <script>
     document.getElementById("callTheRoll").addEventListener("click", (e)=>{
         var attendancesNodes = document.querySelectorAll("input[type=checkbox]:checked.checkAttendance")
-        console.log(attendancesNodes)
+        // console.log(attendancesNodes)
         var attendances = []
         attendancesNodes.forEach((x)=>{
             attendances.push(x.getAttribute("name"))
         })
-        console.log(attendances)
+        // console.log(attendances)
         var xhttp;
         var csrftoken = '{{ csrf_token }}';
         xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             var retroalimentacion = document.getElementById("retroalimentacion");
             if (this.readyState == 4 && this.status == 200) {
-                console.log(JSON.parse(this.responseText))
+                var respuesta = JSON.parse(this.responseText);
+                if((respuesta.status == 1) ||(respuesta.status == "1")){
+                    launch_toast(respuesta.msg, 1);
+                }else{
+                    launch_toast(respuesta.msg, 2);
+                }
             }
         }
         xhttp.open("POST", "{{ request.path }}", true);
