@@ -1,5 +1,5 @@
 function launch_toast(e, type){
-    console.log("entrooooooooooooooooooooooooooooo");
+    console.log(`${e} ${type}`);
     var x = document.getElementById("toast");
     
     // console.log(x);

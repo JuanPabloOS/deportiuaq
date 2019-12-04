@@ -181,6 +181,20 @@
     {% endif %}
     
 </body>
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == "success" %}
+        <script>
+            launch_toast("{{ message }}", 1);
+        </script>
+        {% endif %}
+        {% if message.tags == "error" %}
+        <script>
+            launch_toast("{{ message }}" , 2);
+        </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
 <script>
         var hamburger = document.querySelector(".hamburger");
         console.log(hamburger)

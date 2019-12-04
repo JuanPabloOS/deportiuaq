@@ -6,11 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.8.1/js/all.js"
+      integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ"
+      crossorigin="anonymous"></script>
+    <script src="{% static 'js/toast.js' %}"></script>
     <title>Document</title>
 </head>
 <body>
+    <div id="toast"><div id="imgToast"></div><div id="desc"></div></div>
     <div class="absolute-container light-grey column-container">
         <div class="top-container flex-container text-right">
             <p class="link-text">Página principal</p>
@@ -27,4 +35,18 @@
         </div>
     </div>
 </body>
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == "success" %}
+        <script>
+            launch_toast("{{ message }}", 1);
+        </script>
+        {% endif %}
+        {% if message.tags == "error" %}
+        <script>
+            launch_toast("{{ message }}" , 2);
+        </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
 </html>
