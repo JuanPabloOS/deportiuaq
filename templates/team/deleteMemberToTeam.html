@@ -14,18 +14,4 @@ Eliminar Miembros Equipo
     <input type="submit" value="Enviar">
     
 </form>
-    <!--  Mensajes  -->
-    {% if messages %}
-        {% for message in messages %}
-            {{ message }}
-        {% endfor %}
-    {% endif %}
-    <!-- Errores  -->
-    {% if form.errors %}
-        {% for error in form.errors %}
-            {{ error }}
-        {% endfor %}
-    {% endif %}
-
-
 {% endblock %}
