@@ -1107,3 +1107,28 @@ th{
   padding: .3rem;
   margin-bottom: 9px;
 }
+
+#tbody-list > th, td{
+  padding-left: 15px;
+}
+/* callTheRoll */
+
+
+
+input[type="radio"] {
+	display: none;
+}
+input[type="radio"] + label span {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	margin: -1px 4px 0 0;
+	vertical-align: middle;
+	background: url(radio-uncheck.png);
+	background-size: cover;
+	cursor: pointer;
+}
+input[type="radio"]:checked + label span {
+	background: url(radio-check.png);
+	background-size: cover;
+}
