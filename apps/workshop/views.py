@@ -189,9 +189,16 @@ def addMemberToWs(request):
             messages.error(request, 'Alumno ya registrado')
         except:
             registrado = form.save()
-            print(form)
-            print(registrado)
             if(registrado != False):
+                try:
+                    sesiones = Sesion.objects.filter(idWs=form.cleaned_data['idWs'])
+                    print(sesiones)
+                    if len(sesiones)>0:
+                        for sesion in sesiones:
+                            check = CallTheRollWs(idWsMember=registrado, idSesion=sesion, attended=True)
+                            check.save()
+                except Exception as e:
+                    print(str(e))
                 messages.success(request,'Registro completado')
             else:
                 messages.error(request, 'Límite alcanzado')

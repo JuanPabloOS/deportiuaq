@@ -15,7 +15,7 @@ Pasar lista
                         {{ equipo.sport }}
                     </div>
                     <div class="workshop-inscribed flex-container">
-                        Inscritos: {{ equipo.totalMembers }}
+                        Inscritos: {{ equipo.get_members.all|length }}
                     </div>
                     <div class="workshop-teacher flex-container">
                         Docente: {{ equipo.responsible }}

@@ -173,11 +173,20 @@ def addMemberToTeam(request):
                 isAlreadyIn = TeamMember.objects.get(expediente=form.cleaned_data['expediente'], idTeam__period=setPeriod())
                 messages.error(request, 'El alumno ya registrado')
             except:
-                form.save()
-                if(form != False):
-                    messages.success(request,'Registro completado')
-                else:
-                    messages.error(request, 'Límite alcanzado')
+                alumno = form.save()
+                # print("--------------")
+                # print(alumno)
+                # print("---------------")
+                try:
+                    sesiones = Sesion.objects.filter(idTeam=form.cleaned_data['idTeam'])
+                    print(sesiones)
+                    if len(sesiones)>0:
+                        for sesion in sesiones:
+                            check = CallTheRollTeam(idTeamMember=alumno, idSesion=sesion, attended=False)
+                            check.save()
+                except Exception as e:
+                    print(str(e))
+                messages.success(request, 'Alumno registrado')
             next = request.POST.get('next', '/')
             return HttpResponseRedirect(next)
         else:
