@@ -174,7 +174,10 @@ def addMemberToTeam(request):
                 messages.error(request, 'El alumno ya registrado')
             except:
                 form.save()
-                messages.success(request,'Registro completado')
+                if(form != False):
+                    messages.success(request,'Registro completado')
+                else:
+                    messages.error(request, 'Límite alcanzado')
             next = request.POST.get('next', '/')
             return HttpResponseRedirect(next)
         else:

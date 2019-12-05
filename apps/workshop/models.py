@@ -94,7 +94,16 @@ class WsMember(models.Model):
         if (ws.maxMembers is None) or (ws.totalMembers < ws.maxMembers):#None porque maxMembers puede ser null
             ws.totalMembers+=1
             ws.save()
-        return super(WsMember, self).save(*args,**kwargs)
+            return super(WsMember, self).save(*args,**kwargs)
+        else:
+            return False
+
+    def delete(self, *args, **kwargs):
+        ws=Workshop.objects.get(id=self.idWs.id)
+        if ws.totalMembers>0:
+            ws.totalMembers-=1
+            ws.save()
+        return super(WsMember, self).delete(*args,**kwargs)
 
     def __str__(self):
         return '%s %s' %(self.last_name, self.first_name)
