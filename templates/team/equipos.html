@@ -13,11 +13,14 @@ Equipos representativos
                 </div>
                 <div class="workshop-content flex-container">
                     <div class="workshop-title flex-container">
-                        {{ equipo.sport }}
+                        {{ equipo.sport }} {{ equipo.branch }}
                     </div>
                     
                     <div class="workshop-inscribed flex-container">
                         Inscritos: {{ equipo.get_members.all|length }}
+                    </div>
+                    <div class="workshop-teacher flex-container">
+                        Docente: {{ equipo.responsible }}
                     </div>
                     <div class="workshop-options flex-container">
                         <div class="workshop-option flex-container" onclick="location.href='{% url 'verEquipo' equipo.id %}'">

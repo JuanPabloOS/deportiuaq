@@ -12,7 +12,7 @@ Pasar lista
                 </div>
                 <div class="workshop-content flex-container">
                     <div class="workshop-title flex-container">
-                        {{ equipo.sport }}
+                        {{ equipo.sport }} {{ equipo.branch }}
                     </div>
                     <div class="workshop-inscribed flex-container">
                         Inscritos: {{ equipo.get_members.all|length }}
