@@ -15,11 +15,9 @@ Equipos representativos
                     <div class="workshop-title flex-container">
                         {{ equipo.sport }}
                     </div>
+                    
                     <div class="workshop-inscribed flex-container">
-                        Inscritos: {{ equipo.totalMembers }}
-                    </div>
-                    <div class="workshop-teacher flex-container">
-                        Docente: {{ equipo.responsible }}
+                        Inscritos: {{ equipo.get_members.all|length }}
                     </div>
                     <div class="workshop-options flex-container">
                         <div class="workshop-option flex-container" onclick="location.href='{% url 'verEquipo' equipo.id %}'">

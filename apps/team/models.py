@@ -45,7 +45,7 @@ class Team(models.Model):
         return '%s %s' %(self.sport, self.branch)
 
 class TeamMember(models.Model):
-    idTeam=models.ForeignKey('Team', on_delete=models.CASCADE)
+    idTeam=models.ForeignKey('Team', on_delete=models.CASCADE, related_name='get_members')
     expediente=models.IntegerField()
     first_name=models.CharField(verbose_name='Nombre(s)', max_length=30)
     last_name=models.CharField(verbose_name='Apellido',max_length=150)
