@@ -70,17 +70,22 @@ Eliminar Docente
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     respuesta=JSON.parse(this.responseText);
-                    console.log(this.responseText);
+                    // console.log(this.responseText);
                     switch (respuesta.status) {
                         case 0:
                             document.getElementById("modal-docente").style.display="none";
                             document.getElementById("password").value = "";
                             document.getElementById("id_username").value ="";
-                            alert(respuesta.msg)
+                            document.getElementById("modal-becario").style.display="none";
+                            launch_toast(respuesta.msg, 2);
+                            // alert(respuesta.msg)
                             break;
                         case 1:
-                            alert("hechoooo")
-                            location.reload();
+                            // alert("hechoooo")
+                            launch_toast(respuesta.msg, 1);
+                            document.getElementById("modal-becario").style.display="none";
+
+                            // location.reload();
                             break;
                         default:
                             break;

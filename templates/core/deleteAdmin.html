@@ -71,16 +71,19 @@ Eliminar Admin
                 xhttp.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         respuesta=JSON.parse(this.responseText);
-                        console.log(this.responseText);
+                        // console.log(this.responseText);
                         switch (respuesta.status) {
                             case 0:
                                 document.getElementById("modal-admin").style.display="none";
                                 document.getElementById("password").value = "";
                                 document.getElementById("id_username").value ="";
+                                document.getElementById("modal-admin").style.display="none";
+                                launch_toast(respuesta.msg, 2);
                                 break;
                             case 1:
-                            alert("hechoooo")
-                                location.reload();
+                            // alert("hechoooo")
+                                document.getElementById("modal-admin").style.display="none";
+                                launch_toast(respuesta.msg, 1);
                                 break;
                             default:
                                 break;

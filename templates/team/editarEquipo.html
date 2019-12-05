@@ -229,21 +229,22 @@ Ver equipo
         var csrftoken = '{{ csrf_token }}';
         var password = document.getElementById("password_user").value;
         var team_id = '{{ equipo.id }}';
-        console.log(password)
-        console.log(team_id)
+        // console.log(password)
+        // console.log(team_id)
         xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText);
+                // console.log(this.responseText);
                 respuesta=JSON.parse(this.responseText);
                 switch (respuesta.status) {
                     case 0:
                         document.getElementById("workshop-delete").style.display="none";
                         document.getElementById("password").value = "";
-                        alert(respuesta.msg)
+                        // alert(respuesta.msg)
+                        launch_toast(respuesta.msg, 2);
                         break;
                     case 1:
-                        alert("hechoooo")
+                        // alert("hechoooo")
                         location.reload();
                         break;
                     default:
@@ -273,7 +274,8 @@ Ver equipo
                 
                 switch (respuesta.status) {
                     case 0:
-                        alert(respuesta.msg);
+                        // alert(respuesta.msg);
+                        launch_toast(respuesta.msg, 2);
                         break;
                     case 1:
                         location.reload();

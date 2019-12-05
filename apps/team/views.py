@@ -106,7 +106,7 @@ def createTeam(request):
                 messages.success(request,'Registro completado')
                 return render(request, 'team/createTeam.html',{'form':form})
             else:
-                messages.error(request,'Error: revisa que todos los datos sean correctos')
+                messages.error(request,'Error en los datos')
                 return render(request, 'team/createTeam.html',{'form':form})
         #return render(request, 'team/createTeam.html',{'form':form})
     else:
@@ -157,7 +157,7 @@ def updateTeam(request, idTeam):
         return redirect('verEquipo', idTeam)
     else:
         print('No se pudo actualizar')
-        messages.error(request,'No se pudo actualizar el equipo')
+        messages.error(request,'Equipo no actualizado')
         return redirect('verEquipo', idTeam)
 
 @login_required
@@ -171,14 +171,14 @@ def addMemberToTeam(request):
         if form.is_valid():
             try:
                 isAlreadyIn = TeamMember.objects.get(expediente=form.cleaned_data['expediente'], idTeam__period=setPeriod())
-                messages.error(request, 'El alumno ya está registrado en otro Equipo')
+                messages.error(request, 'El alumno ya registrado')
             except:
                 form.save()
                 messages.success(request,'Registro completado')
             next = request.POST.get('next', '/')
             return HttpResponseRedirect(next)
         else:
-            messages.error(request,'Error: revisa que los datos sean correctos')
+            messages.error(request,'Error en los datos')
             # return render(request,'team/addMemberToTeam.html',{'form':form})
             next = request.POST.get('next', '/')
             return HttpResponseRedirect(next)
@@ -339,6 +339,8 @@ def statisticsAttendance(request):
 @require_http_methods(['GET'])
 def statisticsMatches(request, idTeam):
     partidos=Match.objects.filter(idTeam_id=idTeam)
+    jugadores=serializers.serialize('json', list(TeamMember.objects.filter(idTeam_id=idTeam)),fields=('id','first_name','last_name'))
+    # print(jugadores)
     ganados = Player.objects.filter(idMatch__idTeam=idTeam, idMatch__winned=1)
     perdidos = Player.objects.filter(idMatch__idTeam=idTeam, idMatch__winned=0)
     empatados = Player.objects.filter(idMatch__idTeam=idTeam, idMatch__winned=2)
@@ -371,7 +373,8 @@ def statisticsMatches(request, idTeam):
         'partidos':partidos,
         'ganadoJSON':ganadoJSON,
         'perdidoJSON':perdidoJSON,
-        'empatadoJSON':empatadoJSON
+        'empatadoJSON':empatadoJSON,
+        'jugadores':jugadores
     })
 
 # ganados = Match.objects.filter(idTeam = 2, winned=1)
