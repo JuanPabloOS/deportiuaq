@@ -5,18 +5,19 @@
 {% block content %}
 <style>
 .font-medium{
-    font-weight: 600 !important;
+    font-weight: 500 !important;
 }
 </style>
 <div class="base-container flex-container center-content">
-    <div class="table-left flex-container column-container">
-        <h1 style="margin-bottom: 1rem;">Docentes</h1>
+    <div class="table-left flex-container column-container tabla-docente">
+        <h2 style="margin-bottom: 1rem;">Docentes</h2>
+        <div style="overflow-y: scroll;">
         <table>
             <thead>
                 <tr>
-                    <th class="font-medium">Usuario</th>
-                    <th class="font-medium">Nombre</th>
-                    <th class="font-medium">Correo</th>
+                    <th>Usuario</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,20 +31,13 @@
             </tbody>
         </table>
     </div>
-    <div class="form-right flex-container column-container center-content">
+    </div>
+    <div class="form-right flex-container column-container center-content form-responsive">
         <h1>Registrar docente</h1>
             <form method="POST" class="form-group">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <input type="submit" value="Registrar">
-                {% if messages %}
-                    {% for message in messages %}
-                        {{ message }}
-                        <script defer>
-                                lauch_toast();
-                                </script>
-                    {% endfor %}
-                {% endif %}
             </form>
         </div>
     </div>
