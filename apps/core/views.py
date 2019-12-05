@@ -69,10 +69,10 @@ def changePassword(request):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
-            messages.success(request, 'Tu contraseña se actualizó correctamente')
+            messages.success(request, 'Contraseña actualizada')
             return redirect('changePassword')
         else:
-            messages.error(request, 'Contraseña no actualizada')
+            messages.error(request, 'Contraseña NO actualizada')
             return render(request, 'core/changePassword.html', {'form': form })    
     else:
         form = PasswordChangeForm(request.user)

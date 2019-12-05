@@ -240,7 +240,8 @@ Ver taller
                     case 0:
                         document.getElementById("workshop-delete").style.display="none";
                         document.getElementById("password").value = "";
-                        alert(respuesta.msg)
+                        // alert(respuesta.msg)
+                        launch_toast(respuesta.msg, respuesta.status);
                         break;
                     case 1:
                         // alert("hechoooo")
@@ -273,7 +274,8 @@ Ver taller
                 
                 switch (respuesta.status) {
                     case 0:
-                        alert(respuesta.msg);
+                        // alert(respuesta.msg);
+                        launch_toast(respuesta.msg, respuesta.status);
                         break;
                     case 1:
                         location.reload();

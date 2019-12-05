@@ -70,11 +70,14 @@ Eliminar Becario
                             document.getElementById("modal-becario").style.display="none";
                             document.getElementById("password").value = "";
                             document.getElementById("id_username").value ="";
-                            alert(respuesta.msg)
+                            document.getElementById("modal-becario").style.display="none";
+                            launch_toast(respuesta.msg, 2);
                             break;
                         case 1:
-                            alert("hechoooo")
-                            location.reload();
+                            document.getElementById("modal-becario").style.display="none";
+                            launch_toast(respuesta.msg, 1);
+                            
+                            // location.reload();
                             break;
                         default:
                             break;

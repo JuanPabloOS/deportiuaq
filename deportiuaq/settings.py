@@ -90,7 +90,19 @@ DATABASES = {
         }
     }
 }
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'JuanPabloOS$default',
+#         'USER':'JuanPabloOS',
+#         'PASSWORD':'supersecretkey',
+#         'HOST':'JuanPabloOS.mysql.pythonanywhere-services.com',
+#         'PORT':'3306',
+#         'OPTIONS': {
+#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+#         }
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -131,8 +143,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 STATIC_ROOT = 'collectedstatic'
+
+
 
 LOGIN_URL = '/deportiuaq/login/'
 LOGIN_REDIRECT_URL = '/deportiuaq/login/'

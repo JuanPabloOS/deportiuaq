@@ -41,7 +41,7 @@ Estadísticos
 
 <div class="base-container flex-container center-content">
         <div class="form-right flex-container column-container" style="margin-right: 10px; align-items: center; padding: 1rem; box-sizing: border-box; padding-top: 0rem;">
-            <h3 style="margin-top: 1rem; margin-bottom: 1rem;">Partidos</h3>
+            <h1 style="margin-top: 1rem; margin-bottom: 1rem;">Partidos</h1>
             <div class="scroll-y">
                     {% for partido in partidos %}
 
@@ -58,25 +58,41 @@ Estadísticos
                             <div class="result-score flex-container">
                                 <p>{{ partido.rivalScore }}</p>
                             </div>
-                         </div>   
+                         </div>
+                         <div class="flex-container shortcut-text">
+                          <label>{% if partido.winned is 1 %}Ganado{% elif partido.winned is 0 %}Perdido{% else %}Empatado{% endif %}</label>
+                         </div>
                         </div>
                       </div> 
                     {% endfor %}
                     <!-- soygay -->
             </div>                
         </div>
-        <div class="table-left flex-container column-container" style="margin-right: 0px; !important">
-            CONTENIDOOOOOO 
-                
-        </div>
-        </div>
+        <div class="table-left flex-container column-container" style="margin-right: 0px; align-items: center;!important">
+          <h1 style="margin-top: 1rem; margin-bottom: 1rem;">Análisis</h1>
+          <div class="scroll-y">
 
+            <table>
+              <tbody id="jugadoresList">
+                
+              </tbody>
+            </table> 
+            <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+          </div>
+        </div>
+        </div>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+        
 <script>
     //Obtener os jugadores de los partidos separados por partidos en formato JSON
     const ganadoJSON = [{{ ganadoJSON| safe }}];
     const perdidoJSON = [{{ perdidoJSON| safe }}];
     const empatadoJSON = [{{ empatadoJSON| safe }}];
 
+    
     console.log(ganadoJSON);
     console.log(perdidoJSON);
     console.log(empatadoJSON);
@@ -108,17 +124,130 @@ Estadísticos
         }
     }
 
-    var intGanSet = ganadoSet[0]; //Intersección de los todos los juegos ganados
+    //Intersección de los todos los juegos ganados
+    var intGanSet = ganadoSet[0]; 
     ganadoSet.forEach((setToPass) => {intGanSet = new Set([...intGanSet].filter(x => setToPass.has(x)));});
-
-    var intPerSet = perdidoSet[0]; //Intersección de los todos los juegos ganados
+    //Intersección de los todos los juegos perdidos
+    var intPerSet = perdidoSet[0]; 
     perdidoSet.forEach((setToPass) => {intPerSet = new Set([...intPerSet].filter(x => setToPass.has(x)));});
-
-    var intEmpSet = empatadoSet[0]; //Intersección de los todos los juegos ganados
+    //Intersección de los todos los juegos empatados
+    var intEmpSet = empatadoSet[0]; 
     empatadoSet.forEach((setToPass) => {intEmpSet = new Set([...intEmpSet].filter(x => setToPass.has(x)));});
     
     console.log(intGanSet);
     console.log(intPerSet);
     console.log(intEmpSet);
+
+    const jugadoresList={{ jugadores|safe }}; 
+    var jugadores = new Object()
+    jugadoresList.forEach((x)=>{
+      jugadores[x.pk]=`${x.fields.first_name} ${x.fields.last_name}`
+    });
+    console.log(jugadores)
+    
+    var tablaJugadores = document.getElementById("jugadoresList")
+    if(intGanSet!== undefined){
+      var cabeceraTr = document.createElement("tr");
+      var cabeceraTh = document.createElement("th");
+      var title = document.createTextNode("Jugadores notables");
+      cabeceraTh.appendChild(title);
+      cabeceraTr.appendChild(cabeceraTh);
+      tablaJugadores.appendChild(cabeceraTr);
+
+      intGanSet.forEach((x)=>{
+        console.log(jugadores[x])
+        var row = document.createElement("tr");
+        var newJugador = document.createElement("td");
+        var nombre = document.createTextNode(jugadores[x]);
+        newJugador.appendChild(nombre);
+        row.appendChild(newJugador);
+        tablaJugadores.appendChild(row);
+      });
+    }
+    
+    if(intEmpSet!==undefined){
+      var cabeceraTr = document.createElement("tr");
+      var cabeceraTh = document.createElement("th");
+      var title = document.createTextNode("Equipo estable");
+      cabeceraTh.appendChild(title);
+      cabeceraTr.appendChild(cabeceraTh);
+      tablaJugadores.appendChild(cabeceraTr);
+
+      intEmpSet.forEach((x)=>{
+        console.log(jugadores[x])
+        var row = document.createElement("tr");
+        var newJugador = document.createElement("td");
+        var nombre = document.createTextNode(jugadores[x]);
+        newJugador.appendChild(nombre);
+        row.appendChild(newJugador);
+        tablaJugadores.appendChild(row);
+    });
+    }
+    
+    if((intPerSet!==undefined)&&(intEmpSet!==undefined)){
+      let union = new Set([...intEmpSet, ...intPerSet]);
+      let intersection = new Set([...intEmpSet].filter(x => intPerSet.has(x)))
+      let symmetricDifference = new Set([...union].filter(x => !intersection.has(x)));
+
+      var cabeceraTr = document.createElement("tr");
+      var cabeceraTh = document.createElement("th");
+      var title = document.createTextNode("Posible equipo inestable");
+      cabeceraTh.appendChild(title);
+      cabeceraTr.appendChild(cabeceraTh);
+      tablaJugadores.appendChild(cabeceraTr);
+
+      symmetricDifference.forEach((x)=>{
+        console.log(jugadores[x])
+        var row = document.createElement("tr");
+        var newJugador = document.createElement("td");
+        var nombre = document.createTextNode(jugadores[x]);
+        newJugador.appendChild(nombre);
+        row.appendChild(newJugador);
+        tablaJugadores.appendChild(row);
+    });
+    }
+    const totalPartidos = ganadoSet.length + perdidoSet.length + empatadoSet.length;
+    Highcharts.chart('container', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'Relación partidos'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: false
+            },
+            showInLegend: true
+        }
+    },
+    series: [{
+        name: 'Porcentaje',
+        colorByPoint: true,
+        data: [{
+            name: 'Ganados',
+            y: totalPartidos/ganadoSet.length,
+            sliced: true,
+            selected: true,
+            color: "blue"
+        }, {
+            name: 'Perdidos',
+            y: totalPartidos/perdidoSet.length,
+            color: "coral"
+        }, {
+            name: 'Empatados',
+            y: totalPartidos/empatadoSet.length
+        }]
+    }]
+});
 </script>
 {% endblock %}
