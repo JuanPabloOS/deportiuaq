@@ -1,6 +1,6 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,27 +27,27 @@
 </head>
 <body>
     <div class="sticky sticky-topbar is-stuck" >
-        <div class="top-bar bar sticky" style="box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.65) !important; background: #fff;">
+        <div class="top-bar bar sticky" style="box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.65) !important; background: #fff; height: 53px;">
             <div class="top-bar-left hide-for-small-only">
                 <img src="{% static 'img/logo.png' %}" alt="" style="height: 2.5rem;">
             </div>
                 <div class="top-bar-right text-right">
                 <ul class="menu align-center hide-for-small-only" style="background: #fff;">
                     <li>
-                        <a href="#section1">Inicio</a>
+                        <a href="#homeSection">Inicio</a>
                     </li>
                     <li>
-                        <a href="#section2">Talleres</a>
+                        <a href="#talleres">Talleres</a>
                     </li>
                     <li>
-                        <a href="#section3">Copa Autonomía</a>
+                        <a href="#copa-autonomia">Copa Autonomía</a>
                     </li>
                     <li>
-                        <a href="#section4">Copa Valores</a>
+                        <a href="#copa-valores">Copa Valores</a>
                     </li>
                 </ul>             
 
-                    <div class="hamburger hamburger--spring show-for-small-only">
+                    <div class="hamburger hamburger--spring show-for-small-only" id="hamburger-style">
                         <div class="hamburger-box">
                         <div class="hamburger-inner"></div>
                         </div>
@@ -57,13 +57,13 @@
         </div>
     </div>
     <div class="menu-resp text-center" id="menu-resp">
-        <h3 class="margin-top-1"><a href="#section1">Inicio</a></h3>
-        <h3 class="margin-top-1"><a href="#section2">Talleres</a></h3>
-        <h3 class="margin-top-1"><a href="#section3">Copa Autonomía</a></h3>
-        <h3 class="margin-top-1"><a href="#section4">Copa Valores</a></h3>
+        <h3 class="margin-top-1"><a href="#homeSection">Inicio</a></h3>
+        <h3 class="margin-top-1"><a href="#talleres">Talleres</a></h3>
+        <h3 class="margin-top-1"><a href="#copa-autonomia">Copa Autonomía</a></h3>
+        <h3 class="margin-top-1"><a href="#copa-valores">Copa Valores</a></h3>
     </div>
     <!-- PRINCIPAL -->
-    <section id="homeSection" style="padding:2rem;">
+    <section id="homeSection" style="padding:2rem; height: calc(100vh - 54px) !important;">
         <div class="row">
             <div class="column margin-vertical-3"></div>
         </div>
@@ -85,7 +85,7 @@
         </div>
     </section>
 
-    <section class="margin-vertical-3" style="padding:2rem;">
+    <section class="margin-vertical-3" style="padding:2rem;" id="talleres">
         <div class="row margin-top-3 align-center">
             <div class="column large-12 small-12 text-center margin-top-3">
                 <h3>Talleres deportivos</h3>
@@ -139,7 +139,7 @@
         </div>
     </section>
 
-    <section style="padding:2rem;">
+    <section style="padding:2rem;" id="copa-autonomia">
         <div class="row margin-vertical-3 align-center" style="margin-bottom: 15rem !important; ">
             <div class="column large-12 small-12 text-center">
                 <h3>Copa Autonomía</h3>
@@ -205,7 +205,7 @@
         </div>
     </section>
 
-    <section style="padding:2rem;">
+    <section style="padding:2rem;" id="copa-valores">
         <div class="row margin-vertical-3 align-center" style="margin-bottom: 15rem !important;">
             <div class="column large-12 small-12 text-center">
                 <h3>Copa Valores</h3>
@@ -277,9 +277,7 @@
             </div>
         </div>
         <div class="row margin-vertical-3">
-            <div class="column large-6 small-12">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7471.393568229663!2d-100.4179552761119!3d20.559583584308452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d3456cfa15993b%3A0x191095e906525da7!2sUnidad%20Deportiva%20Universidad%20Aut%C3%B3noma%20de%20Quer%C3%A9taro!5e0!3m2!1ses!2smx!4v1575320566628!5m2!1ses!2smx" width="400" height="300" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
-            </div>
+                <iframe class="column large-6 small-12" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7471.393568229663!2d-100.4179552761119!3d20.559583584308452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d3456cfa15993b%3A0x191095e906525da7!2sUnidad%20Deportiva%20Universidad%20Aut%C3%B3noma%20de%20Quer%C3%A9taro!5e0!3m2!1ses!2smx!4v1575320566628!5m2!1ses!2smx" min-width="300" height="300" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
             <div class="column large-4 small-12">
                 <p style="font-weight: 500; margin-top: 2rem;">Unidad Deportiva Universidad Autónoma de Querétaro</p>
                 <p>Carretera a Celaya Km. 3, Corregidora 5, Emiliano Zapata, 76900 El Pueblito, Qro.</p>
@@ -317,10 +315,38 @@
     <section style="background: #2d2d2d; color: white;">
         <div class="row align-center text-center">
             <div class="column margin-top-1">
-                <p style="font-size: .7rem;"> <i class="fas fa-info-circle"></i>&nbsp Ingeniería de Software - 2019-2</p>
+                <p style="font-size: .7rem;"> <i class="fas fa-info-circle"></i>&nbsp Ingeniería de Software - 2019-2  &nbsp <b id="aviso">• &nbsp Aviso de privacidad</b></p>
             </div>
         </div>
     </section>
+    <div class="modal-aviso" id="modal-aviso" style="margin-top: 20px !important; overflow-y: scroll;">
+        <div class="row">
+            <div class="column large-12 small-12 text-center">
+                <h2>Aviso de privacidad</h2>
+            </div>
+            <div class="column large-12 small-12">
+                <h4>¿Quiénes somos?</h4>
+                <p>
+                    DeportiUAQ, mejor conocido como DeportiUAQ, con domicilio en calle Av. de las Ciencias S/N, colonia Rancho Largo, ciudad Querétaro, municipio o delegación Querétaro, c.p. 76230, en la entidad de Querétaro, país México, y portal de internet https://www.facebook.com/fifuaq/, es el responsable del uso y protección de sus datos personales, y al respecto le informamos lo siguiente: 
+                </p>
+                <h4>¿Para qué fines utilizaremos sus datos personales?</h4>
+                <p>Los datos personales que recabamos de usted, los utilizaremos para las siguientes finalidades que son necesarias para el servicio que solicita:
+                    <br>
+                        •	Para verificar y confirmar su identidad <br>
+                        •	Para el análisis y actualización de información de los alumnos <br>
+                        •	Para proveer los servicios y productos que ofrecemos, así como actividades afines <br>
+                </p>
+                <h4>¿Dónde puedo consultar el aviso de privacidad integral?</h4>
+                <p>Para conocer mayor información sobre los términos y condiciones en que serán tratados sus datos personales, como los terceros con quienes compartimos su información personal y la forma en que podrá ejercer sus derechos ARCO, puede consultar el aviso de privacidad integral en:
+
+                        Vínculo electrónico
+                        </p>
+            </div>
+            <div class="column large-12 small-12 text-center align-center">
+                <p class="textGreen"><i class="fas fa-arrow-left"></i>&nbsp Regresar</p>
+            </div>
+        </div>
+    </div>
 
     <script>
         var hamburger = document.querySelector(".hamburger");
@@ -329,6 +355,13 @@
             var e = document.getElementById("menu-resp");
             e.classList.toggle("show-menu");
         });
+
+        document.getElementById("aviso").addEventListener("click",()=>{
+            var e = document.getElementById("modal-aviso");
+            e.classList.toggle("show-menu");
+        });
+
+
     </script>
 </body>
 </html>
