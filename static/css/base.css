@@ -545,7 +545,7 @@ h2 {
 /* TALLERES */
 .workshop-space{
   justify-content: space-evenly;
-  align-items: flex-end;
+  align-items: flex-start;
   flex-flow: row wrap;
   padding-left: 3rem;
   padding-right: 3rem;
