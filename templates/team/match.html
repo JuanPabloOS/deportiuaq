@@ -50,6 +50,7 @@
                 // console.log(miembros)
                 
                 var jugadores = document.getElementById("jugadores");
+                jugadores.innerHTML="";
                 miembros.forEach(element=>{
                     var datos = element.fields
                     var row = document.createElement("tr");
@@ -128,7 +129,7 @@
 
         if(jugadoresNodes.length===0){
             isValid=false;
-            alert("No ha jugado nadie")
+            launch_toast("Selecciona jugadores", 2)
         }
         // Petición ajax
         if(isValid){
