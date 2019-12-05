@@ -1099,13 +1099,13 @@ tbody tr {
 table {
   background: var(--light-grey);
   font-size: .9rem;
-  font-weight: 500;
   border-radius: 10px 10px 0px 0px;
   border-spacing: 0px;
 }
 th{
   padding: .3rem;
   margin-bottom: 9px;
+  font-weight: 600;
 }
 
 #tbody-list > th, td{

@@ -188,8 +188,13 @@ def addMemberToWs(request):
             isAlreadyIn = WsMember.objects.get(expediente=form.cleaned_data["expediente"], idWs__period=setPeriod())
             messages.error(request, 'Alumno ya registrado')
         except:
-            form.save()
-            messages.success(request,'Registro completado')
+            registrado = form.save()
+            print(form)
+            print(registrado)
+            if(registrado != False):
+                messages.success(request,'Registro completado')
+            else:
+                messages.error(request, 'Límite alcanzado')
         next = request.POST.get('next', '/')
         return HttpResponseRedirect(next)
     else:
