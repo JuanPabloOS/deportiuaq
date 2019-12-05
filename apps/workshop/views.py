@@ -113,7 +113,7 @@ def createWorkshop(request):
                 messages.success(request,'Registro completado')
                 return redirect('crearTaller')
             else:
-                messages.error(request,'Error: revisa que todos los datos sean correctos')
+                messages.error(request,'Error en los datos')
                 return render(request, 'workshop/createWorkshop.html',{'form':form})
     else:
         form = createWorkshopForm()
@@ -121,6 +121,7 @@ def createWorkshop(request):
 
 @login_required
 @user_passes_test(lambda user: user.userType=='AD')
+@require_http_methods(['POST'])
 def deleteWorkshop(request):
     """
     Eliminar taller deportivo
@@ -171,7 +172,7 @@ def updateWorkshop(request, idTaller):
         return redirect('verTaller', idTaller)
     else:
         print('No se pudo actualizar')
-        messages.error(request,'No se pudo actualizar el taller')
+        messages.error(request,'Taller no actualizado')
         return redirect('verTaller', idTaller)
 
 @require_http_methods(['POST'])
@@ -185,7 +186,7 @@ def addMemberToWs(request):
     if form.is_valid():
         try:
             isAlreadyIn = WsMember.objects.get(expediente=form.cleaned_data["expediente"], idWs__period=setPeriod())
-            messages.error(request, 'El alumno ya está registrado en otro taller')
+            messages.error(request, 'Alumno ya registrado')
         except:
             form.save()
             messages.success(request,'Registro completado')

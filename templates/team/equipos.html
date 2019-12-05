@@ -25,6 +25,11 @@ Equipos representativos
                         <div class="workshop-option flex-container" onclick="location.href='{% url 'verEquipo' equipo.id %}'">
                             Editar equipo
                         </div>
+                        {% if request.user.userType == 'DC' %}
+                        <div class="workshop-option flex-container" onclick="location.href='{% url 'estadisticosPartidos' equipo.id %}'">
+                            Estadísticos
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
