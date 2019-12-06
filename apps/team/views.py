@@ -8,14 +8,14 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.hashers import check_password
 from django.core import serializers
 import json
-#modelos
+# IMPORTAR modelos
 from .models import Team
 from .models import TeamMember
 from .models import Match
 from .models import Player
 from .models import CallTheRollTeam
 from .models import Sesion
-#formularios
+# IMPORTAR formularios
 from .forms import createTeamForm
 from .forms import deleteTeamForm
 from .forms import addMemberToTeamForm
