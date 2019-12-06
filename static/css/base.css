@@ -732,7 +732,7 @@ h2 {
   /*margin-left: -125px;*/
   margin: auto;
   background-color:#f3f3f3;
-  color: red !important;
+  color: grey !important;
   text-align: center;
   border-radius: 2px;
 
@@ -761,7 +761,9 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: red;
+    color: grey;
+    font-weight: 500;
+    padding-left: 1rem;
     overflow: hidden;
     white-space: nowrap;
     text-align: center;
@@ -1196,4 +1198,13 @@ input[type="radio"]:checked + label span {
   align-items: center; 
   justify-content: flex-end; 
   box-sizing: border-box;
+}
+
+#password_user{
+  margin-bottom: 1.3rem;
+}
+#hamburger{
+  padding: 0rem !important;
+  padding-top: 2.5px !important;
+  padding-right: 10px !important;
 }

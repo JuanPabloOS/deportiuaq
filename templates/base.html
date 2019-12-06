@@ -160,6 +160,7 @@
 
             <!-- CAMBIAR CONSTRASEÑA -->
             <button class="option-content" onclick="location.href='{% url 'changePassword' %}'"><i class="fas fa-key"></i><span>Mi Contraseña</span></button>
+            <button class="option-content" onclick="location.href='{% url 'logout' %}'"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></button>
     </div>
 
     {% if messages %}
