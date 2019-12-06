@@ -74,7 +74,7 @@ class WsMember(models.Model):
         (73,'73'),
         (74,'74'),
     )
-    idWs=models.ForeignKey('Workshop', on_delete=models.CASCADE)
+    idWs=models.ForeignKey('Workshop', on_delete=models.CASCADE, related_name='get_members')
     expediente=models.IntegerField()
     first_name=models.CharField(verbose_name='Nombre(s)', max_length=30)
     last_name=models.CharField(verbose_name='Apellidos',max_length=150)

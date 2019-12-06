@@ -237,9 +237,10 @@ def deleteWsMember(request):
             return render(request,'workshop/deleteMemberToWs.html',{'form':form})
 
 @login_required
-@user_passes_test(lambda user: user.userType=='DC')
+# @user_passes_test(lambda user: user.userType=='DC')
 def callTheRollWs(request, idTaller):
     #El request tipo POST regresa un JSON
+    print("llamando")
     if request.method == 'POST':
         print("Pase de lista taller")
         try:
@@ -324,6 +325,10 @@ def callTheRollWs(request, idTaller):
         asistencias = dict()                                     #Declarar el conjunto de todas las asistencias por alumno
         sesiones = Sesion.objects.filter(idWs=idTaller).values() #Obtener las sesiones del taller corresóndiente
         miembros = WsMember.objects.filter(idWs=idTaller).order_by('last_name') #Buscar los miembros inscritos en el taller
+        print("------------")
+        print(sesiones)
+        print("------------")
+        print(miembros)
         return render(request,'core/callTheRoll.html',{'sesiones':sesiones,'asistencias':asistencias, 'miembros':miembros})
 
 @require_http_methods(['GET'])
