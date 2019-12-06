@@ -1174,3 +1174,26 @@ input[type="radio"]:checked + label span {
   align-items: center;
   justify-content: center;
 }
+
+
+.title-container{
+  height: 10%;
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+.list-container{
+  height: 90%;
+  width: 100%;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+.title-content{
+  height: 100%;
+  width: 50%;
+}
+.title-btn-call{
+  align-items: center; 
+  justify-content: flex-end; 
+  box-sizing: border-box;
+}

@@ -5,29 +5,6 @@ Pase de lista
 {% endblock %}
 
 {% block content %}
-<style>
-.title-container{
-    height: 10%;
-    width: 100%;
-    padding: 1rem;
-    box-sizing: border-box;
-}
-.list-container{
-    height: 90%;
-    width: 100%;
-    padding: 2rem;
-    box-sizing: border-box;
-}
-.title-content{
-    height: 100%;
-    width: 50%;
-}
-.title-btn-call{
-    align-items: center; 
-    justify-content: flex-end; 
-    box-sizing: border-box;
-}
-</style>
 <div class="base-container flex-container column-container form-container form-responsive">
     <div class="title-container flex-container">
         <div class="title-content flex-container" style="margin-left: 5px;">
@@ -111,24 +88,19 @@ Pase de lista
 <script>
     document.getElementById("callTheRoll").addEventListener("click", (e)=>{
         var attendancesNodes = document.querySelectorAll("input[type=checkbox]:checked.checkAttendance")
-        // console.log(attendancesNodes)
+        console.log(attendancesNodes)
         var attendances = []
         attendancesNodes.forEach((x)=>{
             attendances.push(x.getAttribute("name"))
         })
-        // console.log(attendances)
+        console.log(attendances)
         var xhttp;
         var csrftoken = '{{ csrf_token }}';
         xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             var retroalimentacion = document.getElementById("retroalimentacion");
             if (this.readyState == 4 && this.status == 200) {
-                var respuesta = JSON.parse(this.responseText);
-                if((respuesta.status == 1) ||(respuesta.status == "1")){
-                    launch_toast(respuesta.msg, 1);
-                }else{
-                    launch_toast(respuesta.msg, 2);
-                }
+                console.log(JSON.parse(this.responseText))
             }
         }
         xhttp.open("POST", "{{ request.path }}", true);
