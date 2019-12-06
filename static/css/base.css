@@ -1015,6 +1015,9 @@ h2 {
 .m-botton-20{
   margin-bottom: 20px;
 }
+.m-bottom-1{
+  margin-bottom: 1rem;
+}
 /* MODAL PASSWORD */
 .alert-title{
   width: 100%;
