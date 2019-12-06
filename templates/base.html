@@ -34,6 +34,11 @@
             <!-- INICIO -->
             <button class="option-content option-active" onclick="location.href='{% url 'home' %}'"><i class="fas fa-home"></i><span>Inicio</span></button>
             
+            {% if user.userType == 'BC' %}
+            <button class="option-content" onclick="location.href='{% url 'talleres' %}'"><i class="fas fa-clipboard-list"></i><span>Talleres</span></button>
+                <button class="option-content" onclick="location.href='{% url 'equipos' %}'"><i class="fas fa-clipboard-list"></i><span>Equipos</span></button>
+            {% endif %}
+
             <!-- TALLERES -->
             {% if user.userType == 'DC' %}
                 <button class="option-content" onclick="location.href='{% url 'talleres' %}'"><i class="fas fa-clipboard-list"></i><span>Talleres</span></button>
