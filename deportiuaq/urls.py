@@ -21,9 +21,9 @@ from apps.core.views import principalPage
 
 urlpatterns = [
     path('', principalPage, name='principalPage2'),
-    path('admin/', admin.site.urls),
-    path('deportiuaq/', include('apps.core.urls')),
-    path('deportiuaq/admin/',include('apps.administrativos.urls')),
-    path('deportiuaq/workshop/',include('apps.workshop.urls')),
-    path('deportiuaq/team/',include('apps.team.urls')),
+    # path('admin/', admin.site.urls),
+    path('', include('apps.core.urls')),
+    path('admin/',include('apps.administrativos.urls')),
+    path('workshop/',include('apps.workshop.urls')),
+    path('team/',include('apps.team.urls')),
 ] 

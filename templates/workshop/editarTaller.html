@@ -184,9 +184,11 @@ Ver taller
 
 <script defer>
     // MODAL EDITAR TALLER
+    {% if user.userType == 'DC' %}
     document.getElementById("btn-edit").addEventListener("click",()=>{
     let modal1 = document.getElementById("modal-workshop").style.display="flex";
     });
+    {% endif %}
     // CERRAR MODAL DE EDITAR TALLER
     // document.getElementById("modal-btn2").addEventListener("click",()=>{
     function cancelEditWs(){
