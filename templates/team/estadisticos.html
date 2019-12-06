@@ -5,50 +5,16 @@ Estadísticos
 {% endblock %}
 
 {% block content %}
-<style>
-.padding-1{
-  padding: 1rem;
-}
-.padding-2{
-  padding: 2rem;
-  box-sizing: border-box;
-}
-.result-container{
-  background: var(--light-grey);
-}
-.result-base{
-  justify-content: space-evenly;
-  align-items: flex-end;
-  flex-flow: row wrap;
-  padding-left: 3rem;
-  padding-right: 3rem;
-  padding-top: 1rem;
-  box-sizing: border-box;
-  overflow-y: scroll;
-}
-.result-more{
-  background: var(--dark-green);
-  border-radius: 0px 10px 10px 0px;
-  cursor: pointer;
-}
-.result-score{
-  width: 40%;
-  align-items: center;
-  justify-content: center;
-}
-
-</style>
-
-<div class="base-container flex-container center-content">
+<div class="base-container flex-container center-content column-responsive scroll-y no-justify">
         <div class="form-right flex-container column-container" style="margin-right: 10px; align-items: center; padding: 1rem; box-sizing: border-box; padding-top: 0rem;">
-            <h1 style="margin-top: 1rem; margin-bottom: 1rem;">Partidos</h1>
+            <h1 style="margin-top: 1rem; margin-bottom: 1rem; font-weight: 600;">Partidos</h1>
             <div class="scroll-y">
                     {% for partido in partidos %}
 
-                    <div class="shortcut-body flex-container result-container">
+                    <div class="shortcut-body flex-container result-container margin-bottom-1">
                         <div class="shortcut-half flex-container column-container">
                          <div class="flex-container">
-                           <p style="font-size: 1.1rem; font-weight: 500 !important;">{{ partido }}</p>
+                           <p style="font-size: 1.1rem; font-weight: 400 !important;">{{ partido }}</p>
                          </div>
                          <div class="flex-container shortcut-text">
                              <div class="result-score flex-container">
@@ -68,8 +34,8 @@ Estadísticos
                     <!-- soygay -->
             </div>                
         </div>
-        <div class="table-left flex-container column-container" style="margin-right: 0px; align-items: center;!important">
-          <h1 style="margin-top: 1rem; margin-bottom: 1rem;">Análisis</h1>
+        <div class="table-left flex-container column-container" style="margin-right: 0px; align-items: center;">
+          <h1 style="margin-top: 1rem; margin-bottom: 1rem; font-weight: 600;">Análisis</h1>
           <div class="scroll-y">
 
             <table>

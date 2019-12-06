@@ -16,7 +16,7 @@ Talleres Deportivos
                         {{ taller.sport }} {{ taller.branch }}
                     </div>
                     <div class="workshop-inscribed flex-container">
-                        Inscritos: {{ taller.maxMembers }}
+                        Inscritos: {{ equipo.get_members.all|length }}
                     </div>
                     <div class="workshop-teacher flex-container">
                         Docente: {{ taller.responsible }}

@@ -15,16 +15,16 @@
       integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ"
       crossorigin="anonymous"></script>
     <script src="{% static 'js/toast.js' %}"></script>
-    <title>Document</title>
+    <title>Deportiuaq - Login</title>
 </head>
 <body>
     <div id="toast"><div id="imgToast"></div><div id="desc"></div></div>
     <div class="absolute-container light-grey column-container">
         <div class="top-container flex-container text-right">
-            <p class="link-text">Página principal</p>
+            <p class="link-text" onclick="location.href='{% url 'principal' %}'">Página principal</p>
         </div>
         <div class="body-container flex-container center-content">
-            <div class="form-container flex-container column-container center-content form-responsive">
+            <div class="form-container flex-container column-container center-content form-responsive form-login">
                 <h1>Inicio de Sesión</h1>
                     <form method="POST" class="form-group">
                         {% csrf_token %}

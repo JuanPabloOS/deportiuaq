@@ -106,6 +106,24 @@
     .tabla-docente{
         display: none;
     }
+    .column-responsive{
+        flex-flow: column;
+    }
+    .form-right{
+        width: 100%;
+        padding: 2rem;
+        padding-left: 0rem;
+        padding-right: 0rem;
+        box-sizing: border-box;
+        margin-bottom: 1rem;
+    }
+    .table-left{
+        width: 100%;
+    }
+    .no-justify{
+        justify-content: inherit !important;
+    }
+
 }
 
 /* iPad */

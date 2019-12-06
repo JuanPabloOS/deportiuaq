@@ -52,7 +52,7 @@ h1 {
 }
 h2 {
   font-size: 1.1rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 .light-grey {
   background-color: #f5f5f5;
@@ -85,6 +85,9 @@ h2 {
 }
 .scroll-y{
   overflow-y: scroll;
+}
+.margin-bottom-1{
+  margin-bottom: 1rem;
 }
 .absolute-container {
   display: flex;
@@ -1132,4 +1135,39 @@ input[type="radio"] + label span {
 input[type="radio"]:checked + label span {
 	background: url(radio-check.png);
 	background-size: cover;
+}
+.form-login{
+  width: auto !important;
+  height: auto !important;
+  padding: 4rem;
+}
+.padding-1{
+  padding: 1rem;
+}
+.padding-2{
+  padding: 2rem;
+  box-sizing: border-box;
+}
+.result-container{
+  background: var(--light-grey);
+}
+.result-base{
+  justify-content: space-evenly;
+  align-items: flex-end;
+  flex-flow: row wrap;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  padding-top: 1rem;
+  box-sizing: border-box;
+  overflow-y: scroll;
+}
+.result-more{
+  background: var(--dark-green);
+  border-radius: 0px 10px 10px 0px;
+  cursor: pointer;
+}
+.result-score{
+  width: 40%;
+  align-items: center;
+  justify-content: center;
 }
