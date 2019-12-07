@@ -19,10 +19,10 @@ class createTeamForm(ModelForm):
     responsible=forms.ModelChoiceField(
         queryset=User.objects.filter(userType='DC')
     )
-    schedule=forms.CharField(label='Horario', widget=forms.TextInput(attrs={'type':'datetime-local'}))
+    
     class Meta:
         model=Team
-        exclude=('schedule','totalAttendances','period','responsible')
+        exclude=('totalAttendances','period','responsible')
 
 class updateTeamForm(forms.Form):
     """
