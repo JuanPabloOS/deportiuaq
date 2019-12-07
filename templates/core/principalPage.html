@@ -398,7 +398,7 @@
                     Vínculo electrónico
                 </p>
             </div>
-            <div class="column large-12 small-12 text-center align-center">
+            <div class="column large-12 small-12 text-center align-center" id="closeAviso">
                 <p class="textGreen"><i class="fas fa-arrow-left"></i>&nbsp Regresar</p>
             </div>
         </div>
@@ -417,6 +417,10 @@
             e.classList.toggle("show-menu");
         });
 
+        document.getElementById("closeAviso").addEventListener("click", () => {
+            var e = document.getElementById("modal-aviso");
+            e.classList.remove("show-menu");
+        });
 
     </script>
 </body>
