@@ -355,6 +355,8 @@ def absolverAlumnos(request, idTaller):
         print(str(e))
         return JsonResponse({'status':0,'msg':str(e)})
 
+from wsgiref.util import FileWrapper
+from django.utils.encoding import smart_str
 @login_required
 @user_passes_test(lambda user: user.userType=='DC')
 def showPdf(request, idTaller):
@@ -401,9 +403,19 @@ def showPdf(request, idTaller):
         alumnos.pop(0)
         p.showPage()
     p.save()
-
+    p = buffer.getvalue()
+    buffer.close()
+    response = HttpResponse(content_type='application/pdf')
+    response.write(p)
+    return response
     # FileResponse sets the Content-Disposition header so that browsers
     # present the option to save the file.
-    buffer.seek(0)
-    return FileResponse(buffer, as_attachment=False, filename='Liberación de talleres.pdf')
-   
+    # buffer.seek(0)
+    # w=FileWrapper(buffer)
+    # # return FileResponse(w, mimetype="text/plain", as_attachment=False, filename='Liberación de talleres.pdf')
+    # response = HttpResponse(content_type='application/pdf') # mimetype is replaced by content_type for django 1.7
+    # response['Content-Disposition'] = 'attachment; filename=%s' % 'liberaciones.pdf'
+    # response['X-Sendfile'] = smart_str(buffer)
+    # # It's usually a good idea to set the 'Content-Length' header too.
+    # # You can also set any other required headers: Cache-Control, etc.
+    # return response
