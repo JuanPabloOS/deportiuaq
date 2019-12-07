@@ -25,10 +25,6 @@ Ver equipo
                             <label for="">Horario:</label> 
                             <input type="text" name="" id="" value="{{ equipo.schedule }}" disabled>
                         </div>
-                        <div class="workshop-column flex-container form-edit">
-                            <label for="">Cupo máximo:</label> 
-                            <input type="text" name="" id="" value="{{ equipo.maxMembers }}" disabled>
-                        </div>
                     </div>
                     <div class="workshop-edit-part2 flex-container column-container form-edit" style="width: 45%;">
                         <div class="workshop-edit-title flex-container">
@@ -69,7 +65,7 @@ Ver equipo
                 <style>
                 
                 </style>
-                    <div style="overflow-y: scroll;"></div>
+                    <div style="overflow-y: scroll;">
                         <table style="text-align: center;">
                             <thead>
                                 <tr>
@@ -98,6 +94,7 @@ Ver equipo
                             </tbody>
                         {% endfor %}
                             </table>
+                        </div>
                     </div>
             </div>
         </div>

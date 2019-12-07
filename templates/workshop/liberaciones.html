@@ -7,41 +7,41 @@ Liberaciones
 {% block content %}
 <div class="flex-container column-container workshop-section">
 
-    {{ taller.sport }}
-    <div class="flex-container width-100 m-botton-20">
+    <h1 style="margin-top: 1rem; margin-bottom: 1rem; font-weight: 500;">{{ taller.sport }}</h1>
+    <div class="flex-container width-100 m-bottom-1">
         <div class="width-50 flex-container">
-            <h2 style="font-weight: 500;">Integrantes</h2>
+            <h2 style="font-weight: 500;">Integrantes:</h2>
         </div>
         <div class="width-50 flex-container right-content" id="acciones">
             <button class="btn-option dark-green" onclick="generarCartas()">Generar cartas</button>
-            <button class="btn-option dark-green" id="">Editar taller</button>
+            <button class="btn-option dark-green" style="margin-left: 1rem;" id="">Editar taller</button>
 
         </div>
     </div>
 
-    <br>
-
-
-    <section>
         <table>
-            <tr>
-                <th>Expediente</th>
-                <th>Nombre</th>
-                <th>Correo</th>
-                <th>Asistencias</th>
-                <th>Absuelto</th>
-                <th>Carta</th>
+            <thead>
+                <tr>
+                    <th>Expediente</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Asistencias</th>
+                    <th>Absuelto</th>
+                    <th>Carta</th>
 
-            </tr>
+                </tr>
+            </thead>
             {% for miembro in miembros %}
-            <tr>
-                <td>{{ miembro.expediente }}</td>
-                <td>{{ miembro.first_name }} {{ miembro.last_name }}</td>
-                <td>{{ miembro.mail }}</td>
-                <td>{{ miembro.totalAttendances }}</td>
-                <td>{% if miembro.absolved %}Si{% else %}No{% endif %}</td>
-                <td><input type="checkbox" name="{{ miembro.id }}" id="{{ miembro.id }}" class=""></td>
-            </tr>
+            <tbody>
+                <tr>
+                    <td>{{ miembro.expediente }}</td>
+                    <td>{{ miembro.first_name }} {{ miembro.last_name }}</td>
+                    <td>{{ miembro.mail }}</td>
+                    <td>{{ miembro.totalAttendances }}</td>
+                    <td>{% if miembro.absolved %}Si{% else %}No{% endif %}</td>
+                    <td><input type="checkbox" name="{{ miembro.id }}" id="{{ miembro.id }}" class=""></td>
+                </tr>
+            </tbody>
             {% endfor %}
         </table>
 

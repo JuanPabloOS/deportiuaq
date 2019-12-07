@@ -6,70 +6,106 @@ Pase de lista
 
 {% block content %}
 
-<table>
-    <tr>
-        <th>Alumno</th>
-        {% if sesiones|length > 0 %}
-            {% for sesion in sesiones %}
-                {% if forloop.last %}
-                    {% load customized_tags %}
-                    {% if sesion.date|compare_date is True %}
-                        <th>Hoy</th>
-                    {% else %}
-                        <th>{{ sesion.date|date:"SHORT_DATE_FORMAT" }}</th>
-                        <th>Hoy</th>
-                    {% endif %}
-                {% else %}
-                    <th>{{ sesion.date|date:"SHORT_DATE_FORMAT" }}</th>
-                {% endif %}
-            {% endfor %}
-        {% else %}
-        <th>Hoy</th>
-        {% endif %}
-    </tr>
-    {% for miembro in miembros %}
-        <tr>
-            <td>{{ miembro }}</td>
-            {% with asistencias=miembro.get_attendances.all %}
-            {% if asistencias|length > 0 %}
-                {% for asistencia in asistencias %}
-                    {% if forloop.last %}
-                        {% load customized_tags %}
-                        
-                        {% if asistencia.idSesion.date|compare_date is True %}
-                            <td><input type="checkbox" class="checkAttendance" name="{{ miembro.id }}" id="{{ miembro.id }}" {% if asistencia.attended %}checked{% endif %}></td>
-                        {% else %}
-                        <td>
-                                {% if asistencia.attended %}
-                                <i class="far fa-check-circle"></i>
-                                {% else %}
-                                <i class="far fa-circle"></i>
-                                {% endif %}
-                            </td>
-                            <td><input type="checkbox" class="checkAttendance" name="{{ miembro.id }}" id=""></td>
-                        {% endif %}
-                    {% else %}
-                            <td>
-                                {% if asistencia.attended %}
-                                <i class="far fa-dot-circle"></i>
-                                {% else %}
-                                <i class="far fa-circle"></i>
-                                {% endif %}
-                            </td>
-                    {% endif %}
-                {% endfor %}
-            {% else %}
-            <td><input type="checkbox" class="checkAttendance" name="{{ miembro.id }}" id=""></td>
-            {% endif %}
-            {% endwith %}
-        </tr>
-    {% endfor %}
-    
-    
-    
-</table>
-<button id="callTheRoll" class="btn-generic">Tomar asistencia</button>
-
+<style>
+        .title-container{
+            height: 10%;
+            width: 100%;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+        .list-container{
+            height: 90%;
+            width: 100%;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+        .title-content{
+            height: 100%;
+            width: 50%;
+        }
+        .title-btn-call{
+            align-items: center; 
+            justify-content: flex-end; 
+            box-sizing: border-box;
+        }
+        </style>
+        <div class="base-container flex-container column-container form-container form-responsive">
+            <div class="title-container flex-container">
+                <div class="title-content flex-container" style="margin-left: 5px;">
+                    <h4>Pase de lista</h4>
+                </div>
+                <div class="title-content flex-container title-btn-call">
+                    <button id="callTheRoll" class="btn-option dark-green">Tomar asistencia</button>
+                </div>
+            </div>
+            <div class="list-container flex-container scroll-y">
+                    <table style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    {% if sesiones|length > 0 %}
+                                        {% for sesion in sesiones %}
+                                            {% if forloop.last %}
+                                                {% load customized_tags %}
+                                                {% if sesion.date|compare_date is True %}
+                                                    <th>Hoy</th>
+                                                {% else %}
+                                                    <th>{{ sesion.date|date:"SHORT_DATE_FORMAT" }}</th>
+                                                    <th>Hoy</th>
+                                                {% endif %}
+                                            {% else %}
+                                                <th>{{ sesion.date|date:"SHORT_DATE_FORMAT" }}</th>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                    <th>Hoy</th>
+                                    {% endif %}
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-list" style="margin-left: 1rem !important;">
+                            {% for miembro in miembros %}
+                                <tr>
+                                    <td>{{ miembro }}</td>
+                                    {% with asistencias=miembro.get_attendances.all %}
+                                    {% if asistencias|length > 0 %}
+                                        {% for asistencia in asistencias %}
+                                            {% if forloop.last %}
+                                                {% load customized_tags %}
+                                                
+                                                {% if asistencia.idSesion.date|compare_date is True %}
+                                                    <td><input type="checkbox" class="checkAttendance" name="{{ miembro.id }}" id="{{ miembro.id }}" {% if asistencia.attended %}checked{% endif %}></td>
+                                                {% else %}
+                                                <td>
+                                                        {% if asistencia.attended %}
+                                                        <i class="far fa-check-circle"></i>
+                                                        {% else %}
+                                                        <i class="far fa-circle"></i>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td><input type="checkbox" class="checkAttendance" name="{{ miembro.id }}" id=""></td>
+                                                {% endif %}
+                                            {% else %}
+                                                    <td>
+                                                        {% if asistencia.attended %}
+                                                        <i class="far fa-dot-circle"></i>
+                                                        {% else %}
+                                                        <i class="far fa-circle"></i>
+                                                        {% endif %}
+                                                    </td>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                    <td><input type="checkbox" class="checkAttendance" name="{{ miembro.id }}" id=""></td>
+                                    {% endif %}
+                                    {% endwith %}
+                                </tr>
+                            {% endfor %}
+                            
+                            
+                        </tbody>
+                    </table>
+            </div>
+        </div>
 <script>
     document.getElementById("callTheRoll").addEventListener("click", (e)=>{
         var attendancesNodes = document.querySelectorAll("input[type=checkbox]:checked.checkAttendance")

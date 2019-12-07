@@ -13,10 +13,10 @@ Talleres Deportivos
                 </div>
                 <div class="workshop-content flex-container">
                     <div class="workshop-title flex-container">
-                        {{ taller.sport }}
+                        {{ taller.sport }} {{ taller.branch }}
                     </div>
                     <div class="workshop-inscribed flex-container">
-                        Inscritos: {{ taller.maxMembers }}
+                        Inscritos: {{ taller.get_members.all|length }}
                     </div>
                     <div class="workshop-teacher flex-container">
                         Docente: {{ taller.responsible }}

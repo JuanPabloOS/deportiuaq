@@ -69,7 +69,7 @@ Ver taller
                 <style>
                 
                 </style>
-                    <div style="overflow-y: scroll;"></div>
+                    <div style="overflow-y: scroll;">
                         <table style="text-align: center;">
                             <thead>
                                 <tr>
@@ -96,6 +96,7 @@ Ver taller
                             </tbody>
                         {% endfor %}
                             </table>
+                        </div>
                     </div>
             </div>
         </div>
@@ -183,9 +184,11 @@ Ver taller
 
 <script defer>
     // MODAL EDITAR TALLER
+    {% if user.userType == 'DC' %}
     document.getElementById("btn-edit").addEventListener("click",()=>{
     let modal1 = document.getElementById("modal-workshop").style.display="flex";
     });
+    {% endif %}
     // CERRAR MODAL DE EDITAR TALLER
     // document.getElementById("modal-btn2").addEventListener("click",()=>{
     function cancelEditWs(){

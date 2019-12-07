@@ -34,30 +34,24 @@
             <!-- INICIO -->
             <button class="option-content option-active" onclick="location.href='{% url 'home' %}'"><i class="fas fa-home"></i><span>Inicio</span></button>
             
-            <!-- TALLERES -->
-            {% if user.userType == 'DC' or user.userType == 'AD' %}
-                <button class="option option-content"><i class="fas fa-user-times"></i><span>Eliminar usuario</span></button>
-                <div class="option-list">
-                    {% if user.userType == 'DC' or user.userType == 'AD' %}<a class="option-menu option-content" href="{% url 'eliminarBecario' %}"><i class="fas fa-trash"></i><span>Becario</span></a>{% endif %}
-                    {% if user.userType == 'AD' %}
-                    <a class="option-menu option-content" href="{% url 'eliminarDocente' %}"><i class="fas fa-trash"></i><span>Docente</span></a>
-                    <a class="option-menu option-content" href="{% url 'eliminarAdmin' %}"><i class="fas fa-trash"></i><span>Administrador</span></a>
-                    {% endif %}
-                </div>
+            {% if user.userType == 'BC' %}
+            <button class="option-content" onclick="location.href='{% url 'talleres' %}'"><i class="fas fa-clipboard-list"></i><span>Talleres</span></button>
+                <button class="option-content" onclick="location.href='{% url 'equipos' %}'"><i class="fas fa-clipboard-list"></i><span>Equipos</span></button>
             {% endif %}
+
+            <!-- TALLERES -->
             {% if user.userType == 'DC' %}
                 <button class="option-content" onclick="location.href='{% url 'talleres' %}'"><i class="fas fa-clipboard-list"></i><span>Talleres</span></button>
                 <button class="option-content" onclick="location.href='{% url 'equipos' %}'"><i class="fas fa-clipboard-list"></i><span>Equipos</span></button>
-                <!-- BECARIOS -->
-                <button class="option-content" onclick="location.href='{% url 'registrarBecario' %}'"><i class="fas fa-user"></i><span>Registrar Becario</span></button>
-
                 <button class="option option-content"><i class="fas fa-clipboard-check"></i><span>Pasar Lista</span></button>
                 <div class="option-list">
                     <a class="option-menu option-content" href="{% url 'seleccionarTallerPaseDeLista' %}"><i class="fas fa-clipboard-check"></i><span>Taller</span></a>
                     <a class="option-menu option-content" href="{% url 'seleccionarEquipoPaseDeLista' %}"><i class="fas fa-clipboard-check"></i><span>Equipo</span></a>
                 </div>
+                <!-- BECARIOS -->
                 <button class="option-content" onclick="location.href='{% url 'registrarPartido' %}'"><i class="fas fa-user"></i><span>Registrar Partido</span></button>
-            {% endif %}
+                <button class="option-content" onclick="location.href='{% url 'registrarBecario' %}'"><i class="fas fa-user"></i><span>Registrar Becario</span></button>
+                {% endif %}
             {% if user.userType == 'AD' %}
                 <!-- DOCENTES -->
                 <button class="option option-content"><i class="fas fa-th"></i><span>Talleres</span></button>
@@ -77,7 +71,16 @@
                 <!-- RESETEAR CONSTRASEÑA -->
                 <button class="option-content" onclick="location.href='{% url 'resetPassword' %}'"><i class="fas fa-lock-open"></i><span>Restablecer una contraseña</span></button>
             {% endif %}
-
+                {% if user.userType == 'DC' or user.userType == 'AD' %}
+                <button class="option option-content"><i class="fas fa-user-times"></i><span>Eliminar usuario</span></button>
+                <div class="option-list">
+                    {% if user.userType == 'DC' or user.userType == 'AD' %}<a class="option-menu option-content" href="{% url 'eliminarBecario' %}"><i class="fas fa-trash"></i><span>Becario</span></a>{% endif %}
+                    {% if user.userType == 'AD' %}
+                    <a class="option-menu option-content" href="{% url 'eliminarDocente' %}"><i class="fas fa-trash"></i><span>Docente</span></a>
+                    <a class="option-menu option-content" href="{% url 'eliminarAdmin' %}"><i class="fas fa-trash"></i><span>Administrador</span></a>
+                    {% endif %}
+                </div>
+            {% endif %}
             <!-- CAMBIAR CONSTRASEÑA -->
             <button class="option-content" onclick="location.href='{% url 'changePassword' %}'"><i class="fas fa-key"></i><span>Mi Contraseña</span></button>
             <!-- MENUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU -->
@@ -111,16 +114,7 @@
             <button class="option-content" onclick="location.href='{% url 'home' %}'"><i class="fas fa-home"></i><span>Inicio</span></button>
             
             <!-- TALLERES -->
-            {% if user.userType == 'DC' or user.userType == 'AD' %}
-                <button class="option option-content"><i class="fas fa-user-times"></i><span>Eliminar usuario</span></button>
-                <div class="option-list">
-                    {% if user.userType == 'DC' or user.userType == 'AD' %}<a class="option-menu option-content" href="{% url 'eliminarBecario' %}"><i class="fas fa-trash"></i><span>Becario</span></a>{% endif %}
-                    {% if user.userType == 'AD' %}
-                    <a class="option-menu option-content" href="{% url 'eliminarDocente' %}"><i class="fas fa-trash"></i><span>Docente</span></a>
-                    <a class="option-menu option-content" href="{% url 'eliminarAdmin' %}"><i class="fas fa-trash"></i><span>Administrador</span></a>
-                    {% endif %}
-                </div>
-            {% endif %}
+            
             {% if user.userType == 'DC' %}
                 <button class="option-content" onclick="location.href='{% url 'talleres' %}'"><i class="fas fa-clipboard-list"></i><span>Talleres</span></button>
                 <button class="option-content" onclick="location.href='{% url 'equipos' %}'"><i class="fas fa-clipboard-list"></i><span>Equipos</span></button>
@@ -153,9 +147,20 @@
                 <!-- RESETEAR CONSTRASEÑA -->
                 <button class="option-content" onclick="location.href='{% url 'resetPassword' %}'"><i class="fas fa-lock-open"></i><span>Restablecer una contraseña</span></button>
             {% endif %}
+            {% if user.userType == 'DC' or user.userType == 'AD' %}
+                <button class="option option-content"><i class="fas fa-user-times"></i><span>Eliminar usuario</span></button>
+                <div class="option-list">
+                    {% if user.userType == 'DC' or user.userType == 'AD' %}<a class="option-menu option-content" href="{% url 'eliminarBecario' %}"><i class="fas fa-trash"></i><span>Becario</span></a>{% endif %}
+                    {% if user.userType == 'AD' %}
+                    <a class="option-menu option-content" href="{% url 'eliminarDocente' %}"><i class="fas fa-trash"></i><span>Docente</span></a>
+                    <a class="option-menu option-content" href="{% url 'eliminarAdmin' %}"><i class="fas fa-trash"></i><span>Administrador</span></a>
+                    {% endif %}
+                </div>
+            {% endif %}
 
             <!-- CAMBIAR CONSTRASEÑA -->
             <button class="option-content" onclick="location.href='{% url 'changePassword' %}'"><i class="fas fa-key"></i><span>Mi Contraseña</span></button>
+            <button class="option-content" onclick="location.href='{% url 'logout' %}'"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></button>
     </div>
 
     {% if messages %}

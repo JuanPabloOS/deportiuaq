@@ -8,14 +8,14 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.hashers import check_password
 from django.core import serializers
 import json
-#modelos
+# IMPORTAR modelos
 from .models import Team
 from .models import TeamMember
 from .models import Match
 from .models import Player
 from .models import CallTheRollTeam
 from .models import Sesion
-#formularios
+# IMPORTAR formularios
 from .forms import createTeamForm
 from .forms import deleteTeamForm
 from .forms import addMemberToTeamForm
@@ -173,8 +173,20 @@ def addMemberToTeam(request):
                 isAlreadyIn = TeamMember.objects.get(expediente=form.cleaned_data['expediente'], idTeam__period=setPeriod())
                 messages.error(request, 'El alumno ya registrado')
             except:
-                form.save()
-                messages.success(request,'Registro completado')
+                alumno = form.save()
+                # print("--------------")
+                # print(alumno)
+                # print("---------------")
+                try:
+                    sesiones = Sesion.objects.filter(idTeam=form.cleaned_data['idTeam'])
+                    print(sesiones)
+                    if len(sesiones)>0:
+                        for sesion in sesiones:
+                            check = CallTheRollTeam(idTeamMember=alumno, idSesion=sesion, attended=False)
+                            check.save()
+                except Exception as e:
+                    print(str(e))
+                messages.success(request, 'Alumno registrado')
             next = request.POST.get('next', '/')
             return HttpResponseRedirect(next)
         else:

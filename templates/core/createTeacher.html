@@ -1,37 +1,43 @@
 {% extends 'base.html' %}
 
-{% block title %}Registro|Docente{% endblock%}
+{% block title %}Registro|becario{% endblock%}
 
 {% block content %}
+<style>
+.font-medium{
+    font-weight: 600 !important;
+}
+</style>
 <div class="base-container flex-container center-content">
-    <div class="table-left flex-container column-container">
-        <h2>Docentes</h2>
+    <div class="table-left flex-container column-container tabla-docente">
+        <h2 style="margin-bottom: 1rem;">Becarios</h2>
+        <div style="overflow-y: scroll;">
         <table>
-            <tbody class="flex-container column-container">
+            <thead>
+                <tr>
+                    <th class="font-medium">Usuario</th>
+                    <th class="font-medium">Nombre</th>
+                    <th class="font-medium">Correo</th>
+                </tr>
+            </thead>
+            <tbody>
                 {% for docente in docentes %}
                 <tr>
-                    <td>
-                        {{ docente.last_name }} {{ docente.first_name }}
-                    </td>
+                    <td>{{ docente.username }}</td>
+                    <td>{{ docente.last_name }} {{ docente.first_name }} </td>
+                    <td>{{ docente.email }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    <div class="form-right flex-container column-container center-content">
+    </div>
+    <div class="form-right flex-container column-container center-content form-responsive">
         <h1>Registrar docente</h1>
             <form method="POST" class="form-group">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <input type="submit" value="Registrar">
-                {% if messages %}
-                    {% for message in messages %}
-                        {{ message }}
-                        <script defer>
-                                lauch_toast();
-                                </script>
-                    {% endfor %}
-                {% endif %}
             </form>
         </div>
     </div>

@@ -5,50 +5,16 @@ Estadísticos
 {% endblock %}
 
 {% block content %}
-<style>
-.padding-1{
-  padding: 1rem;
-}
-.padding-2{
-  padding: 2rem;
-  box-sizing: border-box;
-}
-.result-container{
-  background: var(--light-grey);
-}
-.result-base{
-  justify-content: space-evenly;
-  align-items: flex-end;
-  flex-flow: row wrap;
-  padding-left: 3rem;
-  padding-right: 3rem;
-  padding-top: 1rem;
-  box-sizing: border-box;
-  overflow-y: scroll;
-}
-.result-more{
-  background: var(--dark-green);
-  border-radius: 0px 10px 10px 0px;
-  cursor: pointer;
-}
-.result-score{
-  width: 40%;
-  align-items: center;
-  justify-content: center;
-}
-
-</style>
-
-<div class="base-container flex-container center-content">
+<div class="base-container flex-container center-content column-responsive scroll-y no-justify">
         <div class="form-right flex-container column-container" style="margin-right: 10px; align-items: center; padding: 1rem; box-sizing: border-box; padding-top: 0rem;">
-            <h1 style="margin-top: 1rem; margin-bottom: 1rem;">Partidos</h1>
+            <h1 style="margin-top: 1rem; margin-bottom: 1rem; font-weight: 600;">Partidos</h1>
             <div class="scroll-y">
                     {% for partido in partidos %}
 
-                    <div class="shortcut-body flex-container result-container">
+                    <div class="shortcut-body flex-container result-container margin-bottom-1">
                         <div class="shortcut-half flex-container column-container">
                          <div class="flex-container">
-                           <p style="font-size: 1.1rem; font-weight: 500 !important;">{{ partido }}</p>
+                           <p style="font-size: 1.1rem; font-weight: 400 !important;">{{ partido }}</p>
                          </div>
                          <div class="flex-container shortcut-text">
                              <div class="result-score flex-container">
@@ -65,10 +31,11 @@ Estadísticos
                         </div>
                       </div> 
                     {% endfor %}
+                    <!-- soygay -->
             </div>                
         </div>
-        <div class="table-left flex-container column-container" style="margin-right: 0px; align-items: center;!important">
-          <h1 style="margin-top: 1rem; margin-bottom: 1rem;">Análisis</h1>
+        <div class="table-left flex-container column-container" style="margin-right: 0px; align-items: center;">
+          <h1 style="margin-top: 1rem; margin-bottom: 1rem; font-weight: 600;">Análisis</h1>
           <div class="scroll-y">
 
             <table>
@@ -77,6 +44,9 @@ Estadísticos
               </tbody>
             </table> 
             <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+            <figure class="highcharts-figure">
+              <div id="container2"></div>
+            </figure>
           </div>
         </div>
         </div>
@@ -90,18 +60,19 @@ Estadísticos
     const ganadoJSON = [{{ ganadoJSON| safe }}];
     const perdidoJSON = [{{ perdidoJSON| safe }}];
     const empatadoJSON = [{{ empatadoJSON| safe }}];
-
+    var totalJugadores = new Array();
     
-    console.log(ganadoJSON);
-    console.log(perdidoJSON);
-    console.log(empatadoJSON);
+    // console.log(ganadoJSON);
+    // console.log(perdidoJSON);
+    // console.log(empatadoJSON);
     
     var ganadoSet = new Array(); // UN array que contiene un conjunto de set representando los integrantes de cada patido ganado
     for (var i = 0; i < ganadoJSON.length; i++) {
         var obj = ganadoJSON[i];
         for (var key in obj) {
             var value = new Set(obj[key]);
-            ganadoSet.push(value)
+            value.forEach((e)=>{totalJugadores.push(e)});
+            ganadoSet.push(value);
         }
     }
 
@@ -110,7 +81,8 @@ Estadísticos
         var obj = perdidoJSON[i];
         for (var key in obj) {
             var value = new Set(obj[key]);
-            perdidoSet.push(value)
+            value.forEach((e)=>{totalJugadores.push(e)});
+            perdidoSet.push(value);
         }
     }
 
@@ -119,10 +91,13 @@ Estadísticos
         var obj = empatadoJSON[i];
         for (var key in obj) {
             var value = new Set(obj[key]);
-            empatadoSet.push(value)
+            value.forEach((e)=>{totalJugadores.push(e)});
+            empatadoSet.push(value);
         }
     }
-
+    // console.log("----------");
+    // console.log(totalJugadores);
+    // console.log("----------");
     //Intersección de los todos los juegos ganados
     var intGanSet = ganadoSet[0]; 
     ganadoSet.forEach((setToPass) => {intGanSet = new Set([...intGanSet].filter(x => setToPass.has(x)));});
@@ -133,17 +108,18 @@ Estadísticos
     var intEmpSet = empatadoSet[0]; 
     empatadoSet.forEach((setToPass) => {intEmpSet = new Set([...intEmpSet].filter(x => setToPass.has(x)));});
     
-    console.log(intGanSet);
-    console.log(intPerSet);
-    console.log(intEmpSet);
+    // console.log(intGanSet);
+    // console.log(intPerSet);
+    // console.log(intEmpSet);
 
     const jugadoresList={{ jugadores|safe }}; 
     var jugadores = new Object()
     jugadoresList.forEach((x)=>{
       jugadores[x.pk]=`${x.fields.first_name} ${x.fields.last_name}`
     });
-    console.log(jugadores)
+    // console.log(jugadores)
     
+    //Escribir las tabñas del análisis de jugadores
     var tablaJugadores = document.getElementById("jugadoresList")
     if(intGanSet!== undefined){
       var cabeceraTr = document.createElement("tr");
@@ -154,7 +130,7 @@ Estadísticos
       tablaJugadores.appendChild(cabeceraTr);
 
       intGanSet.forEach((x)=>{
-        console.log(jugadores[x])
+        // console.log(jugadores[x])
         var row = document.createElement("tr");
         var newJugador = document.createElement("td");
         var nombre = document.createTextNode(jugadores[x]);
@@ -173,7 +149,7 @@ Estadísticos
       tablaJugadores.appendChild(cabeceraTr);
 
       intEmpSet.forEach((x)=>{
-        console.log(jugadores[x])
+        // console.log(jugadores[x])
         var row = document.createElement("tr");
         var newJugador = document.createElement("td");
         var nombre = document.createTextNode(jugadores[x]);
@@ -196,7 +172,7 @@ Estadísticos
       tablaJugadores.appendChild(cabeceraTr);
 
       symmetricDifference.forEach((x)=>{
-        console.log(jugadores[x])
+        // console.log(jugadores[x])
         var row = document.createElement("tr");
         var newJugador = document.createElement("td");
         var nombre = document.createTextNode(jugadores[x]);
@@ -205,6 +181,8 @@ Estadísticos
         tablaJugadores.appendChild(row);
     });
     }
+    
+    //Variable para promediar
     const totalPartidos = ganadoSet.length + perdidoSet.length + empatadoSet.length;
     Highcharts.chart('container', {
     chart: {
@@ -246,6 +224,69 @@ Estadísticos
             name: 'Empatados',
             y: totalPartidos/empatadoSet.length
         }]
+    }]
+});
+
+
+    
+     
+    var repetidos = {};
+    totalJugadores.forEach(function(numero){
+      repetidos[numero] = (repetidos[numero] || 0) + 1;
+    });
+
+    // console.log(repetidos);
+
+    var dataChart = new Array();
+    for(key in repetidos){
+      dataChart.push([jugadores[key],repetidos[key]]);
+    }
+    // console.log(dataChart);
+    Highcharts.chart('container2', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Participación jugadores'
+    },
+    
+    xAxis: {
+        type: 'category',
+        labels: {
+            rotation: -45,
+            style: {
+                fontSize: '11px',
+                fontFamily: 'Verdana, sans-serif'
+            }
+        }
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Partidos'
+        }
+    },
+    legend: {
+        enabled: false
+    },
+    tooltip: {
+        pointFormat: 'Participación en <b>{point.y} partidos</b>'
+    },
+    series: [{
+        name: 'Population',
+        data: dataChart,
+        dataLabels: {
+            enabled: true,
+            rotation: -90,
+            color: '#FFFFFF',
+            align: 'right',
+            format: '{point.y}', // one decimal
+            y: 10, // 10 pixels down from the top
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif'
+            }
+        }
     }]
 });
 </script>
