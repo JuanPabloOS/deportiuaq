@@ -29,11 +29,11 @@
             <div class="info-title flex-container title-menu bg-white">
                 <p>MENU</p>
             </div>
-            <div class="menu-container">
+            <div class="menu-container" id="menu-container">
             <!-- MENUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU -->
             <!-- INICIO -->
-            <button class="option-content option-active" onclick="location.href='{% url 'home' %}'"><i class="fas fa-home"></i><span>Inicio</span></button>
-            
+            <button class="option-content option-active" ><i class="fas fa-home"></i><span>Inicio</span></button>
+            <button class="option-content "><i class="fas fa-home"></i><span>Inicio</span></button>
             {% if user.userType == 'BC' %}
             <button class="option-content" onclick="location.href='{% url 'talleres' %}'"><i class="fas fa-clipboard-list"></i><span>Talleres</span></button>
                 <button class="option-content" onclick="location.href='{% url 'equipos' %}'"><i class="fas fa-clipboard-list"></i><span>Equipos</span></button>
@@ -200,14 +200,25 @@
         {% endif %}
     {% endfor %}
 {% endif %}
-<script>
-        var hamburger = document.querySelector(".hamburger");
-        console.log(hamburger)
-            hamburger.addEventListener("click", function() {
-                console.log("aaaaaaaa")
-                hamburger.classList.toggle("is-active");
-                var e = document.getElementById("menu-resp");
-                e.classList.toggle("show-menu");
-            });
-        </script>
+    <script>
+            var hamburger = document.querySelector(".hamburger");
+                hamburger.addEventListener("click", function() {
+                    hamburger.classList.toggle("is-active");
+                    var e = document.getElementById("menu-resp");
+                    e.classList.toggle("show-menu");
+                });
+
+                //  Option active
+                var header = document.getElementById("menu-container");
+                var btns = header.getElementsByClassName("option-content");
+                for (var i = 0; i < btns.length; i++) {
+                btns[i].addEventListener("click", function() {
+                var current = document.getElementsByClassName("option-active");
+                if (current.length > 0) { 
+                    current[0].className = current[0].className.replace(" option-active", "");
+                }
+                this.className += " option-active";
+                });
+                }
+    </script>
 </html>
