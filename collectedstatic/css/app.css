@@ -15,9 +15,29 @@
     background: #268a7e;
     color: white;
 }
+.textGreen{
+    color: #1ed1bb !important;
+    font-weight: 500;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
 .lightGreen{
     background: #1ed1bb;
     color: white;
+}
+.modal-aviso{
+    display: none;
+    z-index: 3;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: white;
+    align-items: center; 
+    justify-content: center;
+    flex-flow: column;
 }
 #homeSection{
     background-image: url('../img/football.svg');
@@ -56,5 +76,12 @@
     font-weight: 500;
 }
 .show-menu{
-    display: flex;
+    display: flex !important;
 }
+#aviso{
+    cursor: pointer;
+  }
+  #hamburger-style{
+    padding: 0rem !important;
+    padding-top: 5px !important;
+  }

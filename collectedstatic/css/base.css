@@ -52,7 +52,7 @@ h1 {
 }
 h2 {
   font-size: 1.1rem;
-  font-weight: 400;
+  font-weight: 600;
 }
 .light-grey {
   background-color: #f5f5f5;
@@ -82,6 +82,12 @@ h2 {
 }
 .right-content{
   justify-content: flex-end;
+}
+.scroll-y{
+  overflow-y: scroll;
+}
+.margin-bottom-1{
+  margin-bottom: 1rem;
 }
 .absolute-container {
   display: flex;
@@ -228,9 +234,12 @@ h2 {
 }
 .shortcut-body {
   height: 100px;
-  width: calc(100% / 4.1);
+  width: 100%;
   border-radius: 10px;
   background-color: white;
+  cursor: pointer;
+  padding: .5rem;
+  box-sizing: border-box;
 }
 .main-body {
   height: 80%;
@@ -244,7 +253,7 @@ h2 {
 }
 .shortcut-half {
   height: 100%;
-  width: 70%;
+  width: 100%;
 }
 .shortcut-left {
   height: 100%;
@@ -539,7 +548,7 @@ h2 {
 /* TALLERES */
 .workshop-space{
   justify-content: space-evenly;
-  align-items: flex-end;
+  align-items: flex-start;
   flex-flow: row wrap;
   padding-left: 3rem;
   padding-right: 3rem;
@@ -714,36 +723,6 @@ h2 {
 }
 
 /* HISTORIAL DE PARTIDOS */
-.padding-1{
-  padding: 1rem;
-}
-.padding-2{
-  padding: 2rem;
-  box-sizing: border-box;
-}
-.result-container{
-  background: var(--light-grey);
-}
-.result-base{
-  justify-content: space-evenly;
-  align-items: flex-end;
-  flex-flow: row wrap;
-  padding-left: 3rem;
-  padding-right: 3rem;
-  padding-top: 1rem;
-  box-sizing: border-box;
-  overflow-y: scroll;
-}
-.result-more{
-  background: var(--dark-green);
-  border-radius: 0px 10px 10px 0px;
-  cursor: pointer;
-}
-.result-score{
-  width: 40%;
-  align-items: center;
-  justify-content: center;
-}
 
 /* TOAST STYLES */
 #toast {
@@ -753,7 +732,7 @@ h2 {
   /*margin-left: -125px;*/
   margin: auto;
   background-color:#f3f3f3;
-  color: red !important;
+  color: grey !important;
   text-align: center;
   border-radius: 2px;
 
@@ -766,7 +745,7 @@ h2 {
   
   box-shadow: 1.5px 3px #888888;
 }
-#toast #img{
+#toast #imgToast{
     display: flex;
     width: 50px;
     height: 50px;
@@ -782,7 +761,9 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: red;
+    color: grey;
+    font-weight: 500;
+    padding-left: 1rem;
     overflow: hidden;
     white-space: nowrap;
     text-align: center;
@@ -1036,6 +1017,9 @@ h2 {
 .m-botton-20{
   margin-bottom: 20px;
 }
+.m-bottom-1{
+  margin-bottom: 1rem;
+}
 /* MODAL PASSWORD */
 .alert-title{
   width: 100%;
@@ -1121,13 +1105,106 @@ tbody tr {
 }
 
 table {
+  width: 100%;
   background: var(--light-grey);
   font-size: .9rem;
-  font-weight: 500;
   border-radius: 10px 10px 0px 0px;
   border-spacing: 0px;
 }
 th{
   padding: .3rem;
   margin-bottom: 9px;
+  font-weight: 600;
+}
+
+#tbody-list > th, td{
+  padding-left: 15px;
+}
+/* callTheRoll */
+
+
+
+input[type="radio"] {
+	display: none;
+}
+input[type="radio"] + label span {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	margin: -1px 4px 0 0;
+	vertical-align: middle;
+	background: url(radio-uncheck.png);
+	background-size: cover;
+	cursor: pointer;
+}
+input[type="radio"]:checked + label span {
+	background: url(radio-check.png);
+	background-size: cover;
+}
+.form-login{
+  width: auto !important;
+  height: auto !important;
+  padding: 4rem;
+}
+.padding-1{
+  padding: 1rem;
+}
+.padding-2{
+  padding: 2rem;
+  box-sizing: border-box;
+}
+.result-container{
+  background: var(--light-grey);
+}
+.result-base{
+  justify-content: space-evenly;
+  align-items: flex-end;
+  flex-flow: row wrap;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  padding-top: 1rem;
+  box-sizing: border-box;
+  overflow-y: scroll;
+}
+.result-more{
+  background: var(--dark-green);
+  border-radius: 0px 10px 10px 0px;
+  cursor: pointer;
+}
+.result-score{
+  width: 40%;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.title-container{
+  height: 10%;
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+.list-container{
+  height: 90%;
+  width: 100%;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+.title-content{
+  height: 100%;
+  width: 50%;
+}
+.title-btn-call{
+  align-items: center; 
+  justify-content: flex-end; 
+  box-sizing: border-box;
+}
+
+#password_user{
+  margin-bottom: 1.3rem;
+}
+#hamburger{
+  padding: 0rem !important;
+  padding-top: 2.5px !important;
+  padding-right: 10px !important;
 }

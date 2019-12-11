@@ -39,7 +39,14 @@
 .show-menu{
     display: flex;
 }
-@media (min-width: 320px) and (max-width: 767px) {
+/* No soportado */
+@media (min-width: 1px) and (max-width: 300px) {
+    .absolute-container{
+        display: none;
+    }
+}
+/* Celulares */
+@media (min-width: 300px) and (max-width: 767px) {
     .left-container{
         display: none;
     }
@@ -95,5 +102,90 @@
     #hamburger{
         display: flex;
     }
+
+    .tabla-docente{
+        display: none;
+    }
+    .column-responsive{
+        flex-flow: column;
+    }
+    .form-right{
+        width: 100%;
+        padding: 2rem;
+        padding-left: 0rem;
+        padding-right: 0rem;
+        box-sizing: border-box;
+        margin-bottom: 1rem;
+    }
+    .table-left{
+        width: 100%;
+    }
+    .no-justify{
+        justify-content: inherit !important;
+    }
+
 }
+
+/* iPad */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
+    .left-container{
+        display: none;
+    }
+    .right-container{
+        width: 100%;
+    }
+    .workshop-icon{
+        display: none;
+    }
+    .workshop-content{
+        width: 100%;
+    }
+    .workshop-space{
+        padding: 0;
+    }
+    .form-container{
+        width: 80%;
+    }
+    .form-responsive{
+        width: 100% !important;
+    }
+    .body-container{
+        height: 100%;
+    }
+
+
+    .workshop-icon-edit{
+        display: none;
+    }
+    .workshop-edit{
+        height: auto !important;
+    }
+    .workshop-edit-info{
+        flex-flow: column !important;
+        padding: 0 !important;
+    }
+    .workshop-edit-part1{
+        flex-flow: column;
+    }
+
+
+    .option-menu{
+        width: 200px;
+        padding-left: 0rem;
+    }
+
+    #link-logout{
+        display: none;
+    }
+    #img-home{
+        height: 50% !important;
+    }
+    #hamburger{
+        display: flex;
+    }
+
+    .tabla-docente{
+        display: none;
+    }
+  }
 
