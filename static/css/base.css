@@ -23,6 +23,13 @@ a {
   --text: #2e2e2e;
   --light-red:  #ff6c6c;
 }
+.redAlert{
+  background: var(--light-red) !important;
+  color: white !important;
+}
+.darkRed{
+  background: #bd453b !important;
+}
 ::-webkit-scrollbar {
   width: 10px;
   /* display: none; */
@@ -237,7 +244,7 @@ h2 {
   width: 100%;
   border-radius: 10px;
   background-color: white;
-  cursor: pointer;
+
   padding: .5rem;
   box-sizing: border-box;
 }
