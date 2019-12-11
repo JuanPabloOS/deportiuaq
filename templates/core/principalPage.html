@@ -60,10 +60,10 @@
         </div>
     </div>
     <div class="menu-resp text-center" id="menu-resp">
-        <h3 class="margin-top-1"><a href="#homeSection">Inicio</a></h3>
-        <h3 class="margin-top-1"><a href="#talleres">Talleres</a></h3>
-        <h3 class="margin-top-1"><a href="#copa-autonomia">Copa Autonomía</a></h3>
-        <h3 class="margin-top-1"><a href="#copa-valores">Copa Valores</a></h3>
+        <h3 class="margin-top-1" onclick="closeMenu()"><a href="#homeSection">Inicio</a></h3>
+        <h3 class="margin-top-1" onclick="closeMenu()"><a href="#talleres">Talleres</a></h3>
+        <h3 class="margin-top-1" onclick="closeMenu()"><a href="#copa-autonomia">Copa Autonomía</a></h3>
+        <h3 class="margin-top-1" onclick="closeMenu()"><a href="#copa-valores">Copa Valores</a></h3>
     </div>
     <!-- PRINCIPAL -->
     <section id="homeSection" style="padding:2rem; ">
@@ -72,7 +72,7 @@
         </div>
 
         <div class="row">
-            <div class="column large-12 small-12" style="">
+            <div class="column large-12 small-12" >
                 <h1>Deportiuaq</h1>
             </div>
         </div>
@@ -405,6 +405,7 @@
     </div>
 
     <script>
+
         var hamburger = document.querySelector(".hamburger");
         hamburger.addEventListener("click", function () {
             hamburger.classList.toggle("is-active");
@@ -417,8 +418,14 @@
             e.classList.toggle("show-menu");
         });
 
+        function closeMenu(){
+            var e = document.getElementById("menu-resp");
+            e.classList.toggle("show-menu");
+            hamburger.classList.toggle("is-active");
+        }
 
     </script>
+    
 </body>
 
 </html>
