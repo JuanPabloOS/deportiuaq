@@ -1,7 +1,7 @@
 Django==2.2.7
 html5lib==1.0.1
 mysqlclient==1.4.4
-Pillow==6.2.1
+Pillow==9.0.0
 pytz==2019.2
 reportlab==3.5.31
 six==1.12.0
